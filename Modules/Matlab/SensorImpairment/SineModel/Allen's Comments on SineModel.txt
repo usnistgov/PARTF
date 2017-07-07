@@ -1,0 +1,9 @@
+Impairment Parameters:
+
+They are:
+
+pF0: Nominal Frequency. Comment, you should be able to get this from the Event Configuration.  we probably should add a clEvtConfig attribute to the PMUImpair class and create a write method.
+
+Mag:  I'm not really sure why you need to know the event steady state magnitude.  I see that you are creating pMagAmp and pPhaseAmp sine waves from it and from Fin
+
+Fin:  not an impairment parameter that I imagined.  The reports carry Fin (for each report, which will be changing for dynamic signals.) I assumed the amount of impairment would depend on the frequency of the individual report compared with the nominal frequency (in other words, the beat frequency). 
