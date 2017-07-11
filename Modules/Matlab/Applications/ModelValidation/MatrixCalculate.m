@@ -31,6 +31,7 @@ Ed_pp = xk(4);
 Eq_p  = xk(5);
 Ed_p  = xk(6);
 H     = xk(7);
+%Pm    = xk(8);
 
 E_pp = abs(Ed_pp + 1i*Eq_pp);
 
@@ -53,18 +54,21 @@ a15= V * cos(delta - theta)/(Ld_p + L_line);
 
 % Matrix Calculate
 
-S=vk*ik*sqrt(3);
+S=vk*conj(ik);
 zk=[real(S), imag(S)];
 
-Qk=1e-3*eye(length(xk));
+Qk=1e-5*eye(length(xk));
 
 Rk= NoiseStd^2 * eye(length(zk));
 
-Hk= [a15*E_pp 0  a14*a6  a14*a7 0 0 0;
-     a14*E_pp 0 -a15*a6 -a15*a7 0 0 0];
+Hk= [a15*E_pp 0  a14*a6  a14*a7 0 0 0 ;
+     a14*E_pp 0 -a15*a6 -a15*a7 0 0 0 ];
+
+Pm=[0.8068 0.7778]; Pm=Pm(1);
  
-Fk21 = omega0*E_pp*a15*delta_t/(2*H);
+Fk21 = -omega0*E_pp*a15*delta_t/(2*H);
 Fk22 = 1 - omega0*D*delta_t/(2*H);
+Fk27 = -omega0*delta_t/(2*H^2)*(Pm - E_pp*V*sin(delta-theta)/(Ld_p+L_line)-D * (omega-omega0));
 Fk33 = 1 - a2*a10 - Sd * delta_t / Td_pp;
 Fk35 = delta_t/Td_pp;
 Fk44 = 1 - a3*a13 - Sq * delta_t / Tq_pp;
@@ -75,13 +79,13 @@ Fk64 = a5 * delta_t / Tq_p;
 Fk66 = 1 - a5 * delta_t / Tq_p;
 
  
-Fk= [1       delta_t        0           0         0         0          0;
-     Fk21      Fk22   -a1*a6      -a1*a7         0         0          0;
--a2*a8            0     Fk33     -a2*a11      Fk35         0          0;
--a3*a9            0  -a3*a12        Fk44         0      Fk46          0;
-     0            0     Fk53           0      Fk55         0          0;
-     0            0        0        Fk64         0      Fk66          0;
-     0            0        0           0         0         0          1;
+Fk= [1       delta_t        0           0         0         0          0    ;
+     Fk21      Fk22   -a1*a6      -a1*a7         0         0          Fk27  ; 
+-a2*a8            0     Fk33     -a2*a11      Fk35         0          0     ;
+-a3*a9            0  -a3*a12        Fk44         0      Fk46          0     ;
+     0            0     Fk53           0      Fk55         0          0     ;
+     0            0        0        Fk64         0      Fk66          0     ;
+     0            0        0           0         0         0          1     ;
 ];
 
 end
