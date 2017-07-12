@@ -1,0 +1,650 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8. Bus Class &mdash; PARTF 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <link rel="next" title="9. Module and class diagrams" href="moduleRef.html" />
+    <link rel="prev" title="7. Framework Software Reference" href="framework.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="moduleRef.html" title="9. Module and class diagrams"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="framework.html" title="7. Framework Software Reference"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="bus-class">
+<h1>8. Bus Class<a class="headerlink" href="#bus-class" title="Permalink to this headline">¶</a></h1>
+<p>The bus class encapsulates all the modules that make up a single bus
+(node) of the power system. When a bus class is created, one of each
+event, transformer, sensor, network, and status module is spawned.
+Multiple Bus instances can coexist. The bus class instances are kept in
+an array of bus instances in a functional global available to the
+framework.</p>
+<p>IMPORTANT NOTE: Internal to the software, the following terms are
+synonomous:</p>
+<p>&#8220;SENSOR&#8221; = &#8220;PMU IMPAIRMENT&#8221;</p>
+<p>&#8220;STATUS&#8221; = &#8220;FLAGS&#8221;</p>
+<p>Figure 20: Bus Class UML</p>
+<p>Figure 19 shows the properties and public methods of the bus class. Each
+bus has an index number and an ID number for each of the modules in the
+bus. Since only one App and OutputToFile module exists for all buses,
+their numbers are duplicated in each instance of the Bus Class that is
+created.</p>
+<div class="section" id="scripted-state-machine-ssm">
+<h2>8.1. Scripted State Machine (SSM)<a class="headerlink" href="#scripted-state-machine-ssm" title="Permalink to this headline">¶</a></h2>
+<p>Module initialization and update is managed by construct called a
+&#8220;scripted state machine&#8221; (SSM). The state machine accepts an array
+command strings which forms a sequence of calls to one or more states.
+The sequence of commands MUST end with &#8220;Stop&#8221; command. If this is not
+included in the script, a timeout will produce an error message.</p>
+<p>Inputs to the SSM are an array of command strings and a variant that can
+carry any data type that the commands can recognize. When the Data
+variant input is used, any command state that uses the input will need
+to use an &#8220;Unflatten to Data vi with the appropriate data typedef wired
+to it. If the typedef does not match the variant type then an error will
+be thrown. Usually the data type input to the SSM is the clBusData.ctl
+typedef, this data type can contain the config and parameter data of the
+modules of a single bus as well as the outputs from those modules.</p>
+<p>Figure 21: Project showing the Bus Class and the Scripted State
+Machine (highlighted)</p>
+<div class="section" id="script">
+<h3>8.1.1. Script<a class="headerlink" href="#script" title="Permalink to this headline">¶</a></h3>
+<p>An array of strings which will be the commands for the SSM. The script
+MUST end with a STOP command. The plugin &#8221;.ini&#8221; files contain
+&#8220;scriptlets&#8221; which are snippets of a script with no &#8220;Stop&#8221; command. When
+a test is run, the scriptlets in the Application plugin’s .ini file is
+concatenated with the scriptlet from the OutputToFile plugin’s .ini
+file, a Stop command is appended then run by the SSM. A similar
+occurrence happens for the modules in each bus, except those are run in
+the Bus Controller. See section 4.2 for detailed information about the
+bus controller.</p>
+</div>
+<div class="section" id="ssm-parameters-in">
+<h3>8.1.2. SSM Parameters in<a class="headerlink" href="#ssm-parameters-in" title="Permalink to this headline">¶</a></h3>
+<p>The Data In input is a variant type. A particular typedef will be
+expected for each state. In many cases, this type will be a
+clBusData.ctl typedef which holds most of the configurations and
+parameters for all modules in the bus on which the state machine is
+acting.</p>
+</div>
+<div class="section" id="ssm-data-out">
+<h3>8.1.3. SSM Data Out<a class="headerlink" href="#ssm-data-out" title="Permalink to this headline">¶</a></h3>
+<p>The Data Out is a variant type. The default &#8220;Stop&#8221; command places the
+SSM’s internal clBusData onto the data output, however other custom
+commands could be added which stop the SSM and place other data read
+from the modules onto the Data Out.</p>
+</div>
+<div class="section" id="clbusdata">
+<h3>8.1.4. clBusData<a class="headerlink" href="#clbusdata" title="Permalink to this headline">¶</a></h3>
+<p>When called, the SSM will create an empty clBusData cluster. The cluster
+will be populated by calls to the various Read or Get states listed
+below. A standard Stop call will place the populated cluster on the Data
+Out variant. Note that only data that was populated by Read or Get calls
+will be present. The data is not stored from one SSM call to the next.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data Type</th>
+<th class="head">DESCRIPTION</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BusNumber</td>
+<td>Since the Bus is an object, and multiple instance can run in parallel, each bus is given a number beginning at 1. No bus should ever be given number 0 or an error will occur.</td>
+</tr>
+<tr class="row-odd"><td>EvtPluginINIFilePath</td>
+<td>Path to the .INI file for the plugin used by this bus’s event</td>
+</tr>
+<tr class="row-even"><td>EvtParams</td>
+<td>A table containing a 2D array of doubles and row and column headers depending on this bus’s event plugin</td>
+</tr>
+<tr class="row-odd"><td>EvtConfig</td>
+<td>Configuration cluster with data elements as follows</td>
+</tr>
+<tr class="row-even"><td>EvtConfig.UTC Time 0</td>
+<td>The UTC time offset to be assigned to the timearray time 0. The time array may start at a negative number</td>
+</tr>
+<tr class="row-odd"><td>EvtConfig.Nominal Frequency</td>
+<td>50 or 60 Hz (F0)</td>
+</tr>
+<tr class="row-even"><td>EvtConfig.Reporting Rate</td>
+<td>Depends on the Nominal Frequency 10 FPS through to the Nominal Frequency (Fs)</td>
+</tr>
+<tr class="row-odd"><td>EvtConfig.FSamp</td>
+<td>The internal sampling rate to be used to create Event Signals and PMU Impairments</td>
+</tr>
+<tr class="row-even"><td>Start Time</td>
+<td>The time of the first report from the PMU less the UTC Time 0. This may be 0, or a negative or positive number</td>
+</tr>
+<tr class="row-odd"><td>End Time</td>
+<td>The time of the last report from the PMU</td>
+</tr>
+<tr class="row-even"><td>PmuImpairPluginINIFile</td>
+<td>Path to the .INI file for the plugin used by this bus’s PMU Impairment module</td>
+</tr>
+<tr class="row-odd"><td>PmuImpairParams</td>
+<td>A table containing a 2D array of doubles and the row headers depending on this bus’s PMU Impairment plugin</td>
+</tr>
+<tr class="row-even"><td>PmuImpairconfig</td>
+<td>Configuration cluster with data elements as follows:</td>
+</tr>
+<tr class="row-odd"><td>FilterType</td>
+<td>Enumerated list of possible PMU filter window types. (e.g. Blackman, hamming, Hann, etc.)</td>
+</tr>
+<tr class="row-even"><td>bPosSeq</td>
+<td>Boolean value deytermines if a positive sequence phasor will be created or not.</td>
+</tr>
+<tr class="row-odd"><td>NetImpairPluginINIFile</td>
+<td>Path to the .INI file for the plugin used by this bus’s network Impairment module</td>
+</tr>
+<tr class="row-even"><td>NetImpairParams</td>
+<td>A table containing a 2D array of doubles and the row and column headers depending on this bus’s Network Impairment plugin</td>
+</tr>
+<tr class="row-odd"><td>FlagImpairPluginINIFile</td>
+<td>Path to the .INI file for the plugin used by this bus’s Flag Impairment module</td>
+</tr>
+<tr class="row-even"><td>FlagImpairParams</td>
+<td>A table containing a 2D array of doubles and the row and column headers depending on this bus’s Flag Impairment plugin</td>
+</tr>
+<tr class="row-odd"><td>AppPluginINIFile</td>
+<td>Path to the .INI file for the plugin used by this bus’s Application module</td>
+</tr>
+<tr class="row-even"><td>AppConfig</td>
+<td>A Variant data type which contains the application plugin’s configuration data in XML form. Because different applications can have very different configuration data, XML is used as a common data format and each App plugin parses or unparsed the XML data as appropriate.</td>
+</tr>
+<tr class="row-odd"><td>AppOutput</td>
+<td>A variant data type. Different apps will have different data typedefs so any software receiving this data will need to be able to unflatten from variant into the appropriate data type.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="scripted-state-machine-command-reference">
+<h3>8.1.5. Scripted State Machine Command Reference<a class="headerlink" href="#scripted-state-machine-command-reference" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">STATE</th>
+<th class="head">INPUT</th>
+<th class="head">OUTPUT</th>
+<th class="head">DESCRIPTION</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Initialize</td>
+<td>none</td>
+<td>n/a</td>
+<td>Called initially when the state machine starts, this enqueues the script presented to the state machine at the script input. Users should not call this state in their scripts.</td>
+</tr>
+<tr class="row-odd"><td>LoadEvtPlugin</td>
+<td>clBusData
+.EvtPluginIniFilePath</td>
+<td>none</td>
+<td>The plugin called out in the selected Event plugin’s .ini file will be loaded into the event module for this bus</td>
+</tr>
+<tr class="row-even"><td>ReadEvtPluginPath</td>
+<td>none</td>
+<td>clBusData
+.EvtPluginIniFilePath</td>
+<td>Reads the path to the plugin’s INI file from the module.</td>
+</tr>
+<tr class="row-odd"><td>LoadPmuImpairPlugin</td>
+<td>clBusData
+.PmuPluginIniFilePath</td>
+<td>none</td>
+<td>The plugin called out in the selected plugin’s .ini file will be loaded into the module for this bus</td>
+</tr>
+<tr class="row-even"><td>ReadPmuImpairPluginPath</td>
+<td>none</td>
+<td>clBusData
+.PmuPluginIniFilePath</td>
+<td>Reads the path to the plugin’s INI file from the module.</td>
+</tr>
+<tr class="row-odd"><td>LoadNetImpairPlugin</td>
+<td>none</td>
+<td>none</td>
+<td>The plugin called out in the selected plugin’s .ini file will be loaded into the module for this bus</td>
+</tr>
+<tr class="row-even"><td>ReadNetImpairPluginPath</td>
+<td>none</td>
+<td>none</td>
+<td>Reads the path to the plugin’s INI file from the module.</td>
+</tr>
+<tr class="row-odd"><td>LoadFlagImpairPlugin</td>
+<td>none</td>
+<td>clBusData</td>
+<td>The plugin called out in the selected plugin’s .ini file will be loaded into the module for this bus</td>
+</tr>
+<tr class="row-even"><td>ReadFlagImpairPluginPath</td>
+<td>none</td>
+<td>none</td>
+<td>Reads the path to the plugin’s INI file from the module.</td>
+</tr>
+<tr class="row-odd"><td>LoadAppPlugin</td>
+<td>none</td>
+<td>clBusData</td>
+<td>The plugin called out in the selected plugin’s .ini file will be loaded into the application module</td>
+</tr>
+<tr class="row-even"><td>ReadAppPluginPath</td>
+<td>none</td>
+<td>none</td>
+<td>Reads the path to the plugin’s INI file from the app module.</td>
+</tr>
+<tr class="row-odd"><td>LoadOutToFilePlugin</td>
+<td>none</td>
+<td>clBusData</td>
+<td>The plugin called out in the selected plugin’s .ini file will be loaded into the application module</td>
+</tr>
+<tr class="row-even"><td>ReadOutToFilePluginPath</td>
+<td>none</td>
+<td>none</td>
+<td>Reads the path to the plugin’s INI file from the app module.</td>
+</tr>
+<tr class="row-odd"><td>PopulateEvtFrontPanel</td>
+<td>none</td>
+<td>clFrontPanel-
+ControlRefs</td>
+<td>For the selected bus, reads the Event module’s config and parameter information and populates the Event front panel controls</td>
+</tr>
+<tr class="row-even"><td>PopulatePmuImpairFrontPanel</td>
+<td>none</td>
+<td>clFrontPanel-
+ControlRefs</td>
+<td>For the selected bus, reads the PMU Impairment module’s config and parameter information and populates the Sensor front panel controls</td>
+</tr>
+<tr class="row-odd"><td>PopulateNetImpairFrontPanel</td>
+<td>none</td>
+<td>clFrontPanel-
+ControlRefs</td>
+<td>For the selected bus, reads the Network Impairment module’s config and parameter information and populates the Network Impairment front panel controls</td>
+</tr>
+<tr class="row-even"><td>PopulateFlagImpairFrontPanel</td>
+<td>none</td>
+<td>clFrontPanel-
+ControlRefs</td>
+<td>For the selected bus, reads the Network Impairment module’s config and parameter information and populates the Network Impairment front panel controls</td>
+</tr>
+<tr class="row-odd"><td>StripIniPaths</td>
+<td>none</td>
+<td>none</td>
+<td>The paths to the .ini files in the modules are absolute paths. When the paths have been read by the SSM, this command strips the paths down to relative paths for use in front panel controls or files storage.</td>
+</tr>
+<tr class="row-even"><td>Aggregate</td>
+<td>none</td>
+<td>none</td>
+<td>When a test is being run, Sends a request to the App module to begin aggregating all the data queued by the running Bus Controllers. when aggregation is complete, the App module broadcasts a status messege. this command blocks all other commands until either the app status messege is received or a 10 second timeout has occured.</td>
+</tr>
+<tr class="row-odd"><td>GetAppOutput</td>
+<td>none</td>
+<td>clBusData|
+.AppOutput</td>
+<td>Sends a request to get output from the application module, receives the output and places it into the AppOutput variant in the clBusData</td>
+</tr>
+<tr class="row-even"><td>ReadAppInputData</td>
+<td>none</td>
+<td>clBusdata
+.ImpairReportArray</td>
+<td>Sends a request to read the aggregated input data from the Application module and places that data into the ImpairReportArray</td>
+</tr>
+<tr class="row-odd"><td>WriteAppConfig</td>
+<td>clBusData
+.AppConfig</td>
+<td>none</td>
+<td>Sends the clBusData.AppConfig (XML) to the application module</td>
+</tr>
+<tr class="row-even"><td>ReadAppConfig</td>
+<td>none</td>
+<td>clBusData
+.AppConfig</td>
+<td>Sends a request to the App module to read the App Config XML data.</td>
+</tr>
+<tr class="row-odd"><td>WriteOutputFilePath</td>
+<td>clBusData
+.OutFilePath</td>
+<td>none</td>
+<td>Sends the OutputFilePath to the OutputToFile Module</td>
+</tr>
+<tr class="row-even"><td>ReadOutputFilePath</td>
+<td>none</td>
+<td>clBusData
+.OutFilePath</td>
+<td>Sends the OutputFilePath to the OutToFile Module</td>
+</tr>
+<tr class="row-odd"><td>ReadOutToFileConfig</td>
+<td>none</td>
+<td>clBusData
+.clConfigOptions</td>
+<td>Sends a request to read this bus’s OutToFile module’s config cluster and places that data into the clBusData.clConfigOptions</td>
+</tr>
+<tr class="row-even"><td>WriteEvtBusNumber</td>
+<td>clBusData
+.BusNumber</td>
+<td>none</td>
+<td>Sends the Bus Number to this bus’s Event Module</td>
+</tr>
+<tr class="row-odd"><td>WriteEvtParams</td>
+<td>clBusData
+.EvtParams</td>
+<td>none</td>
+<td>Writes the parameters to this bus’s Event Module</td>
+</tr>
+<tr class="row-even"><td>ReadEvtParams</td>
+<td>none</td>
+<td>clBusData
+.EvtParams</td>
+<td>Sends a request to read this bus’s Event module’s parameters and places that data into the clBusData.EvtParams</td>
+</tr>
+<tr class="row-odd"><td>WriteEvtConfig</td>
+<td>clBusData
+.EvtConfig</td>
+<td>none</td>
+<td>Writes the event config cluster to this bus’s Event Module</td>
+</tr>
+<tr class="row-even"><td>ReadEvtConfig</td>
+<td>none</td>
+<td>clBusData
+.EvtConfig</td>
+<td>Sends a request to read this bus’s Event module’s config cluster and places that data into the clBusData.EvtConfig</td>
+</tr>
+<tr class="row-odd"><td>WriteEvtRptTimeArray</td>
+<td>clBusData
+.Start Time,
+.End Time and
+.EvtConfig.Reporting Rate</td>
+<td>none</td>
+<td>Uses the clbusData Start Time, End time, and Reporting Rate to create an time vector array thern sends it to the event module. The Event Report time array is used for generating the event’s theoretical reports. Events only keep one time array which is used both for generating theoretical reports and for signals so this must be called immediately before requesting event reports to ensure that the time array is not holding a signal time array (see WriteEvtSigTimeArray)</td>
+</tr>
+<tr class="row-even"><td>ReadEvtTime</td>
+<td>none</td>
+<td>clBusData
+.Start Time,
+.End Time and
+.EvtConfig.Reporting Rate</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>GetEvtReports</td>
+<td>none</td>
+<td>clBusData
+.EvtReportArray</td>
+<td>Sends a command to this bus’s Event Module to generate a set of Event Synchrophasor reports and places them into the clBusData.EvtReportArray</td>
+</tr>
+<tr class="row-even"><td>GetEvtSignal</td>
+<td>none</td>
+<td>clBusData
+.EvtSignalArray</td>
+<td>Enqueues up a series of SSM commands wich lead to requesting this bus’s Event Module to send the Event Signal. The commands that the SSM will run are in the following order: ReadEvtConfig, ReadPMUImpairPArams,ReadEvtTime, WriteEvtSigTimeArray, AquireEvtSignal, TransferEvtTimeArrayToEvt.</td>
+</tr>
+<tr class="row-odd"><td>WriteEvtSigTimeArray</td>
+<td>clBusData
+.Start Time,
+.End Time and
+.EvtConfig.Reporting Rate</td>
+<td>none</td>
+<td>The Event Report time array is used for generating the event’s signal. The signal time is the event time extended by two impairment filter periods at both the beginning and end of the time array. Events only keep one time array which is used both for generating theoretical reports and for signals so this must be called immediately before requesting the event signal to ensure that the time array is not holding a report time array (see WriteEvtRptTimeArray)</td>
+</tr>
+<tr class="row-even"><td>TransferEvtTimeArrayToEvt</td>
+<td>none</td>
+<td>none</td>
+<td>This has no input parameters because it uses the Start Time, End Time, and Reporting Rate stored in the SSM’s internal clBusData cluster. This is used durint the GetEvtSignal command to restore the report time array since the time array must be extended by the size of the PMUImpairment window on both sides of the time array.</td>
+</tr>
+<tr class="row-odd"><td>AquireEvtSignal</td>
+<td>none</td>
+<td>clBusData
+.EvtSignalArray</td>
+<td>DO NOT CALL THIS DIRECTLY. The event must first be set up. Call GetEvtSignal to set up and get the Event Signal.</td>
+</tr>
+<tr class="row-even"><td>WritePmuImpairBusNumber</td>
+<td>clBusData
+.BusNumber</td>
+<td>none</td>
+<td>Sends the bus number to this bus’s Sensor module</td>
+</tr>
+<tr class="row-odd"><td>WritePMUImpairParams</td>
+<td>clBusData
+.PmuImpairParams</td>
+<td>none</td>
+<td>Writes the impairment parameters to the sensor impairment module.</td>
+</tr>
+<tr class="row-even"><td>ReadPMUImpairParams</td>
+<td>none</td>
+<td>clBusData
+.PmuImpairParams</td>
+<td>Reads the impairment parameters from the sensor impairment module.</td>
+</tr>
+<tr class="row-odd"><td>WritePmuImpairConfig</td>
+<td>clBusData
+.PmuImpairConfig</td>
+<td>none</td>
+<td>Writes the impairment configuration cluster to the sensor impairment module.</td>
+</tr>
+<tr class="row-even"><td>ReadPmuImpairConfig</td>
+<td>none</td>
+<td>clBusData
+.PmuImpairConfig</td>
+<td>Reads the impairment configuration cluster from the sensor impairment module.</td>
+</tr>
+<tr class="row-odd"><td>WritePmuImpairEvtConfig</td>
+<td>clBusData
+.EventConfig</td>
+<td>none</td>
+<td>Writed the Event configuration data to the sensor module.</td>
+</tr>
+<tr class="row-even"><td>TransferEvtReportsToPmuImpair</td>
+<td>none</td>
+<td>none</td>
+<td>Event reports that were read by GetEvtReports are written to the Sensor module</td>
+</tr>
+<tr class="row-odd"><td>TransferEvtReportsToOutputToFile</td>
+<td>none</td>
+<td>none</td>
+<td>Event reports that were read by GetEvtReports are written to the output to file module</td>
+</tr>
+<tr class="row-even"><td>TransferPMUImpairReportsToApp</td>
+<td>none</td>
+<td>none</td>
+<td>Sensor impairment reports that were read by GetPmuImpairReports are written to the Application module</td>
+</tr>
+<tr class="row-odd"><td>TransferFlagsToOutputToFile</td>
+<td>none</td>
+<td>none</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>TransferPktDlyToOutputToFile</td>
+<td>none</td>
+<td>none</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>TransferPktLossToOutputToFile</td>
+<td>none</td>
+<td>none</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>OutputErrorsToFile</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>OutputImpairedFileRequest</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>TransferEvtSignalToPmuImpair</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>WriteNetImpairParams</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>ReadNetImpairParams</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>TransferTimeArrayToNetImpair</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>WriteFlagImpairParams</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>WritePmuConfig</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>TransferEvtConfigToApp</td>
+<td>none</td>
+<td>none</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>Abort</td>
+<td>none</td>
+<td>none</td>
+<td>DO NOT CALL THIS DIRECTLY. Clears the SSM command queue and exits the SSM in response to user &#8220;Abort&#8221; response to error dialog.</td>
+</tr>
+<tr class="row-even"><td>Stop</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Must be called at the end of every script.</td>
+</tr>
+<tr class="row-odd"><td>Error</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>DO NOT CALL THIS DIRECTLY. SSM error handler state displays errors and reacts to user input to the error dialog.</td>
+</tr>
+<tr class="row-even"><td>Default</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>DO NOT CALL THIS DIRECTLY. Throws an error if an unrecodnized command is received.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">8. Bus Class</a><ul>
+<li><a class="reference internal" href="#scripted-state-machine-ssm">8.1. Scripted State Machine (SSM)</a><ul>
+<li><a class="reference internal" href="#script">8.1.1. Script</a></li>
+<li><a class="reference internal" href="#ssm-parameters-in">8.1.2. SSM Parameters in</a></li>
+<li><a class="reference internal" href="#ssm-data-out">8.1.3. SSM Data Out</a></li>
+<li><a class="reference internal" href="#clbusdata">8.1.4. clBusData</a></li>
+<li><a class="reference internal" href="#scripted-state-machine-command-reference">8.1.5. Scripted State Machine Command Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="framework.html"
+                        title="previous chapter">7. Framework Software Reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="moduleRef.html"
+                        title="next chapter">9. Module and class diagrams</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/busclass.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="moduleRef.html" title="9. Module and class diagrams"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="framework.html" title="7. Framework Software Reference"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+    </div>
+  </body>
+</html>

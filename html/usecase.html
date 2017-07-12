@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Use case &mdash; PARTF 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <link rel="next" title="5. First Time setup" href="quickStart.html" />
+    <link rel="prev" title="3. Definitions" href="definitions.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="quickStart.html" title="5. First Time setup"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="definitions.html" title="3. Definitions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="use-case">
+<h1>4. Use case<a class="headerlink" href="#use-case" title="Permalink to this headline">¶</a></h1>
+<p>The use case is diagrammed in Figure 2.</p>
+<img alt="_images/UseCase.png" src="_images/UseCase.png" />
+<p>Figure 2 Use Case</p>
+<div class="section" id="actors">
+<h2>4.1. Actors<a class="headerlink" href="#actors" title="Permalink to this headline">¶</a></h2>
+<p>The use case actors (the stick people in Figure 2) are the user, The application which accepts PMU data, and an analysis system which may be a person, user provided software, or both.  For each application, the analysis system will need to be custom designed.</p>
+</div>
+<div class="section" id="user">
+<h2>4.2. User<a class="headerlink" href="#user" title="Permalink to this headline">¶</a></h2>
+<p>The user determines the System Configuration and the Power System Event(s) by developing an initialization (.ini) file which is imported to the Impairment Tool framework.  The user can also develop test automation scripts, plugins, and additional analysis software.</p>
+</div>
+<div class="section" id="application">
+<h2>4.3. Application<a class="headerlink" href="#application" title="Permalink to this headline">¶</a></h2>
+<p>The application is software which uses sensor data as input.  The data input and output formats are specific to the application so the framework and the modules that are supported by the framework will use application specific plug-ins to convert data formats to and from the internal data format used by the framework.</p>
+<p>The application receives ideal and impaired synchrophasor, frequency, ROCOF, and timestamp data from the framework.</p>
+</div>
+<div class="section" id="analysis-system">
+<h2>4.4. Analysis System<a class="headerlink" href="#analysis-system" title="Permalink to this headline">¶</a></h2>
+<p>The analysis system involves a human who is an expert on the application.  The Expert will be involved in the development of application-specific analysis software which can be supported by the framework or may stand alone.</p>
+<p>The analysis system receives impairment framework configuration, ideal and impaired event data, impairment parameters, and data from the application either by listening to module broadcasts or by reading output data files.  This information is analyzed by comparing the application output using ideal data to application output using impaired data.  The comparison may produce a &#8220;figure of merit&#8221; which can be plotted in a multi-dimensional error parameter space.  By determining which figures of merit are considered acceptable application output and which are unacceptable outputs, a multi-dimensional error parameter surface determines the worst-case PMU error which will produce an acceptable application error.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. Use case</a><ul>
+<li><a class="reference internal" href="#actors">4.1. Actors</a></li>
+<li><a class="reference internal" href="#user">4.2. User</a></li>
+<li><a class="reference internal" href="#application">4.3. Application</a></li>
+<li><a class="reference internal" href="#analysis-system">4.4. Analysis System</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="definitions.html"
+                        title="previous chapter">3. Definitions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="quickStart.html"
+                        title="next chapter">5. First Time setup</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/usecase.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="quickStart.html" title="5. First Time setup"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="definitions.html" title="3. Definitions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+    </div>
+  </body>
+</html>

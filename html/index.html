@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PMU APPLICATIONS REQUIREMENTS TEST FRAMEWORK &mdash; PARTF 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PARTF 0.1 documentation" href="#" />
+    <link rel="next" title="1. Introduction" href="intro.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="1. Introduction"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pmu-applications-requirements-test-framework">
+<h1>PMU APPLICATIONS REQUIREMENTS TEST FRAMEWORK<a class="headerlink" href="#pmu-applications-requirements-test-framework" title="Permalink to this headline">¶</a></h1>
+<p>PARTF Reference Document</p>
+<div class="section" id="abstract">
+<h2>Abstract:<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>The PARTF is highly conformable software designed to simulate or play back sensor measurements at one or more buses on bulk electrical power systems, to simulate impairments to the measurements due to error of the measurement itself, errors in network transmission and timing, and errors in the status information carried by the measurement transmission system, and to provide those impaired measurements to applications which use those measurements.</p>
+<p>The framework is capable of running user created test automation scripts to perform multiple test runs, saving application input, application input The PARTF is highly conformable software designed to simulate or play back sensor measurements at one or more buses on bulk electrical power systems, to simulate impairments to the measurements due to error of the measurement itself, errors in network transmission and timing, and errors in the status information carried by the measurement transmission system, and to provide those impaired measurements to applications which use those measurements error, and application output data to files for analysis and supporting user-defined visualization tools for analyzing the data.</p>
+<p>The framework uses a software plug-in system so that users may create their own simulated or played-back bus measurements, sensor impairments, network impairment, status impairments, and applications without the need to create entire test frameworks</p>
+</div>
+<div class="section" id="contents">
+<h2>Contents:<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="License.html">2. License and Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="definitions.html">3. Definitions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="definitions.html#module">3.1. Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definitions.html#plug-in">3.2. Plug-in</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definitions.html#event">3.3. Event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definitions.html#impairment">3.4. Impairment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definitions.html#visualization">3.5. Visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usecase.html">4. Use case</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usecase.html#actors">4.1. Actors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usecase.html#user">4.2. User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usecase.html#application">4.3. Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usecase.html#analysis-system">4.4. Analysis System</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickStart.html">5. First Time setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickStart.html#matlab-path">5.1. Matlab Path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickStart.html#python-path">5.2. Python Path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickStart.html#troubleshooting">5.3. Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="buses.html">6. Buses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="buses.html#bus-controller">6.1. Bus Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buses.html#bus-sequence-diagram">6.2. Bus Sequence Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buses.html#event-module">6.3. Event Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buses.html#sensor-module">6.4. Sensor Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buses.html#network-module">6.5. Network Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buses.html#status-module">6.6. Status Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buses.html#application">6.7. Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="framework.html">7. Framework Software Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="framework.html#framework-start-up">7.1. Framework start-up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framework.html#configuration-class">7.2. Configuration Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framework.html#framework-event-handler-producer-loop">7.3. Framework Event Handler Producer Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framework.html#framework-queued-message-handler-consumer-loop">7.4. Framework Queued Message Handler Consumer Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framework.html#framework-tcp-receive-producer-loop">7.5. Framework TCP Receive Producer Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framework.html#framework-front-panel-initialization">7.6. Framework Front Panel Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framework.html#changing-the-module-type">7.7. Changing the module type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="framework.html#starting-and-stopping-modules">7.8. Starting and Stopping Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="busclass.html">8. Bus Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="busclass.html#scripted-state-machine-ssm">8.1. Scripted State Machine (SSM)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="moduleRef.html">9. Module and class diagrams</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="moduleRef.html#base-module">9.1. Base Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleRef.html#base-plugin-class">9.2. Base Plugin Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleRef.html#pmu-impairment-module">9.3. PMU Impairment Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleRef.html#pmu-impairment-class">9.4. PMU Impairment class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleRef.html#network-impairment-module">9.5. Network Impairment Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleRef.html#network-impairment-class">9.6. Network Impairment class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleRef.html#flag-impairment-module">9.7. Flag Impairment Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleRef.html#flag-impairment-plugin-class">9.8. Flag Impairment Plugin class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleRef.html#output-to-file-module">9.9. Output to File Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">10. Python Test Automation</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">PMU APPLICATIONS REQUIREMENTS TEST FRAMEWORK</a><ul>
+<li><a class="reference internal" href="#abstract">Abstract:</a></li>
+<li><a class="reference internal" href="#contents">Contents:</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="next chapter">1. Introduction</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="1. Introduction"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+    </div>
+  </body>
+</html>

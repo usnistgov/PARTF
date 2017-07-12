@@ -1,0 +1,737 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9. Module and class diagrams &mdash; PARTF 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <link rel="next" title="10. Python Test Automation" href="python.html" />
+    <link rel="prev" title="8. Bus Class" href="busclass.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="python.html" title="10. Python Test Automation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="busclass.html" title="8. Bus Class"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-and-class-diagrams">
+<h1>9. Module and class diagrams<a class="headerlink" href="#module-and-class-diagrams" title="Permalink to this headline">¶</a></h1>
+<p>A module diagram illustrates the module API. The API consists of the
+Requests received by the module and the Broadcasts transmitted by the
+module. A class diagram illustrates the properties (also called
+“attributes”, “data” or “state”) of the module and methods used to
+access the properties.</p>
+<div class="section" id="base-module">
+<h2>9.1. Base Module<a class="headerlink" href="#base-module" title="Permalink to this headline">¶</a></h2>
+<p>All modules inherit from the Base Module. All modules implement the base
+Requests and Broadcasts defined below:</p>
+<img alt="_images/UML_BaseModule.png" src="_images/UML_BaseModule.png" />
+<p>Figure 22: Base Module</p>
+<div class="section" id="requests">
+<h3>9.1.1. Requests<a class="headerlink" href="#requests" title="Permalink to this headline">¶</a></h3>
+<p>Requests are transmitted to a module from the framework. They consist of
+a request type and a data type. The requests for the base module are as
+follows:</p>
+<div class="section" id="load-plugin">
+<h4>9.1.1.1. Load Plugin<a class="headerlink" href="#load-plugin" title="Permalink to this headline">¶</a></h4>
+<p>The event module uses plugins to create different events. Plugins each
+include a mathematical function of time representing a power system
+event on a particular bus in the power system. Multiple buses are
+represented by instantiating multiple event modules with different event
+plug-ins for each instantiation. The Load Plugin request parameter is a
+path to an event plugin initialization (.ini) file.</p>
+</div>
+<div class="section" id="stop-request">
+<h4>9.1.1.2. Stop Request<a class="headerlink" href="#stop-request" title="Permalink to this headline">¶</a></h4>
+<p>Requests the module to stop and unload from memory.</p>
+</div>
+</div>
+<div class="section" id="broadcasts">
+<h3>9.1.2. Broadcasts<a class="headerlink" href="#broadcasts" title="Permalink to this headline">¶</a></h3>
+<p>The framework and any other module or application can register to
+receive broadcasts from a module.</p>
+<div class="section" id="did-init">
+<h4>9.1.2.1. Did Init<a class="headerlink" href="#did-init" title="Permalink to this headline">¶</a></h4>
+<p>Standard output for all modules. Confirms that the module has
+initialized</p>
+</div>
+<div class="section" id="status-update">
+<h4>9.1.2.2. Status Update<a class="headerlink" href="#status-update" title="Permalink to this headline">¶</a></h4>
+<p>Standard output for all modules. Sends a string informing the framework
+of some kind of change in the module’s status with the exception of
+errors which are transmitted vi the error report broadcast.</p>
+</div>
+<div class="section" id="error-report">
+<h4>9.1.2.3. Error Report<a class="headerlink" href="#error-report" title="Permalink to this headline">¶</a></h4>
+<p>Standard output for all modules. On the occurrence of an error in the
+module, broadcasts the error cluster.</p>
+</div>
+<div class="section" id="event-reports">
+<h4>9.1.2.4. Event Reports<a class="headerlink" href="#event-reports" title="Permalink to this headline">¶</a></h4>
+<p>Broadcasts an array of structures of ideal PMU data. The structure is as
+follows:
+* Bus Number (integer)</p>
+<ul class="simple">
+<li>UTC Timestamp (double)</li>
+<li>Synchrophasors ([complex double])</li>
+<li>Frequency (double)</li>
+<li>ROCOF (double)</li>
+</ul>
+<p>The synchrophasors are a one-dimensional array of complex doubles, each
+element represents one phase of voltage or current from the bus
+represented by the event module.</p>
+</div>
+</div>
+</div>
+<div class="section" id="base-plugin-class">
+<h2>9.2. Base Plugin Class<a class="headerlink" href="#base-plugin-class" title="Permalink to this headline">¶</a></h2>
+<p>All plugin classes inherit from the base plugin class. The class
+contains no properties. The methods are as follows:</p>
+<img alt="_images/UML_BaseModule.png" src="_images/UML_BaseModule.png" />
+<p>Figure 23: Base Plugin Class</p>
+<div class="section" id="methods">
+<h3>9.2.1. Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="create-destroy">
+<h4>9.2.1.1. Create / Destroy<a class="headerlink" href="#create-destroy" title="Permalink to this headline">¶</a></h4>
+<p>Methods common to all base classes. Generally, does nothing and are not
+overridden unless something special must be done to create and destroy
+the objects at runtime.</p>
+</div>
+<div class="section" id="implementation-error">
+<h4>9.2.1.2. Implementation Error<a class="headerlink" href="#implementation-error" title="Permalink to this headline">¶</a></h4>
+<p>If a base class must be overridden by a child, this method ensures that
+any base class object that is not overridden throws an error.</p>
+</div>
+<div class="section" id="getpathtoclass">
+<h4>9.2.1.3. GetPathToClass<a class="headerlink" href="#getpathtoclass" title="Permalink to this headline">¶</a></h4>
+<p>Plugin children must exist on the hard drive of the system that they are
+being instantiated, this method allows a base class to lookup the path
+to the class file from the path contained in the child’s .ini file.</p>
+</div>
+<div class="section" id="loadclassfromfileondisk">
+<h4>9.2.1.4. LoadClassFromFileOnDisk<a class="headerlink" href="#loadclassfromfileondisk" title="Permalink to this headline">¶</a></h4>
+<p>Loads the child class from the file pointed to by the path in the
+child’s .ini file.</p>
+<p>Event Module</p>
+<img alt="_images/UML_EventModule.png" src="_images/UML_EventModule.png" />
+<p>Figure 4: Event Module diagram</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>9.2.2. Requests<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the requests inherited from the base module, the event
+module supports the following requests:</p>
+<div class="section" id="write-read-config">
+<h4>9.2.2.1. Write/Read Config<a class="headerlink" href="#write-read-config" title="Permalink to this headline">¶</a></h4>
+<p>The event module configuration data consist of a clConfig structure
+containing the UTC T0 (time zero), the PMU reporting Rate (read only),
+and the PMU Nominal Frequency.</p>
+</div>
+<div class="section" id="write-read-parameters">
+<h4>9.2.2.2. Write/Read Parameters<a class="headerlink" href="#write-read-parameters" title="Permalink to this headline">¶</a></h4>
+<p>Event parameters are a two dimensional array of doubles. The meaning of
+the rows and columns of the array are dependent on the event plug-in and
+are specified in the plug-in’s .ini file.</p>
+</div>
+<div class="section" id="write-read-time">
+<h4>9.2.2.3. Write/Read Time<a class="headerlink" href="#write-read-time" title="Permalink to this headline">¶</a></h4>
+<p>Time is a vector of time offsets to UTC T0 for which to create the ideal
+PMU reports. The time vector is signed, meaning that reports from before
+T0 may be created. The read-only PMU reporting rate from the Config
+cluster is the mean of the differences between the times in the time
+vector.</p>
+</div>
+<div class="section" id="get-reports">
+<h4>9.2.2.4. Get Reports<a class="headerlink" href="#get-reports" title="Permalink to this headline">¶</a></h4>
+<p>Requests broadcast of an array of report clusters. For each element in
+the time vector, there will be one element in the array of report
+clusters with a timestamp of the UTC T0 plus the value of the time array
+element. For details of the report structure data see 6.1.2.4.</p>
+</div>
+<div class="section" id="id2">
+<h4>9.2.2.5. Stop Request<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>Requests the module to stop and unload from memory.</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>9.2.3. Broadcasts<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the broadcasts inherited from the base module, the event
+module supports the following requests:</p>
+<div class="section" id="time-array">
+<h4>9.2.3.1. Time Array<a class="headerlink" href="#time-array" title="Permalink to this headline">¶</a></h4>
+<p>Broadcasts the time vector array of doubles.</p>
+</div>
+<div class="section" id="event-config">
+<h4>9.2.3.2. Event Config<a class="headerlink" href="#event-config" title="Permalink to this headline">¶</a></h4>
+<p>Broadcasts the event configuration cluster (see 6.2.1.1).</p>
+</div>
+<div class="section" id="event-parameters">
+<h4>9.2.3.3. Event Parameters<a class="headerlink" href="#event-parameters" title="Permalink to this headline">¶</a></h4>
+<p>Broadcasts the two dimensional array of event parameters (see 6.2.1.2).</p>
+</div>
+<div class="section" id="did-stop">
+<h4>9.2.3.4. Did Stop<a class="headerlink" href="#did-stop" title="Permalink to this headline">¶</a></h4>
+<p>Standard output for all modules. Broadcast when the module stops and is
+about to unload from memory</p>
+</div>
+</div>
+<div class="section" id="event-plugins">
+<h3>9.2.4. Event Plugins<a class="headerlink" href="#event-plugins" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="event-plugin-base-class">
+<h4>9.2.4.1. Event Plugin Base Class<a class="headerlink" href="#event-plugin-base-class" title="Permalink to this headline">¶</a></h4>
+<p>end Users may create their own plugins. All event plugins inherit from the event plugin base class.
+Most of the methods allow for data to be
+written and read to the plugin. It is expected that the GetReports
+method will be overridden by each of the event type child classes to
+provide reports generated specifically by that event type</p>
+<img alt="_images/UML_EventPluginBase.png" src="_images/UML_EventPluginBase.png" />
+<p>Figure 25: Event Plugin Base Class diagram</p>
+<p>All event plugin child classes inherit from this base class. The methods
+have all been explained in 6.2.1 and 6.2.2</p>
+</div>
+<div class="section" id="c37-118-event-plugin">
+<h4>9.2.4.2. C37.118 Event Plugin<a class="headerlink" href="#c37-118-event-plugin" title="Permalink to this headline">¶</a></h4>
+<p>TODO:</p>
+</div>
+<div class="section" id="event-from-csv-plugin">
+<h4>9.2.4.3. Event From CSV Plugin<a class="headerlink" href="#event-from-csv-plugin" title="Permalink to this headline">¶</a></h4>
+<p>TODO:</p>
+</div>
+<div class="section" id="ieee-bus-system-event">
+<h4>9.2.4.4. IEEE Bus System Event<a class="headerlink" href="#ieee-bus-system-event" title="Permalink to this headline">¶</a></h4>
+<p>TODO:</p>
+</div>
+<div class="section" id="ringdown-event">
+<h4>9.2.4.5. Ringdown Event<a class="headerlink" href="#ringdown-event" title="Permalink to this headline">¶</a></h4>
+<p>TODO:</p>
+</div>
+<div class="section" id="user-events">
+<h4>9.2.4.6. User Events<a class="headerlink" href="#user-events" title="Permalink to this headline">¶</a></h4>
+<p>TODO:</p>
+</div>
+</div>
+</div>
+<div class="section" id="pmu-impairment-module">
+<h2>9.3. PMU Impairment Module<a class="headerlink" href="#pmu-impairment-module" title="Permalink to this headline">¶</a></h2>
+<p>Figure 26: PMU Impairment module</p>
+<div class="section" id="id4">
+<h3>9.3.1. Requests<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the requests inherited from the base module, the event
+module supports the following requests:</p>
+<div class="section" id="write-read-impairconfig">
+<h4>9.3.1.1. Write/Read ImpairConfig<a class="headerlink" href="#write-read-impairconfig" title="Permalink to this headline">¶</a></h4>
+<p>The PMU Impairment module configuration data consists of a
+clImpairConfig structure. The elements are TBD at this time.</p>
+</div>
+<div class="section" id="write-read-impairparams">
+<h4>9.3.1.2. Write/Read ImpairParams<a class="headerlink" href="#write-read-impairparams" title="Permalink to this headline">¶</a></h4>
+<p>The impairment parameters are a 2 dimensional array of double that are
+defined by the impairment algorithm.</p>
+</div>
+<div class="section" id="write-evtreports">
+<h4>9.3.1.3. Write EvtReports<a class="headerlink" href="#write-evtreports" title="Permalink to this headline">¶</a></h4>
+<p>Event reports are generated by the Event module as a array of data
+structure clReports. For details of the report structure see 6.1.2.4</p>
+</div>
+<div class="section" id="getimpairreports">
+<h4>9.3.1.4. GetImpairReports<a class="headerlink" href="#getimpairreports" title="Permalink to this headline">¶</a></h4>
+<p>Requests an array of PMI Impairment reports in the clReports structure
+format. For details of the report structure see 6.1.2.4</p>
+</div>
+<div class="section" id="id5">
+<h4>9.3.1.5. Broadcasts<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>In addition to the broadcasts inherited from the base module, the event
+module supports the following requests:</p>
+</div>
+<div class="section" id="impairconfig">
+<h4>9.3.1.6. ImpairConfig<a class="headerlink" href="#impairconfig" title="Permalink to this headline">¶</a></h4>
+<p>Response to the Read ImpairConfig Request. Broadcasts the module’s
+clImpairConfig data structure.</p>
+</div>
+<div class="section" id="impairparams">
+<h4>9.3.1.7. ImpairParams<a class="headerlink" href="#impairparams" title="Permalink to this headline">¶</a></h4>
+<p>Response to the Read ImpairParam Request. Broadcasts the module’s
+clImpairParam two dimensional array of doubles.</p>
+</div>
+<div class="section" id="impairreports">
+<h4>9.3.1.8. ImpairReports<a class="headerlink" href="#impairreports" title="Permalink to this headline">¶</a></h4>
+<p>Response to the getImpairReports Request. Broadcasts an array of
+impaired PMU data reports in the clReports structure format. For details
+of the report structure see 6.1.2.4</p>
+</div>
+</div>
+</div>
+<div class="section" id="pmu-impairment-class">
+<h2>9.4. PMU Impairment class<a class="headerlink" href="#pmu-impairment-class" title="Permalink to this headline">¶</a></h2>
+<p>Figure 27: PMU Impairment class</p>
+<p>A child of the BasePluginClass. The methods are all described in the preceding sections:</p>
+<div class="section" id="pmu-impairment-plugins">
+<h3>9.4.1. PMU Impairment Plugins<a class="headerlink" href="#pmu-impairment-plugins" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="pmu-impairment-base-plugin">
+<h4>9.4.1.1. PMU Impairment Base Plugin<a class="headerlink" href="#pmu-impairment-base-plugin" title="Permalink to this headline">¶</a></h4>
+<p>TODO:</p>
+</div>
+<div class="section" id="c37-behaviour-plugin">
+<h4>9.4.1.2. C37 Behaviour Plugin<a class="headerlink" href="#c37-behaviour-plugin" title="Permalink to this headline">¶</a></h4>
+<p>TODO:</p>
+</div>
+<div class="section" id="c37-model-plugin">
+<h4>9.4.1.3. C37 Model Plugin<a class="headerlink" href="#c37-model-plugin" title="Permalink to this headline">¶</a></h4>
+<p>TODO:</p>
+</div>
+<div class="section" id="sine-model-plugin">
+<h4>9.4.1.4. Sine Model Plugin<a class="headerlink" href="#sine-model-plugin" title="Permalink to this headline">¶</a></h4>
+<p>TODO:</p>
+</div>
+<div class="section" id="pmu-user-plugin">
+<h4>9.4.1.5. PMU User Plugin<a class="headerlink" href="#pmu-user-plugin" title="Permalink to this headline">¶</a></h4>
+<p>TODO:</p>
+</div>
+</div>
+</div>
+<div class="section" id="network-impairment-module">
+<h2>9.5. Network Impairment Module<a class="headerlink" href="#network-impairment-module" title="Permalink to this headline">¶</a></h2>
+<p>Figure 28: Network Impairment Module diagram</p>
+<div class="section" id="id6">
+<h3>9.5.1. Requests<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the requests inherited from the base module, the event
+module supports the following requests:</p>
+<div class="section" id="write-timearray">
+<h4>9.5.1.1. Write TimeArray<a class="headerlink" href="#write-timearray" title="Permalink to this headline">¶</a></h4>
+<p>TimeArray is a vector of time offsets to UTC T0 which were used to
+create the ideal PMU reports. This time vector is the ideal time vector
+for which the PMU reports would have been transmitted from the PMU.</p>
+</div>
+<div class="section" id="read-write-impparams">
+<h4>9.5.1.2. Read/Write ImpParams<a class="headerlink" href="#read-write-impparams" title="Permalink to this headline">¶</a></h4>
+<p>A two dimensional array of doubles make up the network impairment
+parameters.</p>
+</div>
+<div class="section" id="read-write-lossthreshold">
+<h4>9.5.1.3. Read/Write LossThreshold<a class="headerlink" href="#read-write-lossthreshold" title="Permalink to this headline">¶</a></h4>
+<p>The one dimensional array of doubles defines the loss threshold.</p>
+</div>
+<div class="section" id="getnettime">
+<h4>9.5.1.4. GetNetTime<a class="headerlink" href="#getnettime" title="Permalink to this headline">¶</a></h4>
+<p>Requests that the Net Time array be broadcast. The Net Time is an
+impaired version of the time vector.</p>
+</div>
+<div class="section" id="getpktloss">
+<h4>9.5.1.5. GetPktLoss<a class="headerlink" href="#getpktloss" title="Permalink to this headline">¶</a></h4>
+<p>Requests that the Packet Loss Data be broadcast.</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>9.5.2. Broadcasts<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the broadcasts inherited from the base module, the event
+module supports the following requests:</p>
+<div class="section" id="impparams">
+<h4>9.5.2.1. ImpParams<a class="headerlink" href="#impparams" title="Permalink to this headline">¶</a></h4>
+<p>Response to Read ImpParams request. Broadcasts the two dimensional array
+of doubles that are the network impairment parameters.</p>
+</div>
+<div class="section" id="lossthreshold">
+<h4>9.5.2.2. LossThreshold<a class="headerlink" href="#lossthreshold" title="Permalink to this headline">¶</a></h4>
+<p>Response to Read LossThreshold request. Broadcasts the one dimensional
+array of doubles that are the network Loss Threshold.</p>
+</div>
+<div class="section" id="nettime">
+<h4>9.5.2.3. NetTime<a class="headerlink" href="#nettime" title="Permalink to this headline">¶</a></h4>
+<p>Response to GetNetTime. Broadcasts the one dimensional array of doubles
+which ate the Net Time vector (an impaired version of the Time Array
+input to the event module.</p>
+</div>
+<div class="section" id="pktloss">
+<h4>9.5.2.4. PktLoss<a class="headerlink" href="#pktloss" title="Permalink to this headline">¶</a></h4>
+<p>Response to GetPktLoss. Broadcasts the two dimensional array of doubles
+which are the Packet Loss data.</p>
+</div>
+</div>
+</div>
+<div class="section" id="network-impairment-class">
+<h2>9.6. Network Impairment class<a class="headerlink" href="#network-impairment-class" title="Permalink to this headline">¶</a></h2>
+<p>Figure 29: Network Impairment Class diagram</p>
+<p>The properties and methods for the Network Impairment class have all
+been described in 6.4.1 and 6.4.2.</p>
+<div class="section" id="network-impairment-plugins">
+<h3>9.6.1. Network Impairment Plugins<a class="headerlink" href="#network-impairment-plugins" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="network-impairment-base-plugin">
+<h4>9.6.1.1. Network Impairment Base Plugin<a class="headerlink" href="#network-impairment-base-plugin" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="network-plugin">
+<h4>9.6.1.2. Network Plugin<a class="headerlink" href="#network-plugin" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+</div>
+<div class="section" id="flag-impairment-module">
+<h2>9.7. Flag Impairment Module<a class="headerlink" href="#flag-impairment-module" title="Permalink to this headline">¶</a></h2>
+<p>PMU reports contain flags which carry information about the data
+contained in the PMU report. This module simulates the settings of those
+flags similar to the flags found in typical and atypical PMU streams.</p>
+<p>Figure 30: Flag Impairment Module</p>
+<div class="section" id="id8">
+<h3>9.7.1. Requests<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="write-flagimpairconfig">
+<h4>9.7.1.1. Write FlagImpairConfig<a class="headerlink" href="#write-flagimpairconfig" title="Permalink to this headline">¶</a></h4>
+<p>A cluster of configuration information for the FlagImpairment module</p>
+</div>
+<div class="section" id="write-flagimpairparams">
+<h4>9.7.1.2. Write FlagImpairParams<a class="headerlink" href="#write-flagimpairparams" title="Permalink to this headline">¶</a></h4>
+<p>A one dimensional array of doubles setting the parameters for the flag
+impairment.</p>
+</div>
+<div class="section" id="id9">
+<h4>9.7.1.3. Write TimeArray<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p>The one dimensional array of times from the Event module</p>
+</div>
+<div class="section" id="getflagimpairment">
+<h4>9.7.1.4. GetFlagImpairment<a class="headerlink" href="#getflagimpairment" title="Permalink to this headline">¶</a></h4>
+<p>Requests broadcast of the one dimensional array of 32-bit unsigned
+integers which represent the impaired status flags</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h3>9.7.2. Broadcasts<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="flagimpairment">
+<h4>9.7.2.1. FlagImpairment<a class="headerlink" href="#flagimpairment" title="Permalink to this headline">¶</a></h4>
+<p>Response to GetFlagImpairment (). Broadcasts a one dimensional array of
+32-bit unsigned integers which represent the impaired status flags</p>
+</div>
+</div>
+</div>
+<div class="section" id="flag-impairment-plugin-class">
+<h2>9.8. Flag Impairment Plugin class<a class="headerlink" href="#flag-impairment-plugin-class" title="Permalink to this headline">¶</a></h2>
+<p>This class is a pluggable class. The two child classes will be the
+C37.118 Flag Impairment class and the IEC 61850 Flag Impairment class.</p>
+<p>Figure 31: Flag Impairment Plugin Class</p>
+<p>The attributes and methods of the FlagImpairment class have all been
+described in 6.5</p>
+</div>
+<div class="section" id="output-to-file-module">
+<h2>9.9. Output to File Module<a class="headerlink" href="#output-to-file-module" title="Permalink to this headline">¶</a></h2>
+<p>The module receives ideal PMU reports from the event module, impaired
+PMU reports from the PMU Impairment module and Network Time and Packet
+Loss data from the Network Impairment module and prepares the data for
+output to a file format determined by the plug-in for the module.</p>
+<p>Figure A‑32: Output to File Module</p>
+<div class="section" id="id11">
+<h3>9.9.1. Requests<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the requests inherited from the base module, the event
+module supports the following requests:</p>
+<div class="section" id="write-outputtofileplugininipath">
+<h4>9.9.1.1. Write OutputToFilePluginIniPath<a class="headerlink" href="#write-outputtofileplugininipath" title="Permalink to this headline">¶</a></h4>
+<p>Writes the path to the plugin’s .ini file and loads the plugin.</p>
+</div>
+<div class="section" id="read-outputtofileplugininipath">
+<h4>9.9.1.2. Read OutputToFilePluginIniPath<a class="headerlink" href="#read-outputtofileplugininipath" title="Permalink to this headline">¶</a></h4>
+<p>Reads the path to the plugin’s .ini file.</p>
+</div>
+<div class="section" id="write-read-outputpath">
+<h4>9.9.1.3. Write/Read OutputPath<a class="headerlink" href="#write-read-outputpath" title="Permalink to this headline">¶</a></h4>
+<p>The top level path to where the output files will be placed.</p>
+</div>
+<div class="section" id="write-read-configoptions">
+<h4>9.9.1.4. Write/Read ConfigOptions<a class="headerlink" href="#write-read-configoptions" title="Permalink to this headline">¶</a></h4>
+<p>This is the configuration of the PMU which will be used in the output
+file</p>
+</div>
+<div class="section" id="write-nettime">
+<h4>9.9.1.5. Write NetTime<a class="headerlink" href="#write-nettime" title="Permalink to this headline">¶</a></h4>
+<p>A one dimensional array of doubles generated by the network impairment
+module is an impaired version of the time vector used to generate the
+ideal and impaired PMU reports.</p>
+</div>
+<div class="section" id="write-pktloss">
+<h4>9.9.1.6. Write PktLoss<a class="headerlink" href="#write-pktloss" title="Permalink to this headline">¶</a></h4>
+<p>A one dimensional array of doubles generated by the Network Impairment
+module used to mark data written to the output file as lost.</p>
+</div>
+<div class="section" id="write-flagimpairarray">
+<h4>9.9.1.7. Write FlagImpairArray<a class="headerlink" href="#write-flagimpairarray" title="Permalink to this headline">¶</a></h4>
+<p>A one dimensional array of Int32 representing the PMU flags from the
+Flag Impairment Module.</p>
+</div>
+<div class="section" id="outputreferencefile">
+<h4>9.9.1.8. OutputReferenceFile<a class="headerlink" href="#outputreferencefile" title="Permalink to this headline">¶</a></h4>
+<p>Requests the module to write the file of reference (ideal) output data
+in the format determined by the plugin.</p>
+</div>
+<div class="section" id="outputimpairedfile">
+<h4>9.9.1.9. OutputImpairedFile<a class="headerlink" href="#outputimpairedfile" title="Permalink to this headline">¶</a></h4>
+<p>Requests the module to write the file of impaired output data in the
+format determined by the plugin.</p>
+</div>
+<div class="section" id="outputerrordata">
+<h4>9.9.1.10. OutputErrorData<a class="headerlink" href="#outputerrordata" title="Permalink to this headline">¶</a></h4>
+<p>Requests the module to write the error data (TVE, ME, PE, FE, RFE) for
+output to an error file.</p>
+</div>
+</div>
+<div class="section" id="id12">
+<h3>9.9.2. Broadcasts<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the requests inherited from the base module, the
+broadcasts are:</p>
+<div class="section" id="outputtofileplugininipath">
+<h4>9.9.2.1. OutputToFilePluginIniPath<a class="headerlink" href="#outputtofileplugininipath" title="Permalink to this headline">¶</a></h4>
+<p>Path to the plugin’s .ini file</p>
+</div>
+<div class="section" id="outputpath">
+<h4>9.9.2.2. OutputPath<a class="headerlink" href="#outputpath" title="Permalink to this headline">¶</a></h4>
+<p>Path to the top level directory where the output files will be written</p>
+</div>
+<div class="section" id="configoptions">
+<h4>9.9.2.3. ConfigOptions<a class="headerlink" href="#configoptions" title="Permalink to this headline">¶</a></h4>
+<p>The cluster of PMU configuration options</p>
+</div>
+<div class="section" id="output-to-file-base-plugin-class">
+<h4>9.9.2.4. Output to File base plugin class<a class="headerlink" href="#output-to-file-base-plugin-class" title="Permalink to this headline">¶</a></h4>
+<p>A plugin class where the children of the class each output to a
+different file format. Example file formats are C37.118.2 csv,
+WECC-JSIS, and Comtrade.</p>
+<p>Figure A‑33: Output to File class</p>
+<p>The properties and methods for the Network Impairment class have all
+been described in 6.6.1</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9. Module and class diagrams</a><ul>
+<li><a class="reference internal" href="#base-module">9.1. Base Module</a><ul>
+<li><a class="reference internal" href="#requests">9.1.1. Requests</a><ul>
+<li><a class="reference internal" href="#load-plugin">9.1.1.1. Load Plugin</a></li>
+<li><a class="reference internal" href="#stop-request">9.1.1.2. Stop Request</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#broadcasts">9.1.2. Broadcasts</a><ul>
+<li><a class="reference internal" href="#did-init">9.1.2.1. Did Init</a></li>
+<li><a class="reference internal" href="#status-update">9.1.2.2. Status Update</a></li>
+<li><a class="reference internal" href="#error-report">9.1.2.3. Error Report</a></li>
+<li><a class="reference internal" href="#event-reports">9.1.2.4. Event Reports</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#base-plugin-class">9.2. Base Plugin Class</a><ul>
+<li><a class="reference internal" href="#methods">9.2.1. Methods</a><ul>
+<li><a class="reference internal" href="#create-destroy">9.2.1.1. Create / Destroy</a></li>
+<li><a class="reference internal" href="#implementation-error">9.2.1.2. Implementation Error</a></li>
+<li><a class="reference internal" href="#getpathtoclass">9.2.1.3. GetPathToClass</a></li>
+<li><a class="reference internal" href="#loadclassfromfileondisk">9.2.1.4. LoadClassFromFileOnDisk</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">9.2.2. Requests</a><ul>
+<li><a class="reference internal" href="#write-read-config">9.2.2.1. Write/Read Config</a></li>
+<li><a class="reference internal" href="#write-read-parameters">9.2.2.2. Write/Read Parameters</a></li>
+<li><a class="reference internal" href="#write-read-time">9.2.2.3. Write/Read Time</a></li>
+<li><a class="reference internal" href="#get-reports">9.2.2.4. Get Reports</a></li>
+<li><a class="reference internal" href="#id2">9.2.2.5. Stop Request</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">9.2.3. Broadcasts</a><ul>
+<li><a class="reference internal" href="#time-array">9.2.3.1. Time Array</a></li>
+<li><a class="reference internal" href="#event-config">9.2.3.2. Event Config</a></li>
+<li><a class="reference internal" href="#event-parameters">9.2.3.3. Event Parameters</a></li>
+<li><a class="reference internal" href="#did-stop">9.2.3.4. Did Stop</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#event-plugins">9.2.4. Event Plugins</a><ul>
+<li><a class="reference internal" href="#event-plugin-base-class">9.2.4.1. Event Plugin Base Class</a></li>
+<li><a class="reference internal" href="#c37-118-event-plugin">9.2.4.2. C37.118 Event Plugin</a></li>
+<li><a class="reference internal" href="#event-from-csv-plugin">9.2.4.3. Event From CSV Plugin</a></li>
+<li><a class="reference internal" href="#ieee-bus-system-event">9.2.4.4. IEEE Bus System Event</a></li>
+<li><a class="reference internal" href="#ringdown-event">9.2.4.5. Ringdown Event</a></li>
+<li><a class="reference internal" href="#user-events">9.2.4.6. User Events</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pmu-impairment-module">9.3. PMU Impairment Module</a><ul>
+<li><a class="reference internal" href="#id4">9.3.1. Requests</a><ul>
+<li><a class="reference internal" href="#write-read-impairconfig">9.3.1.1. Write/Read ImpairConfig</a></li>
+<li><a class="reference internal" href="#write-read-impairparams">9.3.1.2. Write/Read ImpairParams</a></li>
+<li><a class="reference internal" href="#write-evtreports">9.3.1.3. Write EvtReports</a></li>
+<li><a class="reference internal" href="#getimpairreports">9.3.1.4. GetImpairReports</a></li>
+<li><a class="reference internal" href="#id5">9.3.1.5. Broadcasts</a></li>
+<li><a class="reference internal" href="#impairconfig">9.3.1.6. ImpairConfig</a></li>
+<li><a class="reference internal" href="#impairparams">9.3.1.7. ImpairParams</a></li>
+<li><a class="reference internal" href="#impairreports">9.3.1.8. ImpairReports</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pmu-impairment-class">9.4. PMU Impairment class</a><ul>
+<li><a class="reference internal" href="#pmu-impairment-plugins">9.4.1. PMU Impairment Plugins</a><ul>
+<li><a class="reference internal" href="#pmu-impairment-base-plugin">9.4.1.1. PMU Impairment Base Plugin</a></li>
+<li><a class="reference internal" href="#c37-behaviour-plugin">9.4.1.2. C37 Behaviour Plugin</a></li>
+<li><a class="reference internal" href="#c37-model-plugin">9.4.1.3. C37 Model Plugin</a></li>
+<li><a class="reference internal" href="#sine-model-plugin">9.4.1.4. Sine Model Plugin</a></li>
+<li><a class="reference internal" href="#pmu-user-plugin">9.4.1.5. PMU User Plugin</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#network-impairment-module">9.5. Network Impairment Module</a><ul>
+<li><a class="reference internal" href="#id6">9.5.1. Requests</a><ul>
+<li><a class="reference internal" href="#write-timearray">9.5.1.1. Write TimeArray</a></li>
+<li><a class="reference internal" href="#read-write-impparams">9.5.1.2. Read/Write ImpParams</a></li>
+<li><a class="reference internal" href="#read-write-lossthreshold">9.5.1.3. Read/Write LossThreshold</a></li>
+<li><a class="reference internal" href="#getnettime">9.5.1.4. GetNetTime</a></li>
+<li><a class="reference internal" href="#getpktloss">9.5.1.5. GetPktLoss</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">9.5.2. Broadcasts</a><ul>
+<li><a class="reference internal" href="#impparams">9.5.2.1. ImpParams</a></li>
+<li><a class="reference internal" href="#lossthreshold">9.5.2.2. LossThreshold</a></li>
+<li><a class="reference internal" href="#nettime">9.5.2.3. NetTime</a></li>
+<li><a class="reference internal" href="#pktloss">9.5.2.4. PktLoss</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#network-impairment-class">9.6. Network Impairment class</a><ul>
+<li><a class="reference internal" href="#network-impairment-plugins">9.6.1. Network Impairment Plugins</a><ul>
+<li><a class="reference internal" href="#network-impairment-base-plugin">9.6.1.1. Network Impairment Base Plugin</a></li>
+<li><a class="reference internal" href="#network-plugin">9.6.1.2. Network Plugin</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#flag-impairment-module">9.7. Flag Impairment Module</a><ul>
+<li><a class="reference internal" href="#id8">9.7.1. Requests</a><ul>
+<li><a class="reference internal" href="#write-flagimpairconfig">9.7.1.1. Write FlagImpairConfig</a></li>
+<li><a class="reference internal" href="#write-flagimpairparams">9.7.1.2. Write FlagImpairParams</a></li>
+<li><a class="reference internal" href="#id9">9.7.1.3. Write TimeArray</a></li>
+<li><a class="reference internal" href="#getflagimpairment">9.7.1.4. GetFlagImpairment</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10">9.7.2. Broadcasts</a><ul>
+<li><a class="reference internal" href="#flagimpairment">9.7.2.1. FlagImpairment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#flag-impairment-plugin-class">9.8. Flag Impairment Plugin class</a></li>
+<li><a class="reference internal" href="#output-to-file-module">9.9. Output to File Module</a><ul>
+<li><a class="reference internal" href="#id11">9.9.1. Requests</a><ul>
+<li><a class="reference internal" href="#write-outputtofileplugininipath">9.9.1.1. Write OutputToFilePluginIniPath</a></li>
+<li><a class="reference internal" href="#read-outputtofileplugininipath">9.9.1.2. Read OutputToFilePluginIniPath</a></li>
+<li><a class="reference internal" href="#write-read-outputpath">9.9.1.3. Write/Read OutputPath</a></li>
+<li><a class="reference internal" href="#write-read-configoptions">9.9.1.4. Write/Read ConfigOptions</a></li>
+<li><a class="reference internal" href="#write-nettime">9.9.1.5. Write NetTime</a></li>
+<li><a class="reference internal" href="#write-pktloss">9.9.1.6. Write PktLoss</a></li>
+<li><a class="reference internal" href="#write-flagimpairarray">9.9.1.7. Write FlagImpairArray</a></li>
+<li><a class="reference internal" href="#outputreferencefile">9.9.1.8. OutputReferenceFile</a></li>
+<li><a class="reference internal" href="#outputimpairedfile">9.9.1.9. OutputImpairedFile</a></li>
+<li><a class="reference internal" href="#outputerrordata">9.9.1.10. OutputErrorData</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id12">9.9.2. Broadcasts</a><ul>
+<li><a class="reference internal" href="#outputtofileplugininipath">9.9.2.1. OutputToFilePluginIniPath</a></li>
+<li><a class="reference internal" href="#outputpath">9.9.2.2. OutputPath</a></li>
+<li><a class="reference internal" href="#configoptions">9.9.2.3. ConfigOptions</a></li>
+<li><a class="reference internal" href="#output-to-file-base-plugin-class">9.9.2.4. Output to File base plugin class</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="busclass.html"
+                        title="previous chapter">8. Bus Class</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="python.html"
+                        title="next chapter">10. Python Test Automation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/moduleRef.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="python.html" title="10. Python Test Automation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="busclass.html" title="8. Bus Class"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+    </div>
+  </body>
+</html>

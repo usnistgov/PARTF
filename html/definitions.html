@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Definitions &mdash; PARTF 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <link rel="next" title="4. Use case" href="usecase.html" />
+    <link rel="prev" title="2. License and Disclaimer" href="License.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="usecase.html" title="4. Use case"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="License.html" title="2. License and Disclaimer"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="definitions">
+<h1>3. Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module">
+<h2>3.1. Module<a class="headerlink" href="#module" title="Permalink to this headline">¶</a></h2>
+<p>A module is a software structure which is designed to be launched by an application framework then run independently of the launching application.  Modules receive &#8220;requests&#8221; from the launching application and transmit &#8220;broadcasts&#8221; which may be received by any application or other modules which have registered to receive the broadcasts.  Collectively the requests and broadcasts are considered to be the module&#8217;s application programming interface (API)</p>
+<p>Multiple modules of the same type may run concurrently.  Each instance of a concurrently running module is called a &#8220;clone&#8221; of that module.  Modules are documented in detail in the &#8220;Pluggable Modules Specification&#8221; document.</p>
+</div>
+<div class="section" id="plug-in">
+<h2>3.2. Plug-in<a class="headerlink" href="#plug-in" title="Permalink to this headline">¶</a></h2>
+<p>The core functionality of any module is defined by a plug-in.  Modules accept &#8220;plug-ins&#8221; at runtime and plug-ins may be changed during run-time.  Plug-ins are custom software which inherit from a module&#8217;s base plug-in class.  They allow for custom interfacing and/or internal processing within the module. Plug-ins may be written in MATLAB, LabVIEW, Python, Any of the C variants, and other software languages supported by the host computer.  The host computer must have the supporting software installed, for examples plug-ins written in MATLAB must be supported by a MATLAB installation on the host computer.</p>
+<p>Each plugin must have a text &#8221;.ini&#8221; file with certain required fields.  within the .ini file is a set of instructions called a &#8220;scriptlet&#8221;.  When a test is run, the scriptlets from each module within a bus are concatenated together to form a script which is executed by a bus controller. the .ini file also carries default configuration and parameter values for the module as well as the plugin &#8220;type&#8221; which is displayed by the framework.</p>
+</div>
+<div class="section" id="event">
+<h2>3.3. Event<a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h2>
+<p>A finite time domain signal, or set of signals, represented by a mathematical function of time (t) or by a data set saved to a computer file.  These signals represent ideal measurements of single or multi-phase power system voltages and currents and on a single bus in an electrical substation to which a sensor such as a PMU may be making measurements.  Power System Events may be continuous in time such as steady state signals or smooth transitions between steady state and changing frequencies, or discontinuous in time such as steps in signal magnitude and/or phase.  The impairment framework can support multiple events, each representing the signal at a single bus in the electrical power system.  Events in the framework are determined by plug-ins</p>
+</div>
+<div class="section" id="impairment">
+<h2>3.4. Impairment<a class="headerlink" href="#impairment" title="Permalink to this headline">¶</a></h2>
+<p>In general, impairment refers to differences between ideal information and information with errors.  The errors may be due to transformer and transducer error, measurement inaccuracy, data transmission latency and error, and issues with the status, flags, and other metadata.</p>
+</div>
+<div class="section" id="visualization">
+<h2>3.5. Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+<p>The PARTF provides for data visualization and analysis tools to listen to broadcasts from any module and present graphical or tabular information to the user.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. Definitions</a><ul>
+<li><a class="reference internal" href="#module">3.1. Module</a></li>
+<li><a class="reference internal" href="#plug-in">3.2. Plug-in</a></li>
+<li><a class="reference internal" href="#event">3.3. Event</a></li>
+<li><a class="reference internal" href="#impairment">3.4. Impairment</a></li>
+<li><a class="reference internal" href="#visualization">3.5. Visualization</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="License.html"
+                        title="previous chapter">2. License and Disclaimer</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="usecase.html"
+                        title="next chapter">4. Use case</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/definitions.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="usecase.html" title="4. Use case"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="License.html" title="2. License and Disclaimer"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+    </div>
+  </body>
+</html>

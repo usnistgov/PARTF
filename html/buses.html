@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6. Buses &mdash; PARTF 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <link rel="next" title="7. Framework Software Reference" href="framework.html" />
+    <link rel="prev" title="5. First Time setup" href="quickStart.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="framework.html" title="7. Framework Software Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="quickStart.html" title="5. First Time setup"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="buses">
+<h1>6. Buses<a class="headerlink" href="#buses" title="Permalink to this headline">¶</a></h1>
+<p>A single node on the electrical power system can be considered as a &#8220;bus&#8221;. A bus will have a single voltage and one or more currents flowing. Applications may use sensor data from a single bus or multiple buses. In the PMU framework, a single bus is a collection of modules.  Each bus is made up of a collection of the following modules:
+*       Event Module
+*       Transformer Impairment Module (in development)
+*       Sensor Impairment Module
+*       Network Impairment Module
+*       Status Impairment Module</p>
+<p>As many buses as the computer&#8217;s memory and processors can support can be supported by the framework: launched and removed at any time</p>
+<div class="section" id="bus-controller">
+<h2>6.1. Bus Controller<a class="headerlink" href="#bus-controller" title="Permalink to this headline">¶</a></h2>
+<p>During a test run, a software object called a &#8220;bus controller&#8221; is created for each bus.  The bus controller object lasts only for the duration of the test run then is destroyed. All bus controllers run concurrently in their own threads. The bus controllers read the .ini files for each modules active plugin and concatenates all the plugin&#8217;s scriptlets together forming a single script, which the bus controller then executes.  The scripts are always executed in the following module order: Event, Transformer (when developed), Sensor, Network, Status.  it should be noted, that scripts from any module can access the information in any other module through a common API, So even though a script may be in one module&#8217;s .ini file, it can still contain commands that access the data in any other module.</p>
+<p>The bus controllers use a queue to pass data from all the buses into the application where the data are aggregated to provide application input.  Multiple busses write data into the same queue.  Application plugins can use the base plugin&#8217;s aggregation function (where data is aggregated by timestamp) or can provide a custom aggregation function.</p>
+</div>
+<div class="section" id="bus-sequence-diagram">
+<h2>6.2. Bus Sequence Diagram<a class="headerlink" href="#bus-sequence-diagram" title="Permalink to this headline">¶</a></h2>
+<p>A UML sequence diagram illustrates the flow of key data between the modules in a single bus. Plugins can be developed with scriptlets that violate the sequence but the diagram illustrates the typical data flow.  Each of the modules are represented as boxes along the top.  Vertical lines represent time, beginning at the top and progressing towards the bottom.  Data is transferred from one module to another as represented by labeled arrows.</p>
+<img alt="_images/sequence.png" src="_images/sequence.png" />
+<p>Figure 3: Bus Data Sequence Diagram</p>
+</div>
+<div class="section" id="event-module">
+<h2>6.3. Event Module<a class="headerlink" href="#event-module" title="Permalink to this headline">¶</a></h2>
+<p>As defined in 1.2.3, a power system event is represented by a mathematical function of time at each bus in the system from which the application receives sensor data or else by a collection of sensor data in a file.  For each bus, one event module provides a set of ideal sensor data in an array of data structures called &#8220;Report Clusters.&#8221; To represent multiple buses, multiple Event Module instances will run in parallel. Each Event module will generate Sensor reports for the entire event before the data is output from the module.  The event modules do not run in real time.</p>
+</div>
+<div class="section" id="sensor-module">
+<h2>6.4. Sensor Module<a class="headerlink" href="#sensor-module" title="Permalink to this headline">¶</a></h2>
+<p>Each instance of an event module will be paired with an instance of a Sensor Impairment Module.  These modules accept ideal sensor data sets or ideal power system signal data and a set of impairment parameters and produce a collection of sensor data containing sensor errors as determined by the impairment parameters and the ideal input data.</p>
+</div>
+<div class="section" id="network-module">
+<h2>6.5. Network Module<a class="headerlink" href="#network-module" title="Permalink to this headline">¶</a></h2>
+<p>One set of Event and Sensor modules will be coupled with a Networking Impairment Module. The networking impairment modules receive Impairment Parameter and Loss Threshold information from the framework and create a Network Time vector and a Packet Loss array.  These two sets of information will inform the Bus Controller module how to impair the incoming Report Cluster Arrays as a data stream might be impaired by network imperfections.</p>
+</div>
+<div class="section" id="status-module">
+<h2>6.6. Status Module<a class="headerlink" href="#status-module" title="Permalink to this headline">¶</a></h2>
+<p>Sensor reports often arrive at application with status, flags, or other metadata included.  The Status Impairment Module creates a set of status data for each Sensor report being generated by the Event Module.  These flags can be applied to data sent to the application.  Plug-ins allow for various status impairment algorithms to be created by developers or end users.</p>
+</div>
+<div class="section" id="application">
+<h2>6.7. Application<a class="headerlink" href="#application" title="Permalink to this headline">¶</a></h2>
+<p>The application is an actor supported by the framework.  Interfaces between the application and the framework will need to be custom built for each application so it is crucial that the framework designers work closely with the designers of the application to determine how the framework can support and interface with the application.  Since hundreds or thousands of data sets will be input to the application for each event, the application must be suppor6ted by the framework in such a way that around the clock high speed testing can be run.  Manual operation of the application per data set is not advised.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">6. Buses</a><ul>
+<li><a class="reference internal" href="#bus-controller">6.1. Bus Controller</a></li>
+<li><a class="reference internal" href="#bus-sequence-diagram">6.2. Bus Sequence Diagram</a></li>
+<li><a class="reference internal" href="#event-module">6.3. Event Module</a></li>
+<li><a class="reference internal" href="#sensor-module">6.4. Sensor Module</a></li>
+<li><a class="reference internal" href="#network-module">6.5. Network Module</a></li>
+<li><a class="reference internal" href="#status-module">6.6. Status Module</a></li>
+<li><a class="reference internal" href="#application">6.7. Application</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="quickStart.html"
+                        title="previous chapter">5. First Time setup</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="framework.html"
+                        title="next chapter">7. Framework Software Reference</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/buses.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="framework.html" title="7. Framework Software Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="quickStart.html" title="5. First Time setup"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+    </div>
+  </body>
+</html>
