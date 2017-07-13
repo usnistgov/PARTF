@@ -12,8 +12,8 @@ csv_path=['CSV files\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus
 
 
 time=t;
-bus_vol = abs(bus_v)+sqrt(NoiseVariance)*randn(size(bus_v)).*...
-    exp(1*i*(angle(bus_v)+sqrt(NoiseVariance)*randn(size(bus_v))));
+bus_vol = (abs(bus_v)+sqrt(NoiseVariance)*randn(size(bus_v))).*...
+    exp(1i*(angle(bus_v)+sqrt(NoiseVariance)*randn(size(bus_v))));
 freq=diff(angle(bus_vol(PMULocations,:)),1,2)+ str2double(basdat{2});
 freq=[freq freq(:,end)];
 rocof=diff(freq,1,2);
@@ -174,7 +174,7 @@ switch(app)
     case 'ModelValidation'
         fprintf(fid,'[AppData]\n');
         fprintf(fid,'AppData.AppPluginIniFilePath = "ModelValidationPlugin/ModelValidationPlugin.ini"\n');
-        fprintf(fid,'AppData.Config = ""');
+        fprintf(fid,'AppData.Config = "<Cluster>\0D\0A<Name>ModelValidationConfig</Name>\0D\0A<NumElts>4</NumElts>\0D\0A<DBL>\0D\0A<Name>NoiseVariance</Name>\0D\0A<Val>1.00000000000000E-3</Val>\0D\0A</DBL>\0D\0A<I32>\0D\0A<Name>Iindex</Name>\0D\0A<Val>3</Val>\0D\0A</I32>\0D\0A<DBL>\0D\0A<Name>OffsetTime</Name>\0D\0A<Val>1.00000000000000E-3</Val>\0D\0A</DBL>\0D\0A<I32>\0D\0A<Name>InterpolationFactor</Name>\0D\0A<Val>3</Val>\0D\0A</I32>\0D\0A</Cluster>\0D\0A"');
         fprintf(fid,'\n\n');
     otherwise
         error('Select a valid app')
