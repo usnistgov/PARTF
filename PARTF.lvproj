@@ -12,18 +12,8 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
-		<Item Name="Documentation" Type="Folder">
-			<Item Name="images" Type="Folder">
-				<Item Name="Synchrophasor Phase Error 61 Hz.jpg" Type="Document" URL="../../Documentation/images/Synchrophasor Phase Error 61 Hz.jpg"/>
-				<Item Name="Synx Polar plot.jpg" Type="Document" URL="../../Documentation/images/Synx Polar plot.jpg"/>
-				<Item Name="Synx Polar plot.png" Type="Document" URL="../../Documentation/images/Synx Polar plot.png"/>
-			</Item>
-			<Item Name="Event Parameters.docx" Type="Document" URL="../../Documentation/Event Parameters.docx"/>
-			<Item Name="Impairment Parameters.docx" Type="Document" URL="../../Documentation/Impairment Parameters.docx"/>
-			<Item Name="PARTF Impairment Framework Specification.docx" Type="Document" URL="../../Documentation/PARTF Impairment Framework Specification.docx"/>
-			<Item Name="Phenomena of PMU Estimation Error under different Input 0715_ ARG comments.docx" Type="Document" URL="../../Documentation/Phenomena of PMU Estimation Error under different Input 0715_ ARG comments.docx"/>
-			<Item Name="PMU errors due to filter response.docx" Type="Document" URL="../../Documentation/PMU errors due to filter response.docx"/>
-			<Item Name="Errors.docx" Type="Document" URL="../../Documentation/Errors.docx"/>
+		<Item Name="Doc" Type="Folder">
+			<Item Name="Errors.docx" Type="Document" URL="../Doc/Errors.docx"/>
 		</Item>
 		<Item Name="ModuleLibraries" Type="Folder">
 			<Item Name="Matlab" Type="Folder"/>
@@ -50,6 +40,8 @@
 		<Item Name="BusController.lvlib" Type="Library" URL="../Framework/BusController/BusController.lvlib"/>
 		<Item Name="Visualization.lvlib" Type="Library" URL="../Visualization/Visualization.lvlib"/>
 		<Item Name="main.vi" Type="VI" URL="../main.vi"/>
+		<Item Name="probe.vi" Type="VI" URL="../Framework/Bus_class/probe.vi"/>
+		<Item Name="BusProbe.vi" Type="VI" URL="../Framework/Bus_class/BusProbe.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="user.lib" Type="Folder">
 				<Item Name="Array Size(s)__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Array Size(s)__ogtk.vi"/>
@@ -233,6 +225,7 @@
 				<Item Name="System Directory Type.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/sysdir.llb/System Directory Type.ctl"/>
 				<Item Name="Get System Directory.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/sysdir.llb/Get System Directory.vi"/>
 				<Item Name="System Exec.vi" Type="VI" URL="/&lt;vilib&gt;/Platform/system.llb/System Exec.vi"/>
+				<Item Name="NI_Gmath.lvlib" Type="Library" URL="/&lt;vilib&gt;/gmath/NI_Gmath.lvlib"/>
 			</Item>
 			<Item Name="user32.dll" Type="Document" URL="user32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
