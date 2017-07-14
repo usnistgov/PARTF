@@ -52,9 +52,10 @@
 <p>PARTF Reference Document</p>
 <div class="section" id="abstract">
 <h2>Abstract:<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>The goal of the PMU Application Requirements Test Framework is to provide an open source, standard automated platform for the testing of applications that receive power system sensor data and act upon it.  This platform should enable users to focus on their applications and not on building a test framework around it.  Libraries of power system signals and different types of sensors and sensor and communication system impairments will be available and can be added to as a community of users and contributors develops.</p>
 <p>The PARTF is highly conformable software designed to simulate or play back sensor measurements at one or more buses on bulk electrical power systems, to simulate impairments to the measurements due to error of the measurement itself, errors in network transmission and timing, and errors in the status information carried by the measurement transmission system, and to provide those impaired measurements to applications which use those measurements.</p>
-<p>The framework is capable of running user created test automation scripts to perform multiple test runs, saving application input, application input The PARTF is highly conformable software designed to simulate or play back sensor measurements at one or more buses on bulk electrical power systems, to simulate impairments to the measurements due to error of the measurement itself, errors in network transmission and timing, and errors in the status information carried by the measurement transmission system, and to provide those impaired measurements to applications which use those measurements error, and application output data to files for analysis and supporting user-defined visualization tools for analyzing the data.</p>
-<p>The framework uses a software plug-in system so that users may create their own simulated or played-back bus measurements, sensor impairments, network impairment, status impairments, and applications without the need to create entire test frameworks</p>
+<p>The framework is capable of running user created test automation scripts to perform multiple test runs and saving application input, output and analysis. The PARTF is highly conformable software designed to simulate or play back sensor measurements at one or more buses on bulk electrical power systems, to simulate impairments to the measurements due to error of the measurement itself, errors in network transmission and timing, and errors in the status information carried by the measurement transmission system, and to provide those impaired measurements to applications which use those measurements.</p>
+<p>The framework uses a software plug-in system so that users may create their own simulated or played-back bus measurements, sensor impairments, network impairment, status impairments, and applications without the need to create entire test frameworks.  Besides testing applications, the PARTF can be used to test PMU and other sensor estimation algorithms.</p>
 </div>
 <div class="section" id="contents">
 <h2>Contents:<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
@@ -126,8 +127,23 @@
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="moduleAppendix.html">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="moduleAppendix.html#quick-start">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moduleAppendix.html">Pluggable Module Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="moduleAppendix.html#quick-start-using-testcloneapi">Quick Start using TestCloneAPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleAppendix.html#launching-a-module-clone">Launching a Module Clone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleAppendix.html#module-top-level-main-vi">Module Top Level: Main.vi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleAppendix.html#start-up-and-initialization">Start-up and initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleAppendix.html#requests">Requests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleAppendix.html#handling-requests">Handling Requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moduleAppendix.html#creating-new-request-types">Creating New Request Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleAppendix.html#broadcasts">Broadcasts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moduleAppendix.html#creating-new-broadcast-types">Creating new broadcast types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moduleAppendix.html#plugin-classes">Plugin Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleAppendix.html#plugin-methods">Plugin Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moduleAppendix.html#creating-an-new-base-plugin-method">Creating an new base plugin method</a></li>
 </ul>
 </li>
 </ul>

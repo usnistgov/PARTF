@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Introduction &mdash; PARTF 0.1 documentation</title>
+    <title>Pluggable Module Reference &mdash; PARTF 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -47,8 +47,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="pluggable-module-reference">
+<h1>Pluggable Module Reference<a class="headerlink" href="#pluggable-module-reference" title="Permalink to this headline">¶</a></h1>
 <p>A pluggable module is a stand-alone module that can be launched by a
 framework or other application then runs independent of the launching
 application. Multiple clones of the same module type may be launched and
@@ -64,8 +64,8 @@ another example is creating a range of Matlab-based plug-ins where the
 module can perform many different types of operations. Plug-ins can be
 changed on-the-fly during runtime without needing to stop and restart
 the module clone.</p>
-<div class="section" id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="quick-start-using-testcloneapi">
+<h2>Quick Start using TestCloneAPI<a class="headerlink" href="#quick-start-using-testcloneapi" title="Permalink to this headline">¶</a></h2>
 <p>To get a quick overview of how pluggable modules work, use the
 TestCloneAPI.vi application:</p>
 <p><a class="reference internal" href="_images/image1.png"><img alt="image0" src="_images/image1.png" style="width: 1.42222in; height: 2.11111in;" /></a></p>
@@ -85,9 +85,9 @@ or hiding the clone’s front panel or requesting the path to the current
 plugin’s .ini file is sent to one or all clones. When multiple clones
 are launched, the “Select Module to send request listbox will allow
 requests to be sent to one or all modules.</p>
-<ol class="arabic simple">
-<li>Launching a Module Clone</li>
-</ol>
+</div>
+<div class="section" id="launching-a-module-clone">
+<h2>Launching a Module Clone<a class="headerlink" href="#launching-a-module-clone" title="Permalink to this headline">¶</a></h2>
 <p>A framework application launches a clone of a module by passing a
 reference to the module Main.vi to the StartClone.vi which launches the
 clone. StartClone.vi outputs a cluster of the clone’s broadcast events
@@ -98,9 +98,9 @@ waits for a semaphore from the new clone indicating that the clone is
 ready to accept requests. Following that, the semaphore reference must
 be destroyed by ModuleAdmin:DestroySyncRefnums.vi</p>
 <p><a class="reference internal" href="_images/image3.png"><img alt="image2" src="_images/image3.png" style="width: 4.01389in; height: 1.42030in;" /></a></p>
-<ol class="arabic simple">
-<li>Module Top Level: Main.vi</li>
-</ol>
+</div>
+<div class="section" id="module-top-level-main-vi">
+<h2>Module Top Level: Main.vi<a class="headerlink" href="#module-top-level-main-vi" title="Permalink to this headline">¶</a></h2>
 <p>The Main.vi is the top level of the pluggable module. The path to
 Main.vi is used by a framework which launches clones of the module to
 load and run the module clone. Main.vi is organized as a queued message
@@ -113,9 +113,9 @@ handler loop (the producer) and the bottom loop is the queued message
 handler (the consumer).</p>
 <p><a class="reference internal" href="_images/image4.png"><img alt="image3" src="_images/image4.png" style="width: 6.50000in; height: 2.78264in;" /></a></p>
 <p>Figure : Top Level: Main.vi</p>
-<ol class="arabic simple">
-<li>Start-up and initialization</li>
-</ol>
+</div>
+<div class="section" id="start-up-and-initialization">
+<h2>Start-up and initialization<a class="headerlink" href="#start-up-and-initialization" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference internal" href="_images/image5.png"><img alt="image4" src="_images/image5.png" style="width: 2.99249in; height: 3.86111in;" /></a></p>
 <p>Figure : Module start up</p>
 <p>The launching application passes in a new ModuleAdmin reference and the
@@ -140,10 +140,11 @@ synchronizes with the launching application using the
 ModuleAdmin:WaitOnModuleSync and WaitOnEventSync methods. Finally the
 module broadcasts a status message indicating to all applications
 registered to receive broadcasts that it has initialized.</p>
-<ol class="arabic simple">
-<li>Requests</li>
-<li>Handling Requests</li>
-</ol>
+</div>
+<div class="section" id="requests">
+<h2>Requests<a class="headerlink" href="#requests" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="handling-requests">
+<h3>Handling Requests<a class="headerlink" href="#handling-requests" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="_images/image7.png"><img alt="image6" src="_images/image7.png" style="width: 4.79108in; height: 3.47917in;" /></a></p>
 <p>Figure : Responding to the ShowPanel Request</p>
 <p>Requests are user events generated by a framework or application and
@@ -160,9 +161,9 @@ the varient data is cast to a boolean value. Each command state should
 know what datatype to expect so, for those commands with data, the first
 thing that normally happens is the data variant is cast into the
 appropriate datatype.</p>
-<ol class="arabic simple">
-<li>Creating New Request Types</li>
-</ol>
+</div>
+<div class="section" id="creating-new-request-types">
+<h3>Creating New Request Types<a class="headerlink" href="#creating-new-request-types" title="Permalink to this headline">¶</a></h3>
 <p>To create a new request type, begin by editing the clRequestEvents.ctl
 typedef:</p>
 <table border="1" class="docutils">
@@ -236,18 +237,18 @@ triggers an event, the active module number is placed into the
 ShowPanelRequest ModuleID input and the new value of the toggle is
 placed into the data input. the request event is generated and the
 pluggable module responds by showing or hiding its frontpanel.</p>
-<ol class="arabic simple">
-<li>Broadcasts</li>
-</ol>
+</div>
+</div>
+<div class="section" id="broadcasts">
+<h2>Broadcasts<a class="headerlink" href="#broadcasts" title="Permalink to this headline">¶</a></h2>
 <p>Similar to Requests, Broadcasts are user events. Broadcasts are
 generated inside the pluggable module and may be received by the
 framework or any application that registers to receive them. Multiple
 applications can receive the broadcasts at the same time. When a
 broadcast is generated, the broadcast data is placed into a separate
 queue for each application that is registered to receive the broadcast.</p>
-<ol class="arabic simple">
-<li>Creating new broadcast types</li>
-</ol>
+<div class="section" id="creating-new-broadcast-types">
+<h3>Creating new broadcast types<a class="headerlink" href="#creating-new-broadcast-types" title="Permalink to this headline">¶</a></h3>
 <p>To create a new broadcast type, begin by editing the
 clBroadcastEvents.ctl typedef:</p>
 <table border="1" class="docutils">
@@ -291,9 +292,10 @@ response to a request. An example of the PathToPlugin broadcast in
 response to a PathToIni request is shown below:</p>
 <p><a class="reference internal" href="_images/image19.png"><img alt="image18" src="_images/image19.png" style="width: 4.56250in; height: 3.30148in;" /></a></p>
 <p>Figure : Example of a broadcast in response to a request.</p>
-<ol class="arabic simple">
-<li>Plugin Classes</li>
-</ol>
+</div>
+</div>
+<div class="section" id="plugin-classes">
+<h2>Plugin Classes<a class="headerlink" href="#plugin-classes" title="Permalink to this headline">¶</a></h2>
 <p>Plugins are abstracted classes that do the core work of any module.
 Abstracted means that plugins can be created to perform similar
 operations for which an application programming interface (API) has been
@@ -328,9 +330,9 @@ path to the .ini file is available to the framework or any
 application via a module request/broadcast.</li>
 <li>Any plugin method overrides created by the plugin designer.</li>
 </ul>
-<ol class="arabic simple">
-<li>Plugin Methods</li>
-</ol>
+</div>
+<div class="section" id="plugin-methods">
+<h2>Plugin Methods<a class="headerlink" href="#plugin-methods" title="Permalink to this headline">¶</a></h2>
 <p>The work of the plugin is done by plugin methods. You will create a set
 of plugin methods in the base class that throw an error because base
 class plugins methods should always be overridden by child class
@@ -355,9 +357,9 @@ data types.</p>
 </table>
 <p>Figure : Sample “PluginOutput” variant datatype added to BasePlugin
 properties</p>
-<ol class="arabic simple">
-<li>Creating an new base plugin method</li>
-</ol>
+</div>
+<div class="section" id="creating-an-new-base-plugin-method">
+<h2>Creating an new base plugin method<a class="headerlink" href="#creating-an-new-base-plugin-method" title="Permalink to this headline">¶</a></h2>
 <p>Most plugin methods will be “must override” methods in the Base Plugin.
 The entire collection of base plugin methods can be considered as the
 “API of the plugin. New plugins will override these methods to provide
@@ -460,8 +462,23 @@ indicator will show the string that came from the Sample Plugin method.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Introduction</a><ul>
-<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#">Pluggable Module Reference</a><ul>
+<li><a class="reference internal" href="#quick-start-using-testcloneapi">Quick Start using TestCloneAPI</a></li>
+<li><a class="reference internal" href="#launching-a-module-clone">Launching a Module Clone</a></li>
+<li><a class="reference internal" href="#module-top-level-main-vi">Module Top Level: Main.vi</a></li>
+<li><a class="reference internal" href="#start-up-and-initialization">Start-up and initialization</a></li>
+<li><a class="reference internal" href="#requests">Requests</a><ul>
+<li><a class="reference internal" href="#handling-requests">Handling Requests</a></li>
+<li><a class="reference internal" href="#creating-new-request-types">Creating New Request Types</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#broadcasts">Broadcasts</a><ul>
+<li><a class="reference internal" href="#creating-new-broadcast-types">Creating new broadcast types</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#plugin-classes">Plugin Classes</a></li>
+<li><a class="reference internal" href="#plugin-methods">Plugin Methods</a></li>
+<li><a class="reference internal" href="#creating-an-new-base-plugin-method">Creating an new base plugin method</a></li>
 </ul>
 </li>
 </ul>

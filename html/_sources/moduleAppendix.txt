@@ -1,6 +1,6 @@
-﻿############
-Introduction
-############
+﻿##########################
+Pluggable Module Reference
+##########################
 
 A pluggable module is a stand-alone module that can be launched by a
 framework or other application then runs independent of the launching
@@ -19,8 +19,8 @@ module can perform many different types of operations. Plug-ins can be
 changed on-the-fly during runtime without needing to stop and restart
 the module clone.
 
-Quick Start
-===========
+Quick Start using TestCloneAPI
+==============================
 
 To get a quick overview of how pluggable modules work, use the
 TestCloneAPI.vi application:
@@ -48,7 +48,8 @@ plugin’s .ini file is sent to one or all clones. When multiple clones
 are launched, the “Select Module to send request listbox will allow
 requests to be sent to one or all modules.
 
-1. Launching a Module Clone
+Launching a Module Clone
+========================
 
 A framework application launches a clone of a module by passing a
 reference to the module Main.vi to the StartClone.vi which launches the
@@ -62,7 +63,8 @@ be destroyed by ModuleAdmin:DestroySyncRefnums.vi
 
 |image2|
 
-1. Module Top Level: Main.vi
+Module Top Level: Main.vi
+=========================
 
 The Main.vi is the top level of the pluggable module. The path to
 Main.vi is used by a framework which launches clones of the module to
@@ -79,7 +81,8 @@ handler (the consumer).
 
 Figure : Top Level: Main.vi
 
-1. Start-up and initialization
+Start-up and initialization
+===========================
 
 |image4|
 
@@ -111,9 +114,11 @@ ModuleAdmin:WaitOnModuleSync and WaitOnEventSync methods. Finally the
 module broadcasts a status message indicating to all applications
 registered to receive broadcasts that it has initialized.
 
-1. Requests
+Requests
+========
 
-2. Handling Requests
+Handling Requests
++++++++++++++++++
 
 |image6|
 
@@ -135,7 +140,8 @@ know what datatype to expect so, for those commands with data, the first
 thing that normally happens is the data variant is cast into the
 appropriate datatype.
 
-1. Creating New Request Types
+Creating New Request Types
+++++++++++++++++++++++++++
 
 To create a new request type, begin by editing the clRequestEvents.ctl
 typedef:
@@ -213,7 +219,8 @@ ShowPanelRequest ModuleID input and the new value of the toggle is
 placed into the data input. the request event is generated and the
 pluggable module responds by showing or hiding its frontpanel.
 
-1. Broadcasts
+Broadcasts
+==========
 
 Similar to Requests, Broadcasts are user events. Broadcasts are
 generated inside the pluggable module and may be received by the
@@ -222,7 +229,8 @@ applications can receive the broadcasts at the same time. When a
 broadcast is generated, the broadcast data is placed into a separate
 queue for each application that is registered to receive the broadcast.
 
-1. Creating new broadcast types
+Creating new broadcast types
+++++++++++++++++++++++++++++
 
 To create a new broadcast type, begin by editing the
 clBroadcastEvents.ctl typedef:
@@ -262,7 +270,8 @@ response to a PathToIni request is shown below:
 
 Figure : Example of a broadcast in response to a request.
 
-1. Plugin Classes
+Plugin Classes
+==============
 
 Plugins are abstracted classes that do the core work of any module.
 Abstracted means that plugins can be created to perform similar
@@ -303,7 +312,8 @@ A new plugin consists of:
 
 -  Any plugin method overrides created by the plugin designer.
 
-1. Plugin Methods
+Plugin Methods
+==============
 
 The work of the plugin is done by plugin methods. You will create a set
 of plugin methods in the base class that throw an error because base
@@ -324,7 +334,8 @@ data types.
 Figure : Sample “PluginOutput” variant datatype added to BasePlugin
 properties
 
-1. Creating an new base plugin method
+Creating an new base plugin method
+===================================
 
 Most plugin methods will be “must override” methods in the Base Plugin.
 The entire collection of base plugin methods can be considered as the
