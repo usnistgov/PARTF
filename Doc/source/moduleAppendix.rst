@@ -1,4 +1,6 @@
-1. Introduction
+﻿############
+Introduction
+############
 
 A pluggable module is a stand-alone module that can be launched by a
 framework or other application then runs independent of the launching
@@ -17,7 +19,8 @@ module can perform many different types of operations. Plug-ins can be
 changed on-the-fly during runtime without needing to stop and restart
 the module clone.
 
-1. Quick Start
+Quick Start
+===========
 
 To get a quick overview of how pluggable modules work, use the
 TestCloneAPI.vi application:
