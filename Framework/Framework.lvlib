@@ -38,6 +38,7 @@
 		<Item Name="UpdateFrontPanel.vi" Type="VI" URL="../FrontPanel/UpdateFrontPanel.vi"/>
 		<Item Name="UpdateParamsHeaders.vi" Type="VI" URL="../FrontPanel/UpdateParamsHeaders.vi"/>
 		<Item Name="dlgSelectVisApps.vi" Type="VI" URL="../FrontPanel/dlgSelectVisApps.vi"/>
+		<Item Name="InsertBusNumber.vi" Type="VI" URL="../FrontPanel/InsertBusNumber.vi"/>
 	</Item>
 	<Item Name="Init" Type="Folder">
 		<Item Name="TypeDefs" Type="Folder">
