@@ -87,6 +87,10 @@ class Lta():
             self.s.settimeout(1)            
             packet.SendPacket(self.s,xml)
             self.s.settimeout(UsrTimeout)           
+            CommsData = packet.ReceivePacket(self.s)
+            CommsData = Lta_Parse(CommsData)
+            CommsData = Lta_Parse(CommsData['CommsData']['XMLData'])
+            return CommsData
         except (IOError, Exception) as e:
             raise e
     
