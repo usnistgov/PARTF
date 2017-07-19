@@ -30,7 +30,8 @@ Contents:
    buses
    framework
    busclass
-   moduleRef	
+   moduleRef
+   testAutomation	
    python
 
 .. toctree::
