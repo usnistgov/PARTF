@@ -1,0 +1,6 @@
+/*.aliases
+/*.lvlps
+*.pyc
+doctrees
+/Doc/build/html
+/Doc/build
