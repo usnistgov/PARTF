@@ -63,7 +63,7 @@ Pi = Pi*pi/180;
 
 aux_phasor=(p_power-1i*q_power)./(sqrt(3)*Av*exp(1i*Pi*(1+Noise(1)*randn(length(time),1)).*time'));
 current=(abs(aux_phasor)+Noise(1)*randn(length(time),1))...
-    .*exp(1i*(Pi+Noise(1)*randn(length(time),1)).*time');
+    .*exp(1i*(Pi.*time'+Noise(1)*randn(length(time),1)));
 voltage=(Av+Noise(1)*randn(length(time),1))...
     .*exp(-1i*(angle(aux_phasor)+Noise(1)*randn(length(time),1)));
 

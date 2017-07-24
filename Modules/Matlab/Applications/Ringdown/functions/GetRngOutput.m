@@ -1,5 +1,5 @@
 function [data_values, data_len, dft, amp, damp, freq, phase, damp_ratio,...
-    prony_estimate, final_time, wrnerr]=GetRngOutput(data_in,xcon,wcon)
+    prony_estimate, comp_time, wrnerr]=GetRngOutput(data_in,xcon,wcon)
 
 tic
 time= data_in(:,1);
@@ -32,6 +32,6 @@ prony_estimate=prony_reconstruction(amp,phase, freq, damp,dft, nnfit);
 prony_estimate=[prony_estimate(1)*ones(begin_ind-1,1) ; prony_estimate].';
 data_values=data_values.';
 
-final_time=toc;
+comp_time=toc;
 
 end

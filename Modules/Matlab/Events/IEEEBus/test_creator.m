@@ -4,12 +4,12 @@ clc;  clear;  close all
 
 %% User input variables:
 % APP
-num_pmu=18;
-IEEE_bus_selection=6;
-NoiseVariance=1e-10;
+num_pmu=14;
+IEEE_bus_selection=3;
+NoiseVariance=1e-3;
 % Event
 Start_Time='0';
-End_Time='5';
+End_Time='4';
 bPosSeq='FALSE';
 Nominal_Frequency='60';
 if(strcmp(Nominal_Frequency,'60'))

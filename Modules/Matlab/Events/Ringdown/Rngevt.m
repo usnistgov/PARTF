@@ -1,3 +1,14 @@
+% Inputs:
+% T0:           Initial time (offset)
+% F0:           Nominal frequency
+% time:         Array of times from the Start Time until the End Time with
+%               regular intervals defined by 			the reporting rate.  
+% signalparams:	Matrix of doubles containing the Event Parameters 
+%               specified in the front panel.
+% bPosSeq:      Boolean control which determines if the function adds 
+%               the positive sequence to the output data.
+
+
 function [timestamp,synx,freq,ROCOF] = Rngevt( ...
     T0, ...
     F0, ...
@@ -59,7 +70,7 @@ Pi = Pi*pi/180;
 %The voltage amplitude is constant and the current phase is a linear function
 aux_phasor=(p_power-1i*q_power)./(sqrt(3)*Av*exp(1i*Pi*time'));
 current=(abs(aux_phasor)+Noise(1)*randn(length(time),1))...
-    .*exp(1i*(Pi+Noise(1)*randn(length(time),1)).*time');
+    .*exp(1i*(Pi.*time'+Noise(1)*randn(length(time),1)));
 voltage=(Av+Noise(1)*randn(length(time),1))...
     .*exp(-1i*(angle(aux_phasor)+Noise(1)*randn(length(time),1)));     
 synx=[voltage voltage*exp(-2*pi/3*1i) voltage*exp(2*pi/3*1i) current current*exp(-2*pi/3*1i) current*exp(2*pi/3*1i)];
