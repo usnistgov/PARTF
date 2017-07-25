@@ -1,11 +1,11 @@
 %function s_simuToFile (filename,time,freq,rocof,bus_v,ilf,ilt,PMULocations,line)
 %% Create CSV file
-
-app='ModelValidation';
+app_sel=1;
+app={'LSE' 'ModelValidation'}; app=app{1};
 
 nbus=sum(bus_v(:,1)~=0);
-NoiseVariance=1e-12;
-PMULocations=[1];
+NoiseVariance=1e-8;
+PMULocations=[2 9 13];  PMULocations=sort(PMULocations);
 num_pmu=length(PMULocations);
 setPosSeq=0;
 csv_path=['CSV files\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
@@ -14,9 +14,9 @@ csv_path=['CSV files\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus
 time=t;
 bus_vol = (abs(bus_v)+sqrt(NoiseVariance)*randn(size(bus_v))).*...
     exp(1i*(angle(bus_v)+sqrt(NoiseVariance)*randn(size(bus_v))));
-freq=diff(angle(bus_vol(PMULocations,:)),1,2)+ str2double(basdat{2});
+freq=diff(angle(bus_v(PMULocations,:)),1,2)/(t(2)-t(1))/(2*pi)+ str2double(basdat{2});
 freq=[freq freq(:,end)];
-rocof=diff(freq,1,2);
+rocof=diff(freq,1,2)/(t(2)-t(1));
 rocof=[rocof rocof(:,end)];
 
 fid=fopen(csv_path, 'wt');
@@ -169,7 +169,7 @@ switch(app)
         for i=1:num_pmu
             fprintf(fid,['<U32>\\0D\\0A<Name>Numeric</Name>\\0D\\0A<Val>' num2str(PMULocations(i)) '</Val>\\0D\\0A</U32>\\0D\\0A']);
         end
-    fprintf(fid,'</Array>\\0D\\0A<I32>\\0D\\0A<Name>Vindex</Name>\\0D\\0A<Val>0</Val>\\0D\\0A</I32>\\0D\\0A<I32>\\0D\\0A<Name>Iindex</Name>\\0D\\0A<Val>3</Val>\\0D\\0A</I32>\\0D\\0A<String>\\0D\\0A<Name>DynamicRef</Name>\\0D\\0A<Val>..\\Events\\EventPlugins\\Mathscript\\CSVPlugin\\%s</Val>\\0D\\0A</String>\\0D\\0A</Cluster>\\0D\\0A"',reference_path);
+    fprintf(fid,'</Array>\\0D\\0A<I32>\\0D\\0A<Name>Vindex</Name>\\0D\\0A<Val>0</Val>\\0D\\0A</I32>\\0D\\0A<I32>\\0D\\0A<Name>Iindex</Name>\\0D\\0A<Val>3</Val>\\0D\\0A</I32>\\0D\\0A<String>\\0D\\0A<Name>DynamicRef</Name>\\0D\\0A<Val>Modules\\Matlab\\Events\\CSVPlugin\\%s</Val>\\0D\\0A</String>\\0D\\0A</Cluster>\\0D\\0A"',reference_path);
     fprintf(fid,'\n\n');
     case 'ModelValidation'
         fprintf(fid,'[AppData]\n');

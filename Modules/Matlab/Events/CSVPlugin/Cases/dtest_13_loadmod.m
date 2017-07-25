@@ -253,7 +253,7 @@ sw_con = [...
 0.20 0    0    0    0    0    1/60; %clear remote end
 %0.50 0    0    0    0    0    0.01; % increase time step 
 %1.0  0    0    0    0    0    0.01; % increase time step
-5.0  0    0    0    0    0    0]; % end simulation
+10.0  0    0    0    0    0    0]; % end simulation
 %fpos=60;
 %ibus_con = [0 1 1 1];% sets generators 2, 3 and 4 to be infinite buses 
 %                       behind source impedance in small signal stability model

@@ -4,13 +4,14 @@
 clc; 
 clear
 close all
+num_pmu= 1;
 
 % User input variables:
-num_pmu= 1;
 IEEE_bus_selection=1;
+NoiseVariance=1e-8;
 
 all_IEEE_cases={'case5' 'case9' 'case14' 'case30' 'case39' 'case57' 'case118' 'case145' 'case300'};
-nbus = [5 9 14 30 39 57 118 145];  % IEEE-5, IEEE-9, IEEE-14, IEEE-30, IEEE-57..
+nbus = [5 9 14 30 39 57 118];  % IEEE-5, IEEE-9, IEEE-14, IEEE-30, IEEE-57..
 
 nbus = nbus(IEEE_bus_selection);
 IEEE_case=all_IEEE_cases{IEEE_bus_selection};
@@ -100,74 +101,22 @@ for i=1:num_pmu
    end
 end
 
-%% Create INI file
-% File creation;
-
-% fid = fopen( 'IEEEBusSystem.ini', 'wt' );
-% fprintf(fid,'[Path to Class]IEEEBusSystemPlugin\\IEEEBusSystemEventPlugin.lvclass"\n');
-% fprintf(fid,'Path = "..\\..\\EventPlugins\\IEEEBusSystemEvtPlugin\\IEEEBusSystemEvtPlugin.lvclass"\n\n');
-% 
-% fprintf(fid,'[EvtType]\n');
-% fprintf(fid,'EvtType = "IEEEBusSystem"\n\n');
-% 
-% fprintf(fid,'[MultiBus]\n');
-% fprintf(fid,'MultiBus=%d\n\n',num_pmu);
-% 
-% fprintf(fid,'[InitParams]\n');
-% fprintf(fid,'RowHdrs.<size(s)> = "%d"\n',3*num_pmu);
-% for i=0:num_pmu-1
-%     fprintf(fid,'RowHdrs %d = "Mag"\n',3*i);
-%     fprintf(fid,'RowHdrs %d = "Ang"\n',3*i+1);
-%     fprintf(fid,'RowHdrs %d = "Std Noise"\n',3*i+2);
-% end
-% fprintf(fid,'ColHdrs.<size(s)> = "%d"\n',column_num);
-% fprintf(fid,'ColHdrs 0 = "IEEE node"\n');
-% fprintf(fid,'ColHdrs 1 = "V Bus"\n');
-% for i=1:max(current_concections(bus_obs))
-%     fprintf(fid,'ColHdrs %d = "I%d"\n',i+1,i);
-% end
-% fprintf(fid,'DefaultParams.<size(s)> = "%d %d"\n',3*num_pmu,column_num);
-% 
-% l=0;
-% for i=0:num_pmu-1
-%     fprintf(fid,'DefaultParams %d = "%d"\n',l,list_buses(i+1)); l=l+1;
-%     fprintf(fid,'DefaultParams %d = "%.16f"\n',l,V_Mag(list_buses(i+1))); l=l+1;
-%     for j=1:column_num-2
-%         fprintf(fid,'DefaultParams %d = "%.16f"\n',l,mag_current_matrix(i+1,j));
-%         l=l+1;
-%     end
-%     fprintf(fid,'DefaultParams %d = "%d"\n',l,list_buses(i+1)); l=l+1;
-%     fprintf(fid,'DefaultParams %d = "%.16f"\n',l,180/pi*V_Ang(list_buses(i+1))); l=l+1;
-%     for j=1:column_num-2
-%         fprintf(fid,'DefaultParams %d = "%.16f"\n',l,ang_current_matrix(i+1,j));
-%         l=l+1;
-%     end
-%     fprintf(fid,'DefaultParams %d = "%d"\n',l,list_buses(i+1)); l=l+1;
-%     for j=1:column_num-1
-%         fprintf(fid,'DefaultParams %d = "%1.0E"\n',l,1e-8);
-%         l=l+1;
-%     end
-% end
-% 
-% fprintf(fid,'\n\n');
-% 
-% fprintf(fid,'[Script]\n');
-% fprintf(fid,'Script.<size(s)> = "2"\n');
-% fprintf(fid,'Script 0 = "GetEvtReports"\n');
-% fprintf(fid,'Script 1 = "GetEvtSignal"\n');
-% fclose(fid);
-
 
 %% Create INI file
 column_num=max(current_concections(bus_obs))+1;
 
 % File creation;
 fid = fopen( '..\..\..\EventPlugins\IEEEBusSystemEvtPlugin\IEEEBusSystem.ini', 'wt' );
+if(fid==-1)
+    usersChosenFolder = uigetdir();
+    file_path=[usersChosenFolder 'IEEEBusSystem.ini'];
+    fid = fopen(file_path, 'wt' );
+end
 fprintf(fid,'[Path to Class]IEEEBusSystemPlugin\\IEEEBusSystemEventPlugin.lvclass"\n');
 fprintf(fid,'Path = "..\\..\\EventPlugins\\IEEEBusSystemEvtPlugin\\IEEEBusSystemEvtPlugin.lvclass"\n\n');
 
-fprintf(fid,'[EvtType]\n');
-fprintf(fid,'EvtType = "IEEEBusSystem"\n\n');
+fprintf(fid,'[Type]\n');
+fprintf(fid,'Type = "IEEEBusSystem"\n\n');
 
 fprintf(fid,'[MultiBus]\n');
 fprintf(fid,'MultiBus=%d\n\n',num_pmu);
@@ -199,7 +148,7 @@ for i=0:num_pmu-1
         l=l+1;
     end
     for j=1:column_num
-        fprintf(fid,'DefaultParams %d = "%1.0E"\n',l,1e-8);
+        fprintf(fid,'DefaultParams %d = "%1.0E"\n',l,sqrt(NoiseVariance));
         l=l+1;
     end
 end
@@ -207,7 +156,6 @@ end
 fprintf(fid,'\n\n');
 
 fprintf(fid,'[Script]\n');
-fprintf(fid,'Script.<size(s)> = "2"\n');
+fprintf(fid,'Script.<size(s)> = "1"\n');
 fprintf(fid,'Script 0 = "GetEvtReports"\n');
-fprintf(fid,'Script 1 = "GetEvtSignal"\n');
 fclose(fid);

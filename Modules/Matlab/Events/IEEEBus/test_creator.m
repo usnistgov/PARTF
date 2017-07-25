@@ -3,13 +3,14 @@
 clc;  clear;  close all
 
 %% User input variables:
-% APP
-num_pmu=14;
-IEEE_bus_selection=3;
-NoiseVariance=1e-3;
+% APP                            
+user_pmu_list=[2 6 7 9];    %The bar or the buses were the PMUs are located.
+num_pmu=length(user_pmu_list);  %Number of PMUs installed in the system
+IEEE_bus_selection=3;       %The IEEE system under test
+NoiseVariance=1e-8;         %The noise variance of the AWNG of the magnitude and phase signals.
 % Event
 Start_Time='0';
-End_Time='4';
+End_Time='5';
 bPosSeq='FALSE';
 Nominal_Frequency='60';
 if(strcmp(Nominal_Frequency,'60'))
@@ -29,9 +30,14 @@ PmuImpairParams='0 0';
 
 all_IEEE_cases={'case5' 'case9' 'case14' 'case30' 'case39' 'case57'};
 nbus = [5 9 14 30 39 57];  % IEEE-5, IEEE-9, IEEE-14, IEEE-30, IEEE-57..
-
 nbus = nbus(IEEE_bus_selection);
 IEEE_case=all_IEEE_cases{IEEE_bus_selection};
+
+if (~isempty(user_pmu_list))
+assert(sum(user_pmu_list>0 & user_pmu_list<nbus+1)==num_pmu,...
+    'The user_pmu_list contains wrong values, please select correct indices for the PMU locations'); 
+end
+
 
 %--------------------------------------------------------------------------
 if(num_pmu>nbus)
@@ -88,7 +94,12 @@ current_concections=sum(Connectivity,2)-1;
 [temp, list_buses]=sort(current_concections,'descend');
 
 % Some values and index for the file
-bus_obs=sort(list_buses(1:num_pmu));
+if(~isempty(user_pmu_list))
+    bus_obs=sort(user_pmu_list);
+else
+    bus_obs=list_buses(1:num_pmu);
+end
+
 fprintf('\n There are PMUs in the following buses:   [');
 for i=1:num_pmu
     fprintf('% d ',bus_obs(i));
@@ -124,7 +135,7 @@ end
 column_num=current_concections(bus_obs)+1;
 
 % File creation;
-file_path=['Z:\My Documents\PARTF\Tests\IEEEBusSystem_' IEEE_case '_' num2str(num_pmu) 'pmus.tst'];
+file_path=['C:' getenv('HOMEPATH') '\Documents\PARTF\Tests\IEEEBusSystem_' IEEE_case '_' num2str(num_pmu) 'pmus.tst'];
 fid = fopen(file_path, 'wt' );
 
 if(fid==-1)
@@ -148,7 +159,7 @@ for j=1:column_num(i)-1
     fprintf(fid,'EvtParams %d = "%.16f"\n',l,ang_current_matrix(i,j)); l=l+1;        
 end
 for j=1:column_num(i)
-    fprintf(fid,'EvtParams %d = "%f"\n',l,NoiseVariance); l=l+1;   
+    fprintf(fid,'EvtParams %d = "%f"\n',l,sqrt(NoiseVariance)); l=l+1;   
 end
 fprintf(fid,['EvtConfig.UTC Time 0 = "\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00"\n',...
 'EvtConfig.Nominal Frequency = "', Nominal_Frequency,'"\n',...
