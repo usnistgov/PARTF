@@ -1,35 +1,33 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>5. First Time setup &mdash; PARTF 0.1 documentation</title>
-    
+    <title>5. First Time setup &#8212; PARTF 0.2 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="6. Buses" href="buses.html" />
     <link rel="prev" title="4. Use case" href="usecase.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -42,7 +40,7 @@
         <li class="right" >
           <a href="usecase.html" title="4. Use case"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -64,7 +62,7 @@
 <p>Download and install <a class="reference external" href="https://github.com/usnistgov/LV_Packages/blob/master/packages/nist_lib_nisterrorlib/nist_lib_nisterrorlib-1.2.0.2.vip">NISTErrorLib</a>.</p>
 <blockquote>
 <div></div></blockquote>
-<p>The NISTErrorLib builds on the native LabVIEW error handler and allows for muttiple errors to be carried in an error array, adds error priority, error severity, logging, ability to cleanly exit the program on Critical and Fatal Errors and a uniform error dialog.  Once the NISTErrorLib package is installed, you can find an example of how to use it in in the ErrorLib pallette: &#8220;Producer Consumer Design Pattern (Events).vi, labeled &#8220;Test Errors&#8221;</p>
+<p>The NISTErrorLib builds on the native LabVIEW error handler and allows for muttiple errors to be carried in an error array, adds error priority, error severity, logging, ability to cleanly exit the program on Critical and Fatal Errors and a uniform error dialog.  Once the NISTErrorLib package is installed, you can find an example of how to use it in in the ErrorLib pallette: “Producer Consumer Design Pattern (Events).vi, labeled “Test Errors”</p>
 </div>
 <div class="section" id="baseclasses-library">
 <h3>5.1.2. BaseClasses Library<a class="headerlink" href="#baseclasses-library" title="Permalink to this headline">¶</a></h3>
@@ -85,7 +83,7 @@
 <p>Download and install <a class="reference external" href="https://github.com/usnistgov/LV_Packages/blob/master/packages/nist_lib_nisterrorlib/nist_lib_nisterrorlib-1.2.0.2.vip">SocketAPI</a>.</p>
 <blockquote>
 <div></div></blockquote>
-<p>The Socket class provides an API and some middleware for  TCP and UDP point to point and multicast communications.  Once installed, useage examples can be found using the labview Example Finder.  Look under the task &#8220;Networking/TCP &amp; UDP&#8221; for the examples beginning with the word &#8220;Socket.&#8221;</p>
+<p>The Socket class provides an API and some middleware for  TCP and UDP point to point and multicast communications.  Once installed, useage examples can be found using the labview Example Finder.  Look under the task “Networking/TCP &amp; UDP” for the examples beginning with the word “Socket.”</p>
 </div>
 <div class="section" id="openg-variant-configuration-file-library">
 <h3>5.1.5. OpenG Variant Configuration File Library<a class="headerlink" href="#openg-variant-configuration-file-library" title="Permalink to this headline">¶</a></h3>
@@ -97,7 +95,7 @@
 </div>
 <div class="section" id="matlab-path">
 <h2>5.2. Matlab Path<a class="headerlink" href="#matlab-path" title="Permalink to this headline">¶</a></h2>
-<p>The PARTF When the PARTF is loaded, a MATLAB command window is opened in the background.  the Matlab icon appears in your taskbar.  The MATLAB command window path must be set up.  The command window does not use the same MATLAB path as the MATLAB IDE so it must be set up from within the command window using the pathtool command.  Select &#8216;&#8217;Add with Subfolders&#8217;&#8217; and browse to &lt;your PARTF Location&gt;\Modules\Matlab and select the folder.  Note that you can use the matlab command &#8216;&#8217;which -all&#8217;&#8217; pathdef to locate the pathdef.m file.  There should only be one pathdef file in the list, usually located at &lt;matlab location&gt;\toolbox\local\pathdef.m</p>
+<p>The PARTF When the PARTF is loaded, a MATLAB command window is opened in the background.  the Matlab icon appears in your taskbar.  The MATLAB command window path must be set up.  The command window does not use the same MATLAB path as the MATLAB IDE so it must be set up from within the command window using the pathtool command.  Select ‘’Add with Subfolders’’ and browse to &lt;your PARTF Location&gt;\Modules\Matlab and select the folder.  Note that you can use the matlab command ‘’which -all’’ pathdef to locate the pathdef.m file.  There should only be one pathdef file in the list, usually located at &lt;matlab location&gt;\toolbox\local\pathdef.m</p>
 </div>
 <div class="section" id="python-path">
 <h2>5.3. Python Path<a class="headerlink" href="#python-path" title="Permalink to this headline">¶</a></h2>
@@ -119,10 +117,10 @@
 Error occurred while executing
 script.  Error messege from
 server: ??? Undefined function
-&#8220;&lt;name&gt;&#8221; ...</td>
+“&lt;name&gt;” …</td>
 <td>The Matlab path is not set correctly.  In the matlab command window,
-type &#8216;&#8217;pathtool&#8217;&#8216;. The search path should include a set of folders
-under ...ModulesMatlab... If it does, then check the path to the
+type ‘’pathtool’‘. The search path should include a set of folders
+under …ModulesMatlab… If it does, then check the path to the
 pathdef.m folder using which -all pathdef, there should be only one
 pathdef.m file listed.</td>
 </tr>
@@ -164,21 +162,18 @@ pathdef.m file listed.</td>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/quickStart.txt"
+      <li><a href="_sources/quickStart.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -197,12 +192,12 @@ pathdef.m file listed.</td>
         <li class="right" >
           <a href="usecase.html" title="4. Use case"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2017, Allen Goldstein.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

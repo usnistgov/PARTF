@@ -1,0 +1,1001 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Appendix A: Ringdown Example Application &#8212; PARTF 0.2 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Appendix B: Pluggable Module Reference" href="moduleAppendix.html" />
+    <link rel="prev" title="10. Test Automation" href="testAutomation.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="moduleAppendix.html" title="Appendix B: Pluggable Module Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="testAutomation.html" title="10. Test Automation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="appendix-a-ringdown-example-application">
+<h1>Appendix A: Ringdown Example Application<a class="headerlink" href="#appendix-a-ringdown-example-application" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>A power system is a massive system that can be perturbed by load
+changes, generator trips, faults or networks changes. Power system
+oscillations are common issues. To mitigate oscillations, oscillations
+should be identified and studied in a timely manner. There are two
+separate approaches to identify power system oscillations. The first
+approach is based on detailed dynamic model of the system such as
+eigenvalue analysis or state space modeling. The second approach is
+based on measurements to identify oscillation modes.</p>
+<p>With phasor measurement unit (PMU) data collected, electromechanical
+oscillation modes can be identified from the synchrophasor measurements.
+Several measurement-based system identification methods have been
+proposed for PMU data-based estimation. In this documentation, we will
+focus on the Prony analysis. It is one of the most common
+measurement-based identification techniques to identify oscillatory
+modes, and was studied and developed by the Pacific Northwest National
+Laboratory (PNNL) for several years <a class="footnote-reference" href="#id9" id="id1">[1]</a>, <a class="footnote-reference" href="#id10" id="id2">[2]</a>. The following application is based
+on the Dynamic System Identification (DSI) toolbox that the PNNL have
+implemented.</p>
+<p><em>Fundamentals of Prony analysis</em></p>
+<p>Consider a Linear-Time Invariant (LTI) system with the initial state of
+<span class="math">\(x(t_{0}) = x_{0}\)</span> at the time <span class="math">\(t_{0}\)</span>, if the input is
+removed from the system, the dynamic system model can be represented as:</p>
+<div class="math">
+\[\dot{x(}t) = A\ x(t)\]</div>
+<div class="math">
+\[y(t) = C\ x(t)\]</div>
+<p>where <span class="math">\(\text{y} \in \mathbb{\text{R}}\)</span> is defined as the
+output of the system, <span class="math">\(\text{x } \in \ \mathbb{R}^{n}\)</span> is the
+state of the system, <span class="math">\(\text{A} \in \ \mathbb{R}^{\text{nxn}}\)</span>
+and <span class="math">\(\text{C} \in \ \mathbb{R}^{1xn}\)</span> are system matrices. The
+order of the system is defined by <em>n</em>. If the <span class="math">\(\lambda_{i}\)</span>,
+<span class="math">\(p_{i}\)</span>, and <span class="math">\(q_{i}\)</span> are the i-th eigenvalues, right
+eigenvectors, and left eigenvectors of <span class="math">\(\text{n x n}\)</span> matrix A,
+respectively, the system can be solved as:</p>
+<div class="math">
+\[x\left( t \right) = \sum_{i = 1}^{n}{\left( {q_{i}}^{\tau}\ x_{0} \right)p_{i}e^{\lambda_{i}t}}\qquad \Rightarrow \qquad y\left( t \right) = \sum_{i = 1}^{n}{\text{C}\left( {q_{i}}^{\tau}\ x_{0} \right)p_{i}e^{\lambda_{i}t}}\]</div>
+<p>Prony analysis directly estimates the parameters for the exponential
+terms of <span class="math">\(y(t)\)</span> by defining a fitting function in a basic form of:</p>
+<div class="math">
+\[\ \hat{y}\left( t \right) = \sum_{i = 1}^{n}{B_{i}\ e^{\sigma_{i}t}}\cos{(2\pi f_{i}t + \varphi_{i})}\]</div>
+<p>In other words, the output of the system is projected onto a signal
+consisting of a set of damped oscillations. The way in which this
+projection is carried out varies depending on the algorithm used. But,
+most of them contemplate accumulating a certain amount of samples and
+generating a linear prediction model, from which the roots of the
+characteristic polynomial of the system can be estimated.</p>
+</div>
+<div class="section" id="example-ringdown-application-analysis">
+<h2>Example ringdown application analysis<a class="headerlink" href="#example-ringdown-application-analysis" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="getting-started">
+<h3>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h3>
+<p>If this is the first use of the PARTF test framework, be sure to follow
+the first time setup instructions in <a class="reference internal" href="quickStart.html#quickstart"><span class="std std-ref">Quick Start</span></a></p>
+<p>Open the PARTF <em>main.vi</em>. Select the Ringdown Event Type and the
+Ringdown from Application indicators in the front panel then press the
+<code class="docutils literal"><span class="pre">Add</span> <span class="pre">Bus</span></code> button. The number of buses is going to change to 1. After that
+you can customize your event as you prefer. Consider the configuration
+of Figure 1. An alternative method to set up the system is to press
+the browse button next to the Test File control and select the
+<em>Test\Ringdown\Ringdown.tst</em> file, then press the <code class="docutils literal"><span class="pre">Open</span></code> button next to
+the <code class="docutils literal"><span class="pre">Test</span> <span class="pre">File</span></code> control.</p>
+<p><a class="reference internal" href="_images/image110.png"><img alt="image0" src="_images/image110.png" style="width: 6.50000in; height: 4.48472in;" /></a></p>
+<p>Figure 1: Front panel of the main.vi with the configuration for a simple
+rigndown test.</p>
+<p>As you can observe from Figure 1 the main framework is configured to
+create a ringdown event with a <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Time</span></code> set to 0 seconds, <code class="docutils literal"><span class="pre">End</span> <span class="pre">Time</span></code> equal to 5 (seconds). The PMU
+<code class="docutils literal"><span class="pre">Reporting</span> <span class="pre">Rate</span></code> is set to 60 frames per second with a <code class="docutils literal"><span class="pre">Nominal</span> <span class="pre">Frequency</span></code>
+of 60 Hz, If a Model PMU is used for the Sensor Impairment, a sampling
+frequency ( <code class="docutils literal"><span class="pre">FSamp</span></code> )equal to 960 Hz is used, if the impairment is not based on a
+model PMU, the sampling frequency is ignored. The event default
+parameters defined in the <em>RingdownEvtPlugin.ini</em> file are used <a class="reference internal" href="#note1" id="id3">[note1]</a>. The
+<code class="docutils literal"><span class="pre">Sensor</span> <span class="pre">Impairment</span> <span class="pre">Type</span></code> is changed to C37.118.1 PMU DSP Model which
+basically is going to simulate the behavior of the M class PMU defined
+by the IEEE 2011 standard. If changes are made to the default
+configuration, the Bus must be updated with the new values: press the
+<code class="docutils literal"><span class="pre">Update</span> <span class="pre">Bus</span></code> button to update the bus. If you desire to save the setup
+to a test file, press the <code class="docutils literal"><span class="pre">Save</span></code> button and select a new test file
+name or overwrite the selected one.</p>
+<p>If a test were to be run now, all the new information would be created,
+but you would not see any results. Results are viewed by using <code class="docutils literal"><span class="pre">Visualization</span></code> applications. One or more visualization
+application can be running at the same time. To view the available
+visualization applications and launch one or more of them, press the
+<code class="docutils literal"><span class="pre">Visualization</span></code> button <a class="reference internal" href="#note2" id="id4">[note2]</a>.</p>
+<p><a class="reference internal" href="_images/image210.png"><img alt="image1" src="_images/image210.png" style="width: 4.07445in; height: 3.55208in;" /></a></p>
+<p>Figure 2: Visualization App selection dialog</p>
+<p>Because the Ringdown application is active, The <em>VisualizeAppRingdown.vi</em>
+should pre-selected. Press <code class="docutils literal"><span class="pre">Run</span> <span class="pre">App</span></code> and. a new VI emerges on the
+screen. Visualization apps allow the user to observe ooperation of the PARTF while tests are running.
+Without a visualization app, the tests run but there is no visual confirmation of the running tests or when they conclude.
+Press <code class="docutils literal"><span class="pre">the</span> <span class="pre">Single</span> <span class="pre">Run</span></code> button in the PARTF frontpanel to run a single test.</p>
+<p><a class="reference internal" href="_images/image3.PNG"><img alt="image2" src="_images/image3.PNG" style="width: 6.39837in; height: 5.18557in;" /></a></p>
+<p>Figure 3: Front panel of the visualize.vi for a typical rigndown event .</p>
+<p>The main features of the event are displayed on the visualization app, as you can
+see in figure 3. The user can observe the difference between the oscillatory
+modes of the input signal and the estimated ones by the Prony method in
+the s-plane <a class="reference internal" href="#note3" id="id5">[note3]</a>. Furthermore, a Prony estimate signal is created form
+the modes and is compared with the input signal. The error signal is
+showing the difference between the two of them.</p>
+</div>
+<div class="section" id="simple-monte-carlo-test-example">
+<h3>Simple Monte Carlo test example<a class="headerlink" href="#simple-monte-carlo-test-example" title="Permalink to this headline">¶</a></h3>
+<p>The idea of this example is to understand how to use a python script to
+perform Monte Carlo testing on an application and how the PMU input
+signals are created. So, with the main program still running, and with
+the configuration set in the example above, press the <code class="docutils literal"><span class="pre">Browse</span></code> button
+in the Monte Carlo Script control choose the
+<em>Scripts\Ringdown\GetRingdownEvtSignal.py</em> script then press the <code class="docutils literal"><span class="pre">Monte</span>
+<span class="pre">Carlo</span></code> button. A windows command dialog will open and run the script
+then close again. If you want the window to remain open after the test
+(for example for debugging a script) then click the <code class="docutils literal"><span class="pre">Leave</span> <span class="pre">Script</span>
+<span class="pre">Window</span> <span class="pre">Open</span> <span class="pre">for</span> <span class="pre">Debugging</span></code> checkbox. Later you can close any of these
+windows left open after the test has run. Also note that closing this
+command window during a test will have the effect of aborting the test.
+An error message will appear in the PARTF application, but you can abort
+the test without needing to close the PARTF framework.</p>
+<p>As a result of running the <em>GetRingdownEvtSignal.py</em> script, a <em>.mat</em> and a
+<em>.pkl</em> files have been created your <em>My Documents\PARTF\Output</em> directory.
+In your <em>My Documents\PARTF\Scripts\Ringdown\</em> directory, you will
+find a <em>PlotRingdownSignals.m</em> file which, when run, will create Figures 4
+through 6</p>
+<p><a class="reference internal" href="_images/image4.PNG"><img alt="image3" src="_images/image4.PNG" style="width: 5.50000in; height: 2.97917in;" /></a></p>
+<p>Figure 4: Matlab plot of the simulated voltage generated by the event.</p>
+<p>If you look into the python code for <em>GetRingdownEvtSignal.py</em>, you can
+figure out that python is asking Labview for the event parameters and
+reports. For each one of the reports the Matlab file extracts the
+voltage, current, frequency and ROCOF and plots it. for details of the ringdown even, see the <a class="reference internal" href="#id6">RngEvt.m</a> description, the assumption that
+the voltage magnitude stays as a constant and that the rate of change of
+the current phase is defined by the Pi event parameter are corroborated.
+More information about PARTF test automation can be found
+<a class="reference internal" href="testAutomation.html#testautomation"><span class="std std-ref">here</span></a>.</p>
+<p><a class="reference internal" href="_images/image5.PNG"><img alt="image4" src="_images/image5.PNG" style="width: 5.33929in; height: 3.01875in;" /></a></p>
+<p>Figure 5: Matlab plot of the simulated current generated by the event.</p>
+<p>Figure 6 shows the frequency and ROCOF signals. As you can
+see it contains different kinds of oscillations coming from the equation
+of the time derivative of the voltage phase.</p>
+<p><a class="reference internal" href="_images/image6.PNG"><img alt="image5" src="_images/image6.PNG" style="width: 5.23958in; height: 2.92375in;" /></a></p>
+<p>Figure 6: Matlab plot of the simulated frequency and ROCOF.</p>
+</div>
+<div class="section" id="creating-a-monte-carlo-analysis">
+<h3>Creating a Monte Carlo analysis<a class="headerlink" href="#creating-a-monte-carlo-analysis" title="Permalink to this headline">¶</a></h3>
+<p>Go back to the main.vi and set the <code class="docutils literal"><span class="pre">End</span> <span class="pre">Time</span></code> equal to 10. After doing
+that you should remember that the <code class="docutils literal"><span class="pre">Update</span> <span class="pre">Bus</span></code> button needs to be
+pressed. Then, choose the <em>RingdownMonteCarlo.py</em> script to start running a
+sequence of events, where the only aleatory variable is the signal noise
+(note that the last row of the <code class="docutils literal"><span class="pre">Event</span> <span class="pre">Parameters</span></code> has standard
+deviation of noise for the M1 frequency component equal to 10e-6). At
+line 12 of this script the user can select the total number of events or
+iterations to be performed. After the last iteration is concluded, and
+if you leave the script window open, you should see the total time that
+this kind of analysis requires.</p>
+<p><a class="reference internal" href="_images/image7.PNG"><img alt="image6" src="_images/image7.PNG" style="width: 5.60651in; height: 4.12474in;" /></a></p>
+<p>Figure 7: Set of estimated active power signals with its respective
+error.</p>
+<p>The next step is to go to <em>My Documents\PARTF\Scripts\Ringdown</em> again
+and run the <em>PlotRingdownNoiseTest.m</em> file in Matlab. This file is going to perform
+a test to validate the application itself. Two thresholds are defined.
+The first one is defined in the error signal between the active power
+and the estimated one by the Prony method as you can observe from Figure
+7. The error signal cannot exceed a specific value defined by the Matlab
+variable <code class="docutils literal"><span class="pre">error\_thres</span></code>. If it does, that indicates the application is not
+working as expected and we stipulate that it has a failure, as you can
+see in Figure 7.</p>
+<p><a class="reference internal" href="_images/image8.PNG"><img alt="image7" src="_images/image8.PNG" style="width: 4.31111in; height: 1.84375in;" /></a></p>
+<p>The second threshold takes place in the s plane. As you can observe from
+Figure 8 the first four modes with the biggest amplitudes are plotted.
+As you can notice the app is not working well, it looks like another
+mode is interfering with the result because there are a lot of points
+concentrated around the point {-2.5,0.3}.</p>
+<p><a class="reference internal" href="_images/image9.PNG"><img alt="image8" src="_images/image9.PNG" style="width: 4.30189in; height: 3.83618in;" /></a></p>
+<p>Figure 9: S plane with the oscillatory modes of the Monte Carlo
+analysis.</p>
+<p>It is important to highlight that these results are different that the
+ones displayed by the Labview visualization tool, because in Figures 6
+and 8 all the modes estimated by the Prony method are being used. In the
+<em>visualizeRingdown.vi</em> only a subgroup of visible modes is used to create the
+Prony estimated signal.</p>
+<p>So, the question here is… how can we make improve the situation? Solution: Go back
+to the PARTF frontpanel and click on <code class="docutils literal"><span class="pre">Configure</span> <span class="pre">Application</span></code> then change the
+<code class="docutils literal"><span class="pre">Linear</span> <span class="pre">Prediction</span> <span class="pre">Algorithm</span></code> from <em>total least squares via SVD</em> to <em>SVD with
+possible rank reduction</em> and repeat the <code class="docutils literal"><span class="pre">Monte</span> <span class="pre">Carlo</span></code> analysis. The Figures
+10 through 12 show the new results. From the last figure, it is more clear that a
+the thresholds in the s plane are ellipses where the radius are defined
+by the Matlab <code class="docutils literal"><span class="pre">freq\_std</span></code> and <code class="docutils literal"><span class="pre">damp\_std</span></code> respectively. Although the
+distribution of the output noise is unknown, the ellipses are considered
+to be a good selection criterion.</p>
+<p><a class="reference internal" href="_images/image10.PNG"><img alt="image9" src="_images/image10.PNG" style="width: 4.28750in; height: 1.66944in;" /></a></p>
+<p>Figure 10: Command Window message, using SVD with possible rank
+reduction.</p>
+<p><a class="reference internal" href="_images/image11.PNG"><img alt="image10" src="_images/image11.PNG" style="width: 5.36980in; height: 3.85825in;" /></a></p>
+<p>Figure 11: Set of estimated active power signals with its respective
+error.</p>
+<p>The user will be able to evaluate different scenarios and corroborate
+that for this application the configuration of the linear predictor
+model is more crucial than the error coming from a PMU that is operating
+under the parameters of quality of the C37.118.1 IEEE standard.</p>
+<p><a class="reference internal" href="_images/image12.PNG"><img alt="image11" src="_images/image12.PNG" style="width: 4.11202in; height: 3.62159in;" /></a></p>
+<p>Figure 12: S plane with the oscillatory modes of the Monte Carlo
+analysis.</p>
+</div>
+</div>
+<div class="section" id="summary-of-labview-vis">
+<h2>Summary of Labview Vis<a class="headerlink" href="#summary-of-labview-vis" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="eventplugins-lvlib-ringdownevtplugin-lvclass">
+<h3>EventPlugins.lvlib: RingdownEvtPlugin.lvclass<a class="headerlink" href="#eventplugins-lvlib-ringdownevtplugin-lvclass" title="Permalink to this headline">¶</a></h3>
+<p>Parent class: EventPluginBaseClass.lvclass</p>
+<p>Overridden Vis: GetEvtReports.vi, GetEvtSignal.vi</p>
+<p>RingdownEvtPlugin.ctl: Empty, the parent class control is used.</p>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image131.png"><img alt="image12" src="_images/image131.png" style="width: 0.44792in; height: 0.44792in;" /></a><strong>*GetEvtReports.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">ClEvtConfig: T0, F0, bPosSeq</p>
+</li>
+<li><p class="first">dblTimeArray</p>
+</li>
+<li><p class="first">dblEvtParams</p>
+</li>
+<li><p class="first">BusNumber</p>
+<p>Outputs: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">Timestamp</p>
+</li>
+<li><p class="first">Synx</p>
+</li>
+<li><p class="first">Freq</p>
+</li>
+<li><p class="first">ROCOF</p>
+<div class="line-block">
+<div class="line">Description: Creates all the synchrophasors included in each one
+of the reports based on the event</div>
+<div class="line">configuration and the event parameters. Contains a Matlab script
+block where Rngevt.m</div>
+<div class="line">is called. See Rngevt.m for more details.</div>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image141.png"><img alt="image13" src="_images/image141.png" style="width: 0.44583in; height: 0.44792in;" /></a><strong>*GetEvtSignal.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">ClEvtConfig: FSamp</p>
+</li>
+<li><p class="first">dblTimeArray</p>
+</li>
+<li><p class="first">dblEvtParams</p>
+<p>Output: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">Signal</p>
+<div class="line-block">
+<div class="line">Description: Creates the voltage and the current waveforms.
+Contains a Matlab script block where</div>
+<div class="line">genRngSignal.m is called See genRngSignal.m for more details.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image151.png"><img alt="image14" src="_images/image151.png" style="width: 0.44583in; height: 0.44375in;" /></a><strong>*RgnEvtParamsErrors.vi*</strong> Icon:</div>
+<div class="line">Empty. Reserved for future use.</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="appplugins-lvlib-ringdownplugin-lvclass">
+<h3>AppPlugins.lvlib: RingdownPlugin.lvclass<a class="headerlink" href="#appplugins-lvlib-ringdownplugin-lvclass" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="_images/image161.png"><img alt="image15" src="_images/image161.png" style="width: 4.80764in; height: 7.54514in;" /></a>Parent class: AppPluginsBase.lvclass</div>
+<div class="line">Overridden Vis: AppConfig.vi, AppCOnfigTypeToXML.vi,
+AppConfigXMLToType.vi, GetAppOutput.vi, WriteEvtCOnfig.vi</div>
+<div class="line">RingdownEvtPlugin.ctl:</div>
+</div>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image171.png"><img alt="image16" src="_images/image171.png" style="width: 0.44583in; height: 0.43889in;" /></a><strong>*AppConfig.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">RingdownConfig: PosSeq</p>
+<p>PronyConfiguration.ctl</p>
+</li>
+<li><p class="first">Lpmcon</p>
+</li>
+<li><p class="first">Lpacon</p>
+</li>
+<li><p class="first">Fbcon</p>
+</li>
+<li><p class="first">LPOrd</p>
+</li>
+<li><p class="first">UTrimFreq</p>
+</li>
+<li><p class="first">ResTrim</p>
+<p>Outputs: RingdownEvtPlugin object</p>
+</li>
+<li><div class="first line-block">
+<div class="line">RingdownConfig: Config.Lpmcon, Config.Lpacon, Config.Fbcon,
+Config.Lpocon,</div>
+<div class="line">Config.Ftrimh, Config.Ftriml, Config.Trimre, Window.StOffset,
+Window.EndOffset, Window.Length, V index, I index</div>
+</div>
+<div class="line-block">
+<div class="line">Description: The Configure Application button of the front panel
+lunches this vi which saves all the</div>
+<div class="line">application configuration that the user can modify. The
+significance of the variables</div>
+<div class="line">involved is described in the prgv2_6.m Matlab function.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image181.png"><img alt="image17" src="_images/image181.png" style="width: 0.43889in; height: 0.44167in;" /></a><strong>*WriteEvtConfig.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">RingdownConfig: V index</p>
+<p>EventConfiguration.ctl</p>
+</li>
+<li><p class="first">PosSeq</p>
+<p>Outputs: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">RingdownConfig: I index</p>
+</li>
+<li><p class="first">RingdownConfig: PosSeq</p>
+<div class="line-block">
+<div class="line">Description: Based on the PosSeq Boolean value, the I index is
+set. This index allows the</div>
+<div class="line">GetAppOutput.vi to know where to look for the current
+synchrophasors values.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image191.png"><img alt="image18" src="_images/image191.png" style="width: 0.44583in; height: 0.44167in;" /></a><strong>*GetAppOutput.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">RingdownConfig</p>
+</li>
+<li><p class="first">clEvtReportArray</p>
+<p>Outputs: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">AppOutputData: ReportingTime, FramesPerSecond, InputSignal,
+DataSiza, PronyEstimate, RingdownParameters: Amplitude, Damping,
+Frequency, Phase.</p>
+<div class="line-block">
+<div class="line">Description: This vi contains a Matlab script block which calls
+the GetRngOutput.m file. Basically, it</div>
+<div class="line">process the event report array generated by the GetEvtReports.vi
+or GetEvtSignal.vi, with the addition of the PMU impairs, in
+order to estimate all the oscillatory modes, using the
+configuration specified with the AppConfig.vi or the default
+values. From the oscillatory modes, a prony estimate signal is
+created also.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image201.png"><img alt="image19" src="_images/image201.png" style="width: 0.44028in; height: 0.44167in;" /></a><strong>*Synx2Power.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">clEvtReportArray</p>
+</li>
+<li><p class="first">RingdownConfig</p>
+<p>Output: Active Power</p>
+<p>Reactive Power</p>
+<div class="line-block">
+<div class="line">Description: From the syncrhopasors reports we select phase A to
+calculate the power flow through</div>
+<div class="line">the branch where the PMU is connected.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image211.png"><img alt="image20" src="_images/image211.png" style="width: 0.44167in; height: 0.44167in;" /></a><strong>*WindowParams.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">clEvtReportArray</p>
+</li>
+<li><p class="first">RingdownConfig</p>
+<p>Output: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">RingdownConfig</p>
+<div class="line-block">
+<div class="line">Description: Using the difference between two consecutive
+timestamps, the window start offset</div>
+<div class="line">index and end index are calculated form the the Window.StOffset
+and</div>
+<div class="line">Window.EndOffset time values.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image221.png"><img alt="image21" src="_images/image221.png" style="width: 0.44375in; height: 0.44167in;" /></a><strong>*ClusterToArray.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">RingdownConfig</p>
+<p>Output: RingdownInput</p>
+<div class="line-block">
+<div class="line">Description: The Matlab script block in the GetAppOutput.vi does
+not support clusters as an input, so</div>
+<div class="line">all the rigndown configuration is converted into an array.</div>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="matlab-function-descriptions">
+<h2>Matlab Function descriptions<a class="headerlink" href="#matlab-function-descriptions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rngevt-m">
+<span id="rngevt"></span><h3>Rngevt.m<a class="headerlink" href="#rngevt-m" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first rubric" id="id6">Rngevt.m</p>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line">Purpose:</div>
+<div class="line">To create the ringdown event reports. Each one of this reports
+contains a set of voltage and current synchrophasors. The time
+between two consecutive reports is defined by the reporting
+rate.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Description/Comments:</div>
+<div class="line">If the signal parameters define a mode above the Nyquist
+frequency, this mode will not keep in mind unless the internal
+variable nyquist_ena is settled to 0.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Inputs:</div>
+<div class="line"><em>T0</em>: Initial time (offset)</div>
+<div class="line"><em>F0</em>: Nominal frequency</div>
+<div class="line"><em>time</em>: Array of times. It starts at the Start Time, and
+finishes at the End Time, with regular</div>
+<div class="line">intervals defined by the reporting rate.</div>
+<div class="line"><em>signalparams</em>: Matrix of doubles containing the Event
+Parameters specified in the front panel. The most</div>
+<div class="line">of them correspond to the prony_reconstruction.m input. The
+last three rows define the</div>
+<div class="line">module voltage value (V), the rate of change of the phase for
+the current phasor (<span class="math">\(\gamma_{i}\)</span>) and</div>
+<div class="line">the AWG noises added in the module and the phase of the voltage
+and current phasors.</div>
+<div class="line"><em>bPosSeq</em>: Boolean control which determines if the function adds
+the positive sequence to the output data.</div>
+</div>
+</li>
+<li><p class="first">Outputs:</p>
+<p><em>timestamp</em>: Idem time but the T0 was included.</p>
+<p><em>synx</em>: Matrix of complex containing the 3-phase voltages, the
+3-phase currents and possibly the positive sequence
+synchrophasors.</p>
+<p><em>freq</em>: Array of doubles including the frequency of the system
+extracted from the voltage phase.</p>
+<p><em>ROCOF</em>: Array of doubles including the rate of change of
+frequency.</p>
+</li>
+<li><div class="first line-block">
+<div class="line">Algorithm</div>
+<div class="line">Based on the values ​​provided by the <em>signalparams</em> input, and
+using the prony_reconstruction.m function, the active power
+signal and the reactive power signal can be calculated as
+follows:</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+<div class="math">
+\[{P\left( t \right) = \sum_{i = 1}^{n}{A_{i}\ e^{\sigma_{\text{pi}}t}}\cos{(2\pi f_{\text{pi}}t + \varphi_{\text{pi}})}\backslash n}\backslash n{Q\left( t \right) = \sum_{i = 1}^{n}{B_{i}\ e^{\sigma_{\text{qi}}t}}\cos{(2\pi f_{\text{qi}}t + \varphi_{\text{qi}})}\backslash n}\backslash n\]</div>
+<div class="math">
+\[S = P + jQ = \sqrt{3}\ \mathbf{V}\ \mathbf{I}^{\mathbf{*}}\]</div>
+<p><strong>*V*</strong> and <strong>*I*</strong> represent the voltage and current phasors
+respectively. Decomposing into module and phase:</p>
+<div class="math">
+\[{S = \sqrt{3}\text{\ V}e^{j\theta_{v}}\text{\ I}e^{- j\theta_{i}}\backslash n}\backslash n\]</div>
+<div class="math">
+\[Ie^{j\theta_{v}} = \frac{Se^{j\theta_{i}}}{\sqrt{3\ }\text{V\ }}\]</div>
+<p>Now the voltage and the current phasors are created with the addition of
+the AWGN stipulated in the <em>signalparmas</em> matrix. At last the frequency
+and ROCOF are calculated as follows:</p>
+<div class="math">
+\[f = f_{0} + \frac{1}{2\pi}\frac{d\theta_{v}}{\text{dt}}\]</div>
+<p>Where,</p>
+<div class="math">
+\[\theta_{v} = arctan\left( \frac{Q}{P} \right) + \theta_{i}\]</div>
+<p>So</p>
+<div class="math">
+\[f = f_{0} + \frac{1}{2\pi}\ \left\lbrack \frac{1}{\left( \frac{Q}{P} \right)^{2} + 1}\left( \frac{\dot{Q}P - Q\dot{P}}{P^{2}} \right) + \gamma_{i} \right\rbrack\backslash n\]</div>
+<p>If the following terms are defined,</p>
+<div class="math">
+\[H_{1} = \frac{1}{\left( \frac{Q}{P} \right)^{2} + 1}\text{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }H_{2} = \left( \frac{\dot{Q}P - Q\dot{P}}{P^{2}} \right)\backslash n\]</div>
+<p>Then,</p>
+<div class="math">
+\[ROCOF = \frac{\text{df}}{\text{dt}} = \frac{1}{2\pi}\left( \dot{H_{1}}H_{2} + H_{1}\dot{H_{2}} \right)\]</div>
+<p>Again, for simplicity reasons the time derivatives of
+<span class="math">\(P\)</span>,<span class="math">\(\text{\ Q}\)</span>, <span class="math">\(H_{1}\)</span> and <span class="math">\(H_{2}\)</span> are not
+displayed.</p>
+<div class="math">
+\[\backslash n\]</div>
+</div>
+<div class="section" id="genrngsignal-m">
+<span id="genrngsignal"></span><h3>genRngSignal.m<a class="headerlink" href="#genrngsignal-m" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first rubric" id="id7">genRngSignal.m</p>
+<ol class="arabic">
+<li><p class="first">Purpose: To create the ringdown event signals. These waveforms
+contain a set of voltage and current values at a rate equal to
+<em>Fsamp</em> (sampling frequency).</p>
+</li>
+<li><p class="first">Description/Comments:</p>
+<p>This function is very similar to the Rngevnt.m with the exception
+that neither the frequency nor the ROCOF and positive sequence are
+calculated. Finally, the output is not a phasor, it is a real
+waveform.</p>
+</li>
+<li><div class="first line-block">
+<div class="line">Inputs</div>
+<div class="line"><em>time</em>: Array of times. It starts at the Start Time less two
+times the filter order, and finishes at the End Time plus two
+times the filter order, with regular intervals defined by the</div>
+<div class="line">sampling frequency.</div>
+<div class="line"><em>FSamp</em>: Sampling frequency</div>
+<div class="line">signalparams: Matrix of doubles containing the Event Parameters
+specified in the front panel.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Outputs</div>
+<div class="line"><em>Signal</em>: Matrix of doubles containing the 3-phase voltages and
+the 3-phase currents signals.</div>
+</div>
+</li>
+</ol>
+</li>
+<li><p class="first rubric" id="prony-reconstruction-m">prony_reconstruction.m</p>
+<ol class="arabic">
+<li><p class="first">Purpose: To create a time variant signal from a Prony
+decomposition.</p>
+</li>
+<li><div class="first line-block">
+<div class="line">Description/Comments:</div>
+<div class="line">It is assumed that the time goes from zero until the time
+defined by the total length of the signal and the time interval
+between samples.</div>
+</div>
+</li>
+<li><p class="first">Inputs</p>
+<div class="line-block">
+<div class="line"><em>amp</em>: Array of doubles with the amplitudes values for each one
+of the modes (<span class="math">\(A_{i}\)</span>).</div>
+<div class="line"><em>phase</em>: Array of doubles with the phases values for each one of
+the modes (<span class="math">\(\varphi_{i}\)</span>).</div>
+</div>
+<div class="line-block">
+<div class="line"><em>freq</em>: Array of doubles with the frequencies values for each
+one of the modes (<span class="math">\(f_{i}\)</span>).</div>
+<div class="line"><em>damp</em>: Array of doubles with the dampings values for each one
+of the modes (<span class="math">\(\sigma_{i}\)</span>).</div>
+<div class="line"><em>delta_t</em>: The interval of time between samples.</div>
+<div class="line"><em>n_leng</em>: Total length of the signal</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Outputs</div>
+<div class="line"><em>prony_estimate</em>: Vector of doubles with the real signal
+created from the coefficients passed as an input (<span class="math">\(y\)</span>).</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+<div class="math">
+\[y\left( t \right) = \sum_{i = 1}^{n}{A_{i}\ e^{\sigma_{i}t}}\cos{(2\pi f_{i}t + \varphi_{i})}\]</div>
+<ol class="arabic">
+<li><p class="first rubric" id="getrngoutput">GetRngOutput</p>
+<ol class="arabic">
+<li><p class="first">Purpose: To set all the variables according to the needs of the
+DSI toolbox and run it.</p>
+</li>
+<li><p class="first">Description/Comments:</p>
+</li>
+<li><p class="first">Inputs</p>
+<div class="line-block">
+<div class="line"><em>data_in</em>: Array of doubles with active power waveform.</div>
+<div class="line"><em>xcon</em>: Array of doubles with the configuration needed for the
+DSI toolbox.</div>
+</div>
+<p><em>wcon</em>: Array of integers with the window configuration.</p>
+</li>
+<li><div class="first line-block">
+<div class="line">Outputs</div>
+<div class="line"><em>data_values</em>: Array of doubles with the real signal created
+from the coefficients passed as an input (<span class="math">\(y\)</span>).</div>
+</div>
+<p><em>data_len</em>: Total length of the data processed</p>
+<p><em>dft</em>: Interval of time between samples</p>
+<p><em>amp</em>: Array of doubles containing the amplitudes of the
+oscillatory modes.</p>
+<p><em>damp</em>: Array of doubles containing the dampings of the
+oscillatory modes.</p>
+<p><em>freq</em>: Array of doubles containing the frequencies of the
+oscillatory modes.</p>
+<p><em>phase</em>: Array of doubles containing the phases of the oscillatory
+modes.</p>
+<p><em>damp_ratio</em>: Array of doubles with the damping ratios of each
+mode. The damping ration is defined as folows:</p>
+</li>
+</ol>
+</li>
+</ol>
+<div class="math">
+\[\eta = \sqrt{{f_{i}}^{2} + {\sigma_{i}}^{2}}\]</div>
+<div class="line-block">
+<div class="line"><em>prony_estimate</em>: Array of doubles with the signal estimated from the
+amp, damp, freq and phase</div>
+<div class="line">variables.</div>
+</div>
+<p><em>comp_time</em>: Computing time</p>
+<p><em>wrnerr</em>: Warning flag. It indicates if the toolbox opted for aborting
+the prony calculation. The user will receive a null output.</p>
+<ol class="arabic">
+<li><p class="first rubric" id="prgv2-6">prgv2_6</p>
+<ol class="arabic">
+<li><p class="first">Purpose: Defines the sequence of events that the toolbox needs to
+run the Prony method.</p>
+</li>
+<li><p class="first">Description/Comments:</p>
+<p>It is a modified version of the original one. Some object-oriented
+variables, which handle error messages were deleted, as well as</p>
+</li>
+<li><p class="first">Inputs</p>
+<div class="line-block">
+<div class="line">sigdat: Vector of doubles with the input signal. The active
+power is selected.</div>
+<div class="line"><em>tstep</em>: The interval of time between the PMU reports.</div>
+</div>
+<div class="line-block">
+<div class="line"><em>shftnnft</em>: A vector with two components. The first one
+containing a shift variable with the number</div>
+<div class="line">of points to skip in each column before performing the Prony
+analysis, and second</div>
+<div class="line">containing the data length.</div>
+</div>
+<p><em>impulses</em>: Input pulse matrix. First column is the delay value
+and the second coulmn has the amplitude value.</p>
+<p><em>known_modes:</em> Known mode matrix. First column is damping
+coefficients and second is mode frequencies (in rad/sec).</p>
+<p><em>xcon:</em> Control vector. This is both an input and an output.</p>
+<div class="line-block">
+<div class="line">Variable: modes, lpocon, pircon, dmodes, lpmcon, lpacon, fbcon,
+ordcon, trimre, ftrimh,</div>
+<div class="line">ftriml</div>
+</div>
+<div class="line-block">
+<div class="line"><em>modes</em>: Number of modes in addition to those entered in knwmod
+to calculate.</div>
+<div class="line">If modes == 0 just calculate residues for knwmod.</div>
+</div>
+<p>If modes &lt; 0 automatically determine number of additional modes to
+calculate.</p>
+<p><em>scalmode</em>: Reserved for future use.</p>
+<p><em>lpocon</em>: Order of linear prediction.</p>
+<p><em>pircon</em>: Rank of pseudo-inverse in linear prediction.</p>
+<p><em>dmodes</em>: Number of modes identified in linear prediction.</p>
+<p><em>lpmcon</em>: Linear prediction method.</p>
+<p><em>lpacon</em>: Linear prediction algorithm.</p>
+<p><em>fbcon</em>: Forward/backward linear prediction.</p>
+<p><em>ordcon</em>: Method for mode ordering.</p>
+<p><em>trimre</em>: Residue trim level.</p>
+<p><em>ftrimh</em>: Upper trim frequency.</p>
+<p><em>ftriml</em>: Lower trim frequency.</p>
+</li>
+<li><div class="first line-block">
+<div class="line">Outputs</div>
+<div class="line"><em>identmodel</em>: Array with identified model parameters. Mode
+number varies along first dimension.</div>
+</div>
+<p>Parameter type varies along second dimension. (dampf, frqrps, amp,
+phase, resr, resi, releng, afpe). Signal number varies along third
+dimension, just in case of multiple inputs.</p>
+<div class="line-block">
+<div class="line">xcon: Same as input but with all the default values set.</div>
+<div class="line"><em>plhs_3</em>: Variable disable. Original used for error message.</div>
+<div class="line"><em>plhs_4</em>: Variable disable. Original used for error message.</div>
+</div>
+</li>
+</ol>
+</li>
+<li><p class="first rubric" id="prspak">prspak</p>
+<ol class="arabic">
+<li><p class="first">Purpose: To estimate all the oscillatory modes of the input signal
+and recreate an estimative signal from these modes.</p>
+</li>
+<li><div class="first line-block">
+<div class="line">Description/Comments:</div>
+<div class="line">This function is the core of the toolbox because inside of this
+routine all the calculations to perform the Prony analysis are
+made. It allows to the user select a different kind of
+algorithms and methods to perform the linear prediction method.</div>
+</div>
+</li>
+<li><p class="first">Inputs</p>
+<p>NNFIT: Number of data points for fitting. Must &gt; 3.</p>
+</li>
+</ol>
+<blockquote>
+<div><p>KNWCON: If = 0, perform full calculation</p>
+</div></blockquote>
+</li>
+</ol>
+<p>If = 1, only calculate residues using the provided modes.</p>
+<blockquote>
+<div>If = 2, calculate additional poles from data and calculate residues
+for both the known poles and the newly identified poles.</div></blockquote>
+<p>LPOCON: Order of linear prediction. If 0, auto-calculated to be
+11*NNFIT/24.</p>
+<p>LPMCON: Linear prediction method. Default is 3.</p>
+<ol class="arabic simple">
+<li>Correlation</li>
+<li>Pre-windowed</li>
+<li>Covariance</li>
+<li>Post-windowed.</li>
+</ol>
+<p>FBCON: Forward/Backward linear prediction. Default is 1.</p>
+<ol class="arabic simple">
+<li>Forward</li>
+<li>Forward-Backward</li>
+<li>Backward.</li>
+</ol>
+<p>LPACON: Linear prediction algorithm. Default is 1.</p>
+<ol class="arabic simple">
+<li>SVD with possible rank reduction</li>
+<li>QR reduction via LAPACK</li>
+<li>Total least squares via SVD</li>
+</ol>
+<p>PIRCON: Rank of pseudo-inverse, must be &lt;= LPOCON. Default is LPOCON.</p>
+<p>QCON: Number of desired modes. Default is DMODES, i.e., the maximum
+number possible.</p>
+<p>In the above input variables, defaults are activated by making the
+variable zero.</p>
+<p>KNWMOD: If KNWCON=1 or KNWCON=2, this is the number of known modes.</p>
+<p>If KNWCON is any other number, this is ignored.</p>
+<p>SIGCON: Number of signals to be analyzed</p>
+<p>XSIG: Data sequence (0…NNFIT-1,1…SIGCON).</p>
+<p>TSTEP: Sample period.</p>
+<div class="line-block">
+<div class="line">TRIMRE: Identified modes with a residue relative magnitude greater
+than TRIMRE are removed</div>
+<div class="line">from the model.</div>
+</div>
+<div class="line-block">
+<div class="line">FTRIMH: Identified modes with an imaginary part greater than FTRIMH
+are removed after</div>
+<div class="line">identifying residues.</div>
+</div>
+<p>FTRIML: Identified modes with an imaginary part less than FTRIML are
+removed after identifying</p>
+<p>residues.</p>
+<p>DAMP: Provided only if KNWCON&lt;&gt;0. Vector of the real part of
+continuous-time poles.</p>
+<p>FRQRPS: Provided only if KNWCON&lt;&gt;0. Vector of the imaginary part of
+continuous-time poles.</p>
+<div class="line-block">
+<div class="line">Outputs</div>
+<div class="line">DAMP: Vector of Identified real part of continueous-time poles.
+(1…QCON) terms, QCON may be</div>
+<div class="line">different from that in calling due to auto calculations.</div>
+</div>
+<p>FRQRPS: Identified imaginary part of continueous-time poles.</p>
+<p>AMPOPT: Matrix of residue amplitudes. (1…QCON) by (1…SIGCON).</p>
+<p>PHIOPT: Matrix of residue angles in radians. (1…QCON) by (1…SIGCON).</p>
+<p>DMODES: Total number of modes identified in the Linear Prediction.</p>
+<p>This is also the order of the Vandermonde solution and is usually around
+LPOCON/2.</p>
+<p>WRNFLG: Vector (1…NFLG) of return warning flags.</p>
+<p>Currently, NFLG=6. If WRNFLG(I)=1, then the warning is activated.</p>
+<p>Element 1: Numerical solution on the linear prediction SVD may be in
+error.</p>
+<p>Element 2: Numerical solution on the linear prediction QR may be in
+error.</p>
+<div class="line-block">
+<div class="line">Element 3: Numerical solution on the linear prediction Total Least
+Squares SVD</div>
+<div class="line">may be in error.</div>
+</div>
+<p>Element 4: Numerical solution on the root finder may be in error.</p>
+<div class="line-block">
+<div class="line">Element 5: Errors in the residue solution due to large elements in the</div>
+<div class="line">Vandermonde matrix.</div>
+</div>
+<p>Element 6: Numerical solution on the Vandermonde problem may be in
+error.</p>
+<p>MRETR: Integer flag for fatal solution. If not equal to zero, no
+solution is calculated.</p>
+<ul class="simple">
+<li>no flags. Solution calculated.</li>
+<li>100 NNFIT &lt; 3, i.e., too small.</li>
+<li>110 XSIG is a null signal.</li>
+<li>102 QCON &lt; 1, i.e., too small.</li>
+<li>103 LPOCON &lt; 1, i.e., too small.</li>
+<li>104 TSTEP too small.</li>
+<li>105 QCON too small. Try increasing QCON or set QCON &lt; KNWMOD</li>
+</ul>
+</div>
+</div>
+<div class="section" id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="note1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[note1]</a></td><td>This values corresponds to the first ten estimated modes of real
+measurements contributed by the Bonneville&nbsp;Power&nbsp;Administration after
+a transmission line was switched in and out.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="note2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[note2]</a></td><td>Visualization apps should be started after at least one bus was created.
+Otherwise press the app’s <code class="docutils literal"><span class="pre">restart</span></code> or <code class="docutils literal"><span class="pre">clear</span></code> button.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="note3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[note3]</a></td><td>All these plots are conditioned by the number of visibles modes set
+before the single run is computed.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="citations">
+<span id="id8"></span><h2>Citations<a class="headerlink" href="#citations" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Pacific Northwest National Laboratory. (2017, 07). Dynamic System Identification Toolbox. [Online].  Available: <a class="reference external" href="https://github.com/ftuffner/DSIToolbox">DSIToolbox</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><ol class="first last upperalpha simple" start="10">
+<li>Hauer, D. Trudnowski, G. Rogers, B. Mittelstadt, W. Litzenberger, and J. Johnson, “Keeping an Eye on Power System Dynamics,” in IEEE Computer Applications in Power, vol. 10, no. 4, pp. 50-54, Oct. 1997.</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Appendix A: Ringdown Example Application</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#example-ringdown-application-analysis">Example ringdown application analysis</a><ul>
+<li><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li><a class="reference internal" href="#simple-monte-carlo-test-example">Simple Monte Carlo test example</a></li>
+<li><a class="reference internal" href="#creating-a-monte-carlo-analysis">Creating a Monte Carlo analysis</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#summary-of-labview-vis">Summary of Labview Vis</a><ul>
+<li><a class="reference internal" href="#eventplugins-lvlib-ringdownevtplugin-lvclass">EventPlugins.lvlib: RingdownEvtPlugin.lvclass</a></li>
+<li><a class="reference internal" href="#appplugins-lvlib-ringdownplugin-lvclass">AppPlugins.lvlib: RingdownPlugin.lvclass</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#matlab-function-descriptions">Matlab Function descriptions</a><ul>
+<li><a class="reference internal" href="#rngevt-m">Rngevt.m</a></li>
+<li><a class="reference internal" href="#genrngsignal-m">genRngSignal.m</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+<li><a class="reference internal" href="#citations">Citations</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="testAutomation.html"
+                        title="previous chapter">10. Test Automation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="moduleAppendix.html"
+                        title="next chapter">Appendix B: Pluggable Module Reference</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exampleAppRingdown.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="moduleAppendix.html" title="Appendix B: Pluggable Module Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="testAutomation.html" title="10. Test Automation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>

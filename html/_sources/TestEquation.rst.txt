@@ -1,0 +1,11 @@
+====================
+This is an equation:
+====================
+
+.. math:: 
+
+	X &= \ \frac{F_{x}}{\int_{0}^{t}\text{TUV}^{3}} 
+	
+	Y^2 = a^2 + b^2
+
+That was an equation

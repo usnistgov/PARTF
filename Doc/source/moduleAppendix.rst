@@ -1,6 +1,6 @@
-﻿##########################
-Pluggable Module Reference
-##########################
+﻿#######################################
+Appendix B: Pluggable Module Reference
+#######################################
 
 A pluggable module is a stand-alone module that can be launched by a
 framework or other application then runs independent of the launching

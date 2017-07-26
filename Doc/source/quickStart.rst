@@ -1,3 +1,4 @@
+.. _quickStart:
 ################
 First Time setup
 ################

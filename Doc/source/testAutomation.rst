@@ -1,3 +1,5 @@
+.. _testAutomation:
+
 ###############
 Test Automation
 ###############

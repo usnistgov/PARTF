@@ -1,35 +1,33 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>6. Buses &mdash; PARTF 0.1 documentation</title>
-    
+    <title>6. Buses &#8212; PARTF 0.2 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="7. Framework Software Reference" href="framework.html" />
     <link rel="prev" title="5. First Time setup" href="quickStart.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -42,7 +40,7 @@
         <li class="right" >
           <a href="quickStart.html" title="5. First Time setup"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -53,17 +51,17 @@
             
   <div class="section" id="buses">
 <h1>6. Buses<a class="headerlink" href="#buses" title="Permalink to this headline">¶</a></h1>
-<p>A single node on the electrical power system can be considered as a &#8220;bus&#8221;. A bus will have a single voltage and one or more currents flowing. Applications may use sensor data from a single bus or multiple buses. In the PMU framework, a single bus is a collection of modules.  Each bus is made up of a collection of the following modules:
+<p>A single node on the electrical power system can be considered as a “bus”. A bus will have a single voltage and one or more currents flowing. Applications may use sensor data from a single bus or multiple buses. In the PMU framework, a single bus is a collection of modules.  Each bus is made up of a collection of the following modules:
 *       Event Module
 *       Transformer Impairment Module (in development)
 *       Sensor Impairment Module
 *       Network Impairment Module
 *       Status Impairment Module</p>
-<p>As many buses as the computer&#8217;s memory and processors can support can be supported by the framework: launched and removed at any time</p>
+<p>As many buses as the computer’s memory and processors can support can be supported by the framework: launched and removed at any time</p>
 <div class="section" id="bus-controller">
 <h2>6.1. Bus Controller<a class="headerlink" href="#bus-controller" title="Permalink to this headline">¶</a></h2>
-<p>During a test run, a software object called a &#8220;bus controller&#8221; is created for each bus.  The bus controller object lasts only for the duration of the test run then is destroyed. All bus controllers run concurrently in their own threads. The bus controllers read the .ini files for each modules active plugin and concatenates all the plugin&#8217;s scriptlets together forming a single script, which the bus controller then executes.  The scripts are always executed in the following module order: Event, Transformer (when developed), Sensor, Network, Status.  it should be noted, that scripts from any module can access the information in any other module through a common API, So even though a script may be in one module&#8217;s .ini file, it can still contain commands that access the data in any other module.</p>
-<p>The bus controllers use a queue to pass data from all the buses into the application where the data are aggregated to provide application input.  Multiple busses write data into the same queue.  Application plugins can use the base plugin&#8217;s aggregation function (where data is aggregated by timestamp) or can provide a custom aggregation function.</p>
+<p>During a test run, a software object called a “bus controller” is created for each bus.  The bus controller object lasts only for the duration of the test run then is destroyed. All bus controllers run concurrently in their own threads. The bus controllers read the .ini files for each modules active plugin and concatenates all the plugin’s scriptlets together forming a single script, which the bus controller then executes.  The scripts are always executed in the following module order: Event, Transformer (when developed), Sensor, Network, Status.  it should be noted, that scripts from any module can access the information in any other module through a common API, So even though a script may be in one module’s .ini file, it can still contain commands that access the data in any other module.</p>
+<p>The bus controllers use a queue to pass data from all the buses into the application where the data are aggregated to provide application input.  Multiple busses write data into the same queue.  Application plugins can use the base plugin’s aggregation function (where data is aggregated by timestamp) or can provide a custom aggregation function.</p>
 </div>
 <div class="section" id="bus-sequence-diagram">
 <h2>6.2. Bus Sequence Diagram<a class="headerlink" href="#bus-sequence-diagram" title="Permalink to this headline">¶</a></h2>
@@ -73,7 +71,7 @@
 </div>
 <div class="section" id="event-module">
 <h2>6.3. Event Module<a class="headerlink" href="#event-module" title="Permalink to this headline">¶</a></h2>
-<p>As defined in 1.2.3, a power system event is represented by a mathematical function of time at each bus in the system from which the application receives sensor data or else by a collection of sensor data in a file.  For each bus, one event module provides a set of ideal sensor data in an array of data structures called &#8220;Report Clusters.&#8221; To represent multiple buses, multiple Event Module instances will run in parallel. Each Event module will generate Sensor reports for the entire event before the data is output from the module.  The event modules do not run in real time.</p>
+<p>As defined in 1.2.3, a power system event is represented by a mathematical function of time at each bus in the system from which the application receives sensor data or else by a collection of sensor data in a file.  For each bus, one event module provides a set of ideal sensor data in an array of data structures called “Report Clusters.” To represent multiple buses, multiple Event Module instances will run in parallel. Each Event module will generate Sensor reports for the entire event before the data is output from the module.  The event modules do not run in real time.</p>
 </div>
 <div class="section" id="sensor-module">
 <h2>6.4. Sensor Module<a class="headerlink" href="#sensor-module" title="Permalink to this headline">¶</a></h2>
@@ -122,21 +120,18 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/buses.txt"
+      <li><a href="_sources/buses.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -155,12 +150,12 @@
         <li class="right" >
           <a href="quickStart.html" title="5. First Time setup"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2017, Allen Goldstein.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

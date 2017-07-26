@@ -1,35 +1,33 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>7. Framework Software Reference &mdash; PARTF 0.1 documentation</title>
-    
+    <title>7. Framework Software Reference &#8212; PARTF 0.2 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="8. Bus Class" href="busclass.html" />
     <link rel="prev" title="6. Buses" href="buses.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -42,7 +40,7 @@
         <li class="right" >
           <a href="buses.html" title="6. Buses"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -57,18 +55,18 @@
 <img alt="_images/FrontPanelDiagram.png" src="_images/FrontPanelDiagram.png" />
 <p>Figure 4: Framework front panel</p>
 <p>The framework launches all module instances (called clones).  Once a clone is launched it runs independent of the framework. The framework communicates with the clone through the module API.  Other applications can also communicate and control clone behavior once launched.  The framework also launches the application module and facilitates data flow to and from it.  The framework also provides the user interface for configuration and operation of the modules and application.</p>
-<p>Figure 4 diagrams some of the functional sections of the framework. This document will not go into the details of operation, for that, see the PARTF User&#8217;s Manual.  The framework is written in LabVIEW.  Under the Labview develipment environment a &#8220;Framework&#8221; project contains all files necessary to run the framework in the development environment or to build an executable vetrsion of the framework and all modules.</p>
+<p>Figure 4 diagrams some of the functional sections of the framework. This document will not go into the details of operation, for that, see the PARTF User’s Manual.  The framework is written in LabVIEW.  Under the Labview develipment environment a “Framework” project contains all files necessary to run the framework in the development environment or to build an executable vetrsion of the framework and all modules.</p>
 <img alt="_images/LvProj_Main.png" src="_images/LvProj_Main.png" />
 <p>Figure 5: Framework LabVIEW project</p>
-<p>The framework is launched in the development environment by running the &#8220;main.vi&#8221; under the Framework\Framework folder.</p>
+<p>The framework is launched in the development environment by running the “main.vi” under the Framework\Framework folder.</p>
 <img alt="_images/FpMain_Block.png" src="_images/FpMain_Block.png" />
-<p>Figure 6: Framework &#8220;main.vi&#8221; block diagram</p>
-<p>Figure 6 shows the block diagram of the top-level framework &#8220;main.vi&#8221;. After some initialization, the program operates in three loops.  The upper and lower loops are both producer loops and the middle loop is a consumer loop. This architecture is known as a &#8220;queued message handler, as the producer loops place commands and data into the front (or back) of a queue, and the consumer loop, called a &#8220;queued message handler&#8221; removes commands and data from the queue and acts upon them.  The middle loop can also place commands into the queue and behave like a state machine.</p>
+<p>Figure 6: Framework “main.vi” block diagram</p>
+<p>Figure 6 shows the block diagram of the top-level framework “main.vi”. After some initialization, the program operates in three loops.  The upper and lower loops are both producer loops and the middle loop is a consumer loop. This architecture is known as a “queued message handler, as the producer loops place commands and data into the front (or back) of a queue, and the consumer loop, called a “queued message handler” removes commands and data from the queue and acts upon them.  The middle loop can also place commands into the queue and behave like a state machine.</p>
 <div class="section" id="framework-start-up">
 <h2>7.1. Framework start-up<a class="headerlink" href="#framework-start-up" title="Permalink to this headline">¶</a></h2>
 <img alt="_images/FpMain_Startup.png" src="_images/FpMain_Startup.png" />
 <p>Figure 7: Framework startup code</p>
-<p>Figure 7 illustrates the left-hand side of the framework &#8220;main.vi&#8221; block diagram. The software begins with the creation of a Configuration class object described in 3.1.1.1.  Two sets of control references are bundled together, the top one will be controls that become enabled or disabled when any buses exist, (for example, you cannot run a test if there are no buses, so the test controls are disabled.)  the middle group are most of the front panel controls that get used or updated during framework operation.
+<p>Figure 7 illustrates the left-hand side of the framework “main.vi” block diagram. The software begins with the creation of a Configuration class object described in 3.1.1.1.  Two sets of control references are bundled together, the top one will be controls that become enabled or disabled when any buses exist, (for example, you cannot run a test if there are no buses, so the test controls are disabled.)  the middle group are most of the front panel controls that get used or updated during framework operation.
 Outlined in red in Figure 1Figure 7, Module Broadcast user events become registered.  Each module has its own set of broadcast user events which the framework and other software can register to receive. this will be discussed in detail in several later sections of this document.  At the bottom, the Consumer loops Queue is initialized and a TCP socket is created tor the test automation producer loop.</p>
 </div>
 <div class="section" id="configuration-class">
@@ -77,16 +75,16 @@ Outlined in red in Figure 1Figure 7, Module Broadcast user events become registe
 <p>Figure 8: LabVIEW project Config class</p>
 <p>The first time the framework is started, two sets of user folders are created:</p>
 <ol class="arabic simple">
-<li>A PARTF folder is created in the users AppDataLocalfolder. this location holds log files and a framework startup &#8220;PARTF.ini&#8221; file.  when the framework is normally shut down, the state of all frontpanel controls are stored in the PARTF.ini file.</li>
-<li>A PARTF folder is created in the users &#8220;My Documents&#8221; folder.  Three sub-folders are also created:<ol class="loweralpha">
-<li>Test: holds the default and any test (&#8221;.tst&#8221;)files created by the user</li>
+<li>A PARTF folder is created in the users AppDataLocalfolder. this location holds log files and a framework startup “PARTF.ini” file.  when the framework is normally shut down, the state of all frontpanel controls are stored in the PARTF.ini file.</li>
+<li>A PARTF folder is created in the users “My Documents” folder.  Three sub-folders are also created:<ol class="loweralpha">
+<li>Test: holds the default and any test (“.tst”)files created by the user</li>
 <li>Script: holds the default and any test automation scripts created by the user.</li>
 <li>Output holds test run output files.</li>
 </ol>
 </li>
 </ol>
-<p>Users may later change the location of any of these folders using the &#8220;settings&#8221; button, which calls up the settings dialog.</p>
-<p>The config class &#8220;Create.vi&#8221; checks for the existance of the PARTF.ini file in the users AppData folder, if it is not found, the folder and a default .ini file is created, if it does exist, the .ini file contents are read and the Config class is initialized.</p>
+<p>Users may later change the location of any of these folders using the “settings” button, which calls up the settings dialog.</p>
+<p>The config class “Create.vi” checks for the existance of the PARTF.ini file in the users AppData folder, if it is not found, the folder and a default .ini file is created, if it does exist, the .ini file contents are read and the Config class is initialized.</p>
 <img alt="_images/Config_Properties.png" src="_images/Config_Properties.png" />
 <p>Figure 9: config class properties</p>
 </div>
@@ -99,24 +97,24 @@ Outlined in red in Figure 1Figure 7, Module Broadcast user events become registe
 </div>
 <div class="section" id="framework-queued-message-handler-consumer-loop">
 <h2>7.4. Framework Queued Message Handler Consumer Loop<a class="headerlink" href="#framework-queued-message-handler-consumer-loop" title="Permalink to this headline">¶</a></h2>
-<p>Figure 11 shows the QMH loop and all of the commands that it handles.  At the beginning of this loop, messages consisting of a string &#8220;command&#8221; and a variant &#8220;data&#8221; is de-queued and presented to the QMH case structure.  If there is no message in the queue, the loop waits until one is queued by one of the producer loops.</p>
+<p>Figure 11 shows the QMH loop and all of the commands that it handles.  At the beginning of this loop, messages consisting of a string “command” and a variant “data” is de-queued and presented to the QMH case structure.  If there is no message in the queue, the loop waits until one is queued by one of the producer loops.</p>
 <img alt="_images/MainQMH.png" src="_images/MainQMH.png" />
 <p>Figure 11: Framework Queued Message Handler Consumer Loop</p>
-<p>The first message placed into the QMH is &#8220;Initialize&#8221;, and the action is to read the appropriate sectiions of the PARTF.ini file in the users AppData\Local\PARTF folder and to initialize all the front panel controls as they were left the last time the program was exited.
-Some messages in the QMH contain both a string command and data in a LabVIEW &#8220;variant&#8221; datatype. when Data is present, the command case must know which data type to expect and must use a LabVIEW &#8220;Unflatten from Varient&#8221; vi with the correct data typedef to cast the variant into the expected datatype.</p>
+<p>The first message placed into the QMH is “Initialize”, and the action is to read the appropriate sectiions of the PARTF.ini file in the users AppData\Local\PARTF folder and to initialize all the front panel controls as they were left the last time the program was exited.
+Some messages in the QMH contain both a string command and data in a LabVIEW “variant” datatype. when Data is present, the command case must know which data type to expect and must use a LabVIEW “Unflatten from Varient” vi with the correct data typedef to cast the variant into the expected datatype.</p>
 </div>
 <div class="section" id="framework-tcp-receive-producer-loop">
 <h2>7.5. Framework TCP Receive Producer Loop<a class="headerlink" href="#framework-tcp-receive-producer-loop" title="Permalink to this headline">¶</a></h2>
-<p>The bottom loop in the Framework &#8220;main.vi&#8221; is shown in Figure 12.  This loop receives QMH messages from the test automation program.  While the PARTF framework support launching Python scripts from the front panel, Test Automation programs can actually be written in any language and &#8220;get&#8221; and &#8220;set&#8221; module data and run tests from any application that can connect to the port on which the TCP Receive loop is listening.</p>
+<p>The bottom loop in the Framework “main.vi” is shown in Figure 12.  This loop receives QMH messages from the test automation program.  While the PARTF framework support launching Python scripts from the front panel, Test Automation programs can actually be written in any language and “get” and “set” module data and run tests from any application that can connect to the port on which the TCP Receive loop is listening.</p>
 <img alt="_images/TCPReceiveLoop.png" src="_images/TCPReceiveLoop.png" />
 <p>Figure 12: TCP Receive Producer Loop</p>
 <p>Detailed information about Test Automation will be presented in a later section of this document.</p>
 </div>
 <div class="section" id="framework-front-panel-initialization">
 <h2>7.6. Framework Front Panel Initialization<a class="headerlink" href="#framework-front-panel-initialization" title="Permalink to this headline">¶</a></h2>
-<p>The &#8220;Initialize&#8221; state of the QMH is called when the QMH loop starts  The &#8220;InitFrontPanel&#8221; vi is found in the project Framework.lvlibInit folder.  This VI is a stater machine that loops through a series of case statements:</p>
+<p>The “Initialize” state of the QMH is called when the QMH loop starts  The “InitFrontPanel” vi is found in the project Framework.lvlibInit folder.  This VI is a stater machine that loops through a series of case statements:</p>
 <ol class="arabic simple">
-<li>PopTypes loops through each of the six module types and populates the front panel module type listboxes with the type names of each available module plugins.  Plugin types are found in the [type] key in each plugin&#8217;s .ini file.</li>
+<li>PopTypes loops through each of the six module types and populates the front panel module type listboxes with the type names of each available module plugins.  Plugin types are found in the [type] key in each plugin’s .ini file.</li>
 <li>OpenIni opens the .ini file found in the users AppData\Local\PARTF folder.  This .ini file holds the frontpanel control values from the last time the PARTF was exited.  On the first run of the PARTF, the default values are used.</li>
 <li>InitTypes sets all the module plugin values to the last values.</li>
 <li>InitParams sets all the module Parameter controls to the former values.</li>
@@ -136,45 +134,45 @@ Some messages in the QMH contain both a string command and data in a LabVIEW &#8
 </div>
 <div class="section" id="starting-and-stopping-modules">
 <h2>7.8. Starting and Stopping Modules<a class="headerlink" href="#starting-and-stopping-modules" title="Permalink to this headline">¶</a></h2>
-<p>Modules are started and stopped by the framework while adding a single bus or opening a &#8221;.tst&#8221; file which can create one or more buses.  A bus is a collection of modules including Event, Transformer (under development), Sensor, Networking, and Status.  When the first bus is created, an Application Module and an Output to File Module is also launched, there is only one of each of these active no matter how many buses exist.  The Applications and OutputToFile modules only stop after the last bus has been removed.
-Buses can be created one at a time using the &#8220;Add Bus&#8221; button, or launched all together using the &#8220;Open&#8221; test file button.  When a bus is launched, the following sequence occurs:</p>
+<p>Modules are started and stopped by the framework while adding a single bus or opening a “.tst” file which can create one or more buses.  A bus is a collection of modules including Event, Transformer (under development), Sensor, Networking, and Status.  When the first bus is created, an Application Module and an Output to File Module is also launched, there is only one of each of these active no matter how many buses exist.  The Applications and OutputToFile modules only stop after the last bus has been removed.
+Buses can be created one at a time using the “Add Bus” button, or launched all together using the “Open” test file button.  When a bus is launched, the following sequence occurs:</p>
 <ol class="arabic simple">
-<li>A Bus Class object is created. One Bus class object exists for each bus.  An array of references to all Bus Class objects is stored in a memory object (called a &#8220;functional global&#8221;) called &#8220;GetSetFrameworkData.vi</li>
+<li>A Bus Class object is created. One Bus class object exists for each bus.  An array of references to all Bus Class objects is stored in a memory object (called a “functional global”) called “GetSetFrameworkData.vi</li>
 <li>All the modules of the bus are started in parallel, after starting, the framework waits for a synchronization event to occur in each module so that no requests can be sent to a module that is not ready to receive requests.</li>
 <li>If the bus is the first to be launched, then an Application Module is started also.  If any buses already exist, then the App module is already running.</li>
 <li>If this bus is the first to be launched, then an OutToFile Module is started also.  If any buses already exist, then the module is already running.</li>
 <li>A reference to the new bus class object is inserted into the array of bus references in GetSetFrameworkData.vi</li>
 <li>For each of the modules in each bus, the following sequence occurs:<ol class="loweralpha">
-<li>The plugin selected by the plugin selector is loaded into the module. the plugin selector may be from the front panel (in the case of the &#8220;Add Bus&#8221; button) or from a &#8221;.tst&#8221; file in (the case of the &#8220;Open button) having launched the bus</li>
+<li>The plugin selected by the plugin selector is loaded into the module. the plugin selector may be from the front panel (in the case of the “Add Bus” button) or from a “.tst” file in (the case of the “Open button) having launched the bus</li>
 <li>The configuration and parameter data from the front panel or from the .tst file is written to the module.</li>
 </ol>
 </li>
 </ol>
 <div class="section" id="adding-updating-deleting-a-bus">
 <h3>7.8.1. Adding, updating, deleting a Bus<a class="headerlink" href="#adding-updating-deleting-a-bus" title="Permalink to this headline">¶</a></h3>
-<p>Once the framework is initialized, there are 0 buses.  The user can make changes to the parameters or leave the default values as they are.  When the module configuration and parameters are set to the user&#8217;s liking, the user creates a bus by clicking the Add Bus button.  When a bus is added, the Bus class create method spawns new Event and Impairment modules (one of each) and sets the data values from the Framework front panel.</p>
+<p>Once the framework is initialized, there are 0 buses.  The user can make changes to the parameters or leave the default values as they are.  When the module configuration and parameters are set to the user’s liking, the user creates a bus by clicking the Add Bus button.  When a bus is added, the Bus class create method spawns new Event and Impairment modules (one of each) and sets the data values from the Framework front panel.</p>
 <p>When more than one bus has been created, the user can select which bus parameters are displayed by changing the Bus Number drop-down control.  Bus numbers are in the order they were created.  When the user changes the Bus Number, then the values from that bus are read from the modules and displayed on the front panel.  The user can make changes to the frontpanel values and press the update button, which will send those values to the bus displayed and the bus will in turn update the module.  The user can also add additional buses which will then be configured with the values from the frontpanel.</p>
 <p>Deleting a bus, destroys that instance of the Bus class, closing its Event and PMUImpairment modules, and removing that bus from the array of buses.</p>
 </div>
 <div class="section" id="adding-a-single-bus">
 <h3>7.8.2. Adding a single bus<a class="headerlink" href="#adding-a-single-bus" title="Permalink to this headline">¶</a></h3>
-<p>The user can add a single bus which uses the module configuration and parameters shown in the front front panel by clicking on the &#8220;Add Bus&#8221; button.  Figure 16 shows the sequence of .vis that operate.  To begin with a Bus class object is created.  See Section 4 for details on the Bus Class.</p>
+<p>The user can add a single bus which uses the module configuration and parameters shown in the front front panel by clicking on the “Add Bus” button.  Figure 16 shows the sequence of .vis that operate.  To begin with a Bus class object is created.  See Section 4 for details on the Bus Class.</p>
 <img alt="_images/AddBus.png" src="_images/AddBus.png" />
 <p>Figure 16: Adding one bus</p>
-<p>When a Bus Class Object has between created its reference is passed to the AddBus.vi shown in Figure 17.  This VU calls the Event, PMUImpair, Network and Flag modules &#8220;StartClone.vi&#8221;s in parallel.  A clone for each of the module is started, and the ID&#8217;s are placed into the Bus Class object&#8217;s property.  Since requests should not be sent to a module before it is ready to receive them, the ADDBus VI waits for each module to produce a Sync Event.</p>
+<p>When a Bus Class Object has between created its reference is passed to the AddBus.vi shown in Figure 17.  This VU calls the Event, PMUImpair, Network and Flag modules “StartClone.vi”s in parallel.  A clone for each of the module is started, and the ID’s are placed into the Bus Class object’s property.  Since requests should not be sent to a module before it is ready to receive them, the ADDBus VI waits for each module to produce a Sync Event.</p>
 <img alt="_images/AddBusVi.png" src="_images/AddBusVi.png" />
 <p>Figure 17: AddBus.vi</p>
 <p>Following the creation of the four modules that exist for each bus, there are two modules that need to be started if the bus created is the first bus.  These are the App and OutToFile modules, which start in a similar manner to the other modules.</p>
-<p>After the modules are created, the bus class object are added to an array of bus objects stored in a functional global called &#8220;getSetFrameworkData&#8221; as shown in Figure 18. This &#8220;FRDATA&#8221; vi can be found in the Framework.lvlib\Init folder.</p>
+<p>After the modules are created, the bus class object are added to an array of bus objects stored in a functional global called “getSetFrameworkData” as shown in Figure 18. This “FRDATA” vi can be found in the Framework.lvlib\Init folder.</p>
 <img alt="_images/InsertBus.png" src="_images/InsertBus.png" />
 <p>Figure 18: InsertBus.vi</p>
-<p>Next, each of the module type&#8217;s &#8220;Update___&#8221;.vi is called.  each of these run a short script to load the selected plug-in and send the config data and parameters from the fornt panel controls to each of the modules.  the script is executed by a bus-class private method called the &#8220;Scripted state machine with is described in detail in section 4.4</p>
+<p>Next, each of the module type’s “Update___”.vi is called.  each of these run a short script to load the selected plug-in and send the config data and parameters from the fornt panel controls to each of the modules.  the script is executed by a bus-class private method called the “Scripted state machine with is described in detail in section 4.4</p>
 </div>
 <div class="section" id="adding-one-or-more-buses-from-a-tst-file">
 <h3>7.8.3. Adding one or more buses from a .tst file<a class="headerlink" href="#adding-one-or-more-buses-from-a-tst-file" title="Permalink to this headline">¶</a></h3>
 <img alt="_images/OpenTst.png" src="_images/OpenTst.png" />
 <p>Figure 19: Opening a .tst file</p>
-<p>Figure 19 shows what happens when the &#8220;Open&#8221; button is clicked.  &#8221;.tst&#8221; files contain information about module plug-ins, configurations, and parameters for one or more buses.  The first thing that happens is any busses that are running are removed and all of their modules closed.  The &#8221;.tst&#8221; file is opened and an array of bus data, one element for each of the buses in the file is created.  this array is passes to a do loop which goes through the same process as opening one bus for each of the buses in the array.  the only difference is instead of updating the module config and parameter data from the front panel controls, the information comes from the bus data array read from the .tst file.  finally, an App module and OutToFile maoduelare started and updated from their config and parameter data read from the .tst file.  at the end of the process, an UpdateFrontPanel message is queued so the QMH loop can read one set of modules and reflect their settings in the framework&#8217;s front panel controls.</p>
+<p>Figure 19 shows what happens when the “Open” button is clicked.  “.tst” files contain information about module plug-ins, configurations, and parameters for one or more buses.  The first thing that happens is any busses that are running are removed and all of their modules closed.  The “.tst” file is opened and an array of bus data, one element for each of the buses in the file is created.  this array is passes to a do loop which goes through the same process as opening one bus for each of the buses in the array.  the only difference is instead of updating the module config and parameter data from the front panel controls, the information comes from the bus data array read from the .tst file.  finally, an App module and OutToFile maoduelare started and updated from their config and parameter data read from the .tst file.  at the end of the process, an UpdateFrontPanel message is queued so the QMH loop can read one set of modules and reflect their settings in the framework’s front panel controls.</p>
 </div>
 </div>
 </div>
@@ -217,21 +215,18 @@ Buses can be created one at a time using the &#8220;Add Bus&#8221; button, or la
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/framework.txt"
+      <li><a href="_sources/framework.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -250,12 +245,12 @@ Buses can be created one at a time using the &#8220;Add Bus&#8221; button, or la
         <li class="right" >
           <a href="buses.html" title="6. Buses"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2017, Allen Goldstein.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

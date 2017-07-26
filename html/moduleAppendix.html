@@ -1,34 +1,32 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Pluggable Module Reference &mdash; PARTF 0.1 documentation</title>
-    
+    <title>Appendix B: Pluggable Module Reference &#8212; PARTF 0.2 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
-    <link rel="prev" title="10. Python Test Automation" href="python.html" /> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Appendix A: Ringdown Example Application" href="exampleAppRingdown.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -36,9 +34,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="python.html" title="10. Python Test Automation"
+          <a href="exampleAppRingdown.html" title="Appendix A: Ringdown Example Application"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -47,8 +45,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="pluggable-module-reference">
-<h1>Pluggable Module Reference<a class="headerlink" href="#pluggable-module-reference" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="appendix-b-pluggable-module-reference">
+<h1>Appendix B: Pluggable Module Reference<a class="headerlink" href="#appendix-b-pluggable-module-reference" title="Permalink to this headline">¶</a></h1>
 <p>A pluggable module is a stand-alone module that can be launched by a
 framework or other application then runs independent of the launching
 application. Multiple clones of the same module type may be launched and
@@ -128,7 +126,7 @@ are started. When the Queue was initialized, an “Initialize” message was
 placed in the Queue, so the Initialize state of the QMH will run
 immediately.</p>
 <p><a class="reference internal" href="_images/image6.png"><img alt="image5" src="_images/image6.png" style="width: 4.53472in; height: 1.95536in;" /></a></p>
-<p>Figure : QMH &#8220;Initialize&#8221; state</p>
+<p>Figure : QMH “Initialize” state</p>
 <p>Normally, a module will only be launched by a framework or application,
 but they can be launched manuallyy as well. If launched manually,
 ModuleAdmin:External Launch will be FALSE and the frontpanel will be
@@ -462,7 +460,7 @@ indicator will show the string that came from the Sample Plugin method.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Pluggable Module Reference</a><ul>
+<li><a class="reference internal" href="#">Appendix B: Pluggable Module Reference</a><ul>
 <li><a class="reference internal" href="#quick-start-using-testcloneapi">Quick Start using TestCloneAPI</a></li>
 <li><a class="reference internal" href="#launching-a-module-clone">Launching a Module Clone</a></li>
 <li><a class="reference internal" href="#module-top-level-main-vi">Module Top Level: Main.vi</a></li>
@@ -484,26 +482,23 @@ indicator will show the string that came from the Sample Plugin method.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="python.html"
-                        title="previous chapter">10. Python Test Automation</a></p>
+  <p class="topless"><a href="exampleAppRingdown.html"
+                        title="previous chapter">Appendix A: Ringdown Example Application</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/moduleAppendix.txt"
+      <li><a href="_sources/moduleAppendix.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -517,14 +512,14 @@ indicator will show the string that came from the Sample Plugin method.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="python.html" title="10. Python Test Automation"
+          <a href="exampleAppRingdown.html" title="Appendix A: Ringdown Example Application"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2017, Allen Goldstein.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

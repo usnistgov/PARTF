@@ -1,35 +1,33 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>8. Bus Class &mdash; PARTF 0.1 documentation</title>
-    
+    <title>8. Bus Class &#8212; PARTF 0.2 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="9. Module and class diagrams" href="moduleRef.html" />
     <link rel="prev" title="7. Framework Software Reference" href="framework.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -42,7 +40,7 @@
         <li class="right" >
           <a href="framework.html" title="7. Framework Software Reference"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,8 +59,8 @@ an array of bus instances in a functional global available to the
 framework.</p>
 <p>IMPORTANT NOTE: Internal to the software, the following terms are
 synonomous:</p>
-<p>&#8220;SENSOR&#8221; = &#8220;PMU IMPAIRMENT&#8221;</p>
-<p>&#8220;STATUS&#8221; = &#8220;FLAGS&#8221;</p>
+<p>“SENSOR” = “PMU IMPAIRMENT”</p>
+<p>“STATUS” = “FLAGS”</p>
 <p>Figure 20: Bus Class UML</p>
 <p>Figure 19 shows the properties and public methods of the bus class. Each
 bus has an index number and an ID number for each of the modules in the
@@ -72,14 +70,14 @@ created.</p>
 <div class="section" id="scripted-state-machine-ssm">
 <h2>8.1. Scripted State Machine (SSM)<a class="headerlink" href="#scripted-state-machine-ssm" title="Permalink to this headline">¶</a></h2>
 <p>Module initialization and update is managed by construct called a
-&#8220;scripted state machine&#8221; (SSM). The state machine accepts an array
+“scripted state machine” (SSM). The state machine accepts an array
 command strings which forms a sequence of calls to one or more states.
-The sequence of commands MUST end with &#8220;Stop&#8221; command. If this is not
+The sequence of commands MUST end with “Stop” command. If this is not
 included in the script, a timeout will produce an error message.</p>
 <p>Inputs to the SSM are an array of command strings and a variant that can
 carry any data type that the commands can recognize. When the Data
 variant input is used, any command state that uses the input will need
-to use an &#8220;Unflatten to Data vi with the appropriate data typedef wired
+to use an “Unflatten to Data vi with the appropriate data typedef wired
 to it. If the typedef does not match the variant type then an error will
 be thrown. Usually the data type input to the SSM is the clBusData.ctl
 typedef, this data type can contain the config and parameter data of the
@@ -89,8 +87,8 @@ Machine (highlighted)</p>
 <div class="section" id="script">
 <h3>8.1.1. Script<a class="headerlink" href="#script" title="Permalink to this headline">¶</a></h3>
 <p>An array of strings which will be the commands for the SSM. The script
-MUST end with a STOP command. The plugin &#8221;.ini&#8221; files contain
-&#8220;scriptlets&#8221; which are snippets of a script with no &#8220;Stop&#8221; command. When
+MUST end with a STOP command. The plugin “.ini” files contain
+“scriptlets” which are snippets of a script with no “Stop” command. When
 a test is run, the scriptlets in the Application plugin’s .ini file is
 concatenated with the scriptlet from the OutputToFile plugin’s .ini
 file, a Stop command is appended then run by the SSM. A similar
@@ -108,7 +106,7 @@ acting.</p>
 </div>
 <div class="section" id="ssm-data-out">
 <h3>8.1.3. SSM Data Out<a class="headerlink" href="#ssm-data-out" title="Permalink to this headline">¶</a></h3>
-<p>The Data Out is a variant type. The default &#8220;Stop&#8221; command places the
+<p>The Data Out is a variant type. The default “Stop” command places the
 SSM’s internal clBusData onto the data output, however other custom
 commands could be added which stop the SSM and place other data read
 from the modules onto the Data Out.</p>
@@ -406,7 +404,7 @@ ControlRefs</td>
 .Start Time,
 .End Time and
 .EvtConfig.Reporting Rate</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>GetEvtReports</td>
 <td>none</td>
@@ -493,81 +491,81 @@ ControlRefs</td>
 <tr class="row-odd"><td>TransferFlagsToOutputToFile</td>
 <td>none</td>
 <td>none</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-even"><td>TransferPktDlyToOutputToFile</td>
 <td>none</td>
 <td>none</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>TransferPktLossToOutputToFile</td>
 <td>none</td>
 <td>none</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-even"><td>OutputErrorsToFile</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>OutputImpairedFileRequest</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-even"><td>TransferEvtSignalToPmuImpair</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>WriteNetImpairParams</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-even"><td>ReadNetImpairParams</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>TransferTimeArrayToNetImpair</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-even"><td>WriteFlagImpairParams</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>WritePmuConfig</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-even"><td>TransferEvtConfigToApp</td>
 <td>none</td>
 <td>none</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>Abort</td>
 <td>none</td>
 <td>none</td>
-<td>DO NOT CALL THIS DIRECTLY. Clears the SSM command queue and exits the SSM in response to user &#8220;Abort&#8221; response to error dialog.</td>
+<td>DO NOT CALL THIS DIRECTLY. Clears the SSM command queue and exits the SSM in response to user “Abort” response to error dialog.</td>
 </tr>
 <tr class="row-even"><td>Stop</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 <td>Must be called at the end of every script.</td>
 </tr>
 <tr class="row-odd"><td>Error</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 <td>DO NOT CALL THIS DIRECTLY. SSM error handler state displays errors and reacts to user input to the error dialog.</td>
 </tr>
 <tr class="row-even"><td>Default</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 <td>DO NOT CALL THIS DIRECTLY. Throws an error if an unrecodnized command is received.</td>
 </tr>
 </tbody>
@@ -606,21 +604,18 @@ ControlRefs</td>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/busclass.txt"
+      <li><a href="_sources/busclass.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -639,12 +634,12 @@ ControlRefs</td>
         <li class="right" >
           <a href="framework.html" title="7. Framework Software Reference"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2017, Allen Goldstein.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

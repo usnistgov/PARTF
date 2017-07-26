@@ -32,10 +32,11 @@ Contents:
    busclass
    moduleRef
    testAutomation	
-   python
 
 .. toctree::
+   exampleAppRingdown
    moduleAppendix
+
 
 Indices and tables
 ==================

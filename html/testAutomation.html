@@ -1,35 +1,33 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>10. Test Automation &mdash; PARTF 0.1 documentation</title>
-    
+    <title>10. Test Automation &#8212; PARTF 0.2 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
-    <link rel="next" title="11. Python Test Automation" href="python.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Appendix A: Ringdown Example Application" href="exampleAppRingdown.html" />
     <link rel="prev" title="9. Module and class diagrams" href="moduleRef.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -37,12 +35,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="python.html" title="11. Python Test Automation"
+          <a href="exampleAppRingdown.html" title="Appendix A: Ringdown Example Application"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="moduleRef.html" title="9. Module and class diagrams"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -52,42 +50,42 @@
           <div class="body" role="main">
             
   <div class="section" id="test-automation">
-<h1>10. Test Automation<a class="headerlink" href="#test-automation" title="Permalink to this headline">¶</a></h1>
+<span id="testautomation"></span><h1>10. Test Automation<a class="headerlink" href="#test-automation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>10.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>The framework uses the Python interpreted language to perform test automation.  In addition to all the python commands and modules which the user may have installed, there are three commands that drive LabVIEW Test Automation (LTA): <code class="docutils literal"><span class="pre">Lta.__get__</span></code>, <code class="docutils literal"><span class="pre">Lta__set__</span></code>, and <code class="docutils literal"><span class="pre">lta__run__</span></code>.  Several example scripts are provided with PARTF.  On the first run of the program, these are copied into the &#8220;PARTF/Scripts&#8221; fplder in the user&#8217;s Documents.  The file named DefaultTest.py is a very simple example of <code class="docutils literal"><span class="pre">__get__</span></code> -ting some PARTF parameter information, acting upon it, <code class="docutils literal"><span class="pre">__set__</span></code> -ting the data in a bus module, then <code class="docutils literal"><span class="pre">__run__</span></code> -ing a test.</p>
+<p>The framework uses the Python interpreted language to perform test automation.  In addition to all the python commands and modules which the user may have installed, there are three commands that drive LabVIEW Test Automation (LTA): <code class="docutils literal"><span class="pre">Lta.__get__</span></code>, <code class="docutils literal"><span class="pre">Lta__set__</span></code>, and <code class="docutils literal"><span class="pre">lta__run__</span></code>.  Several example scripts are provided with PARTF.  On the first run of the program, these are copied into the “PARTF/Scripts” fplder in the user’s Documents.  The file named DefaultTest.py is a very simple example of <code class="docutils literal"><span class="pre">__get__</span></code> -ting some PARTF parameter information, acting upon it, <code class="docutils literal"><span class="pre">__set__</span></code> -ting the data in a bus module, then <code class="docutils literal"><span class="pre">__run__</span></code> -ing a test.</p>
 </div>
 <div class="section" id="automation-script-structure">
 <h2>10.2. Automation Script Structure<a class="headerlink" href="#automation-script-structure" title="Permalink to this headline">¶</a></h2>
 <p>All automation scripts have four main sections.  At the very top are python module import directives, these are required at the top of every script:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">lta</span> <span class="kn">import</span> <span class="n">Lta</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lta</span> <span class="kn">import</span> <span class="n">Lta</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">lta_err</span> <span class="kn">import</span> <span class="n">Lta_Error</span>
 </pre></div>
 </div>
 <p>Next is some code that initialized a local-host connection between the Python and PARTF framework.  note that if the network address and ports shown in the example are already in use, other addresses and/or port numbers may be used:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">#------------------- following code must be in all scripts--------------------</span>
-   <span class="n">lta</span> <span class="o">=</span> <span class="n">Lta</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="mi">60100</span><span class="p">)</span>    <span class="c"># all scripts must create  an Lta object</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">#------------------- following code must be in all scripts--------------------</span>
+   <span class="n">lta</span> <span class="o">=</span> <span class="n">Lta</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="mi">60100</span><span class="p">)</span>    <span class="c1"># all scripts must create  an Lta object</span>
    <span class="k">try</span><span class="p">:</span>
-      <span class="n">lta</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>                   <span class="c"># connect to the Labview Host</span>
+      <span class="n">lta</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>                   <span class="c1"># connect to the Labview Host</span>
       <span class="n">lta</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The third section of code is where the user can put the test automaton script.  The beolw is a simple example taken from DefaultTest.py</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">#---------------------Script code goes here------------------------------------</span>
-   <span class="n">EvtCfg</span><span class="o">=</span><span class="n">lta</span><span class="o">.</span><span class="n">__get__</span><span class="p">(</span><span class="s">&#39;bus1.event.config&#39;</span><span class="p">)</span>
-   <span class="n">EvtCfg</span><span class="p">[</span><span class="s">&#39;clEvtConfig&#39;</span><span class="p">][</span><span class="s">&#39;Fs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">60</span>
-   <span class="n">error</span> <span class="o">=</span> <span class="n">lta</span><span class="o">.</span><span class="n">__set__</span><span class="p">(</span><span class="s">&#39;bus1.event.config&#39;</span><span class="p">,</span><span class="n">EvtCfg</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">#---------------------Script code goes here------------------------------------</span>
+   <span class="n">EvtCfg</span><span class="o">=</span><span class="n">lta</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="s1">&#39;bus1.event.config&#39;</span><span class="p">)</span>
+   <span class="n">EvtCfg</span><span class="p">[</span><span class="s1">&#39;clEvtConfig&#39;</span><span class="p">][</span><span class="s1">&#39;Fs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">60</span>
+   <span class="n">error</span> <span class="o">=</span> <span class="n">lta</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="s1">&#39;bus1.event.config&#39;</span><span class="p">,</span><span class="n">EvtCfg</span><span class="p">)</span>
    <span class="n">lta</span><span class="o">.</span><span class="n">__run__</span><span class="p">()</span>
    <span class="n">lta</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Note that the above is simplified and includes no error-handling.  The PARTF always returns some information to Python for each command.  The information will either be the data or an error message in the case of a <code class="docutils literal"><span class="pre">__get__</span></code> command, an error message (including a &#8220;no-error&#8221; error message) in the case of <code class="docutils literal"><span class="pre">__set__</span></code> and a &#8220;run completion&#8221; message or an error in the case of a <code class="docutils literal"><span class="pre">__run__</span></code> command.</p>
-<p>the final section of an automation script is the exception handler.  The LTA system returns exceptions occurint in the Python code to the framework for logging and display to the user via the framework&#8217;s error handling system:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">#------------------all scripts should send their errors to labview------------</span>
+<p>Note that the above is simplified and includes no error-handling.  The PARTF always returns some information to Python for each command.  The information will either be the data or an error message in the case of a <code class="docutils literal"><span class="pre">__get__</span></code> command, an error message (including a “no-error” error message) in the case of <code class="docutils literal"><span class="pre">__set__</span></code> and a “run completion” message or an error in the case of a <code class="docutils literal"><span class="pre">__run__</span></code> command.</p>
+<p>the final section of an automation script is the exception handler.  The LTA system returns exceptions occurint in the Python code to the framework for logging and display to the user via the framework’s error handling system:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">#------------------all scripts should send their errors to labview------------</span>
   <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-  <span class="n">err</span> <span class="o">=</span> <span class="n">Lta_Error</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">())</span>  <span class="c">#format a labview error</span>
-  <span class="n">lta</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;Abort&#39;</span><span class="p">)</span>       <span class="c">#send the error to labview for display</span>
+  <span class="n">err</span> <span class="o">=</span> <span class="n">Lta_Error</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">())</span>  <span class="c1">#format a labview error</span>
+  <span class="n">lta</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="n">err</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;Abort&#39;</span><span class="p">)</span>       <span class="c1">#send the error to labview for display</span>
   <span class="n">lta</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
   <span class="k">print</span> <span class="n">err</span>
 </pre></div>
@@ -113,117 +111,117 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Bus&lt;#&gt;.</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
+<td>&#160;</td>
 <td>Which bus to act upon.</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
 <td>add</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 <td>Adds a bus at number #. Returns an error with “status = false” if no error occurred.</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
 <td>remove</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 <td>Removes a bus at number #. Returns an error with “status = false” if no error occurred.</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
 <td>Event.</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 <td>``set`` or ``get`` data from the event module at bus#</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
 <td>PathToPlugin</td>
 <td>The path to the module’s current plugin’s .ini file. ``Set`` -ting this will change the plugin type and all configurations and parameters will return to the default values in the Plugin’s .ini file.</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
 <td>Params</td>
 <td>A 2D array of the event module’s parameter settings</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
 <td>Config</td>
 <td>The event module’s configuration cluster</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
 <td>Reports</td>
 <td>(``get`` only) An array of ideal Synchrophasor reports generated by the event module. Since the event module generates these, they cannot be ``set``</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
 <td>Signal</td>
 <td>(``get`` only) An array of the point-on-wave signal generated by the module. These cannot be ``set``</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
 <td>PMUImpairment.</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 <td>``set`` or ``get`` data from the Sensor module at bus#</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
 <td>PathToPlugin</td>
 <td>The path to the module’s current plugin’s .ini file. ``Set`` -ting this will change the plugin type and all configurations and parameters will return to the default values in the Plugin’s .ini file.</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
 <td>Params</td>
 <td>A 2D array doubles of the sensor module’s parameter settings</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
 <td>Config</td>
 <td>The sensor module’s configuration cluster</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
 <td>Reports</td>
 <td>(``get`` only) An array of ideal Synchrophasor reports generated by the event module. Since the event module generates these, they cannot be ``set``</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
 <td>NetImpairment.</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 <td>``set`` or ``get`` data from the Network Impairment module at bus#</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
 <td>PathToPlugin</td>
 <td>The path to the module’s current plugin’s .ini file. ``Set`` -ting this will change the plugin type and all configurations and parameters will return to the default values in the Plugin’s .ini file.</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
 <td>Params</td>
 <td>A 2D array of the network impairment module’s parameter settings</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
 <td>PktLoss</td>
 <td>(``get`` only) A 1D array of doubles representing lost packets on the network</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
 <td>NetTime</td>
 <td>(``get`` only) a 1D array of doubles (one for each report) representing a network delay time for each report.</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
 <td>FlagImpairment.</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 <td>``set`` or ``get`` data from the Status Impairment module at bus#</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
 <td>PathToPlugin</td>
 <td>The path to the module’s current plugin’s .ini file. ``Set`` -ting this will change the plugin type and all configurations and parameters will return to the default values in the Plugin’s .ini file.</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
 <td>Params</td>
 <td>A 2D array of the status impairment module’s parameter settings</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
 <td>FlagImpair</td>
 <td>A 1D array of ui32 representing status flags which are set.</td>
 </tr>
@@ -235,11 +233,11 @@
 <h2>10.4. XML Data format<a class="headerlink" href="#xml-data-format" title="Permalink to this headline">¶</a></h2>
 <p>Generally, end users will never need to handle the XML data transferred internally between LabVIEW and Python.  This section is for reference in the event that some debugging of the data in transit is needed.</p>
 <p>All data transferred between the framework and python is in a LabVIEW XML format.  LabVIEW XML places some limitations upon regular XML:</p>
-<p>1.) The order of the data returned to LabVIEW must be in the order expected by the type definition of the data type received.  This is an important concept because Python Dictionaries have a dynamic order which can change during processing.  For this reason, LabVIEW &#8220;Clusters&#8221; are represented in Python as &#8220;OrderedDictionaries&#8221; which do not change the data order.</p>
-<p>2.) Labview uses static types and python uses dynamic types.  During python processing, the type of a variable may change at any time.  For example, an int32 can become a float at any time.  If LabVIEW expects an int32, and a float is sent, then LabVIEW will throw an error.  For this reason, LabVIEW array are represented in Python as &#8220;NUMPY arrays&#8221;.  Also some type checking is needed to ensure that any data sent to LabVIEW matches the prototype.</p>
+<p>1.) The order of the data returned to LabVIEW must be in the order expected by the type definition of the data type received.  This is an important concept because Python Dictionaries have a dynamic order which can change during processing.  For this reason, LabVIEW “Clusters” are represented in Python as “OrderedDictionaries” which do not change the data order.</p>
+<p>2.) Labview uses static types and python uses dynamic types.  During python processing, the type of a variable may change at any time.  For example, an int32 can become a float at any time.  If LabVIEW expects an int32, and a float is sent, then LabVIEW will throw an error.  For this reason, LabVIEW array are represented in Python as “NUMPY arrays”.  Also some type checking is needed to ensure that any data sent to LabVIEW matches the prototype.</p>
 <p>Nested clusters (clusters containing clusters), nested arrays (arrays of arrays), clusters of arrays, and arrays of clusters are all handled between LabVIEW and python.</p>
 <p>The below example shows the format of the event configuration being transferred between the framework and python.  Note that every data block is labeled by its type definition (DBL,I32,U32,Boolean, etc).</p>
-<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;Cluster&gt;</span>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;Cluster&gt;</span>
   <span class="nt">&lt;Name&gt;</span>clEvtConfig<span class="nt">&lt;/Name&gt;</span>
   <span class="nt">&lt;NumElts&gt;</span>5<span class="nt">&lt;/NumElts&gt;</span>
   <span class="nt">&lt;DBL&gt;</span>
@@ -266,7 +264,7 @@
 </pre></div>
 </div>
 <p>The transmitted message itself is bundled into a command cluster.  The data is wrapped in an XML cluster containing the command specifying what the receiver should do with the data:</p>
-<div class="highlight-xml"><div class="highlight"><pre>&quot;<span class="nt">&lt;Cluster&gt;</span>
+<div class="highlight-xml"><div class="highlight"><pre><span></span>&quot;<span class="nt">&lt;Cluster&gt;</span>
   <span class="nt">&lt;Name&gt;</span>SetData<span class="nt">&lt;/Name&gt;</span>
   <span class="nt">&lt;NumElts&gt;</span>2<span class="nt">&lt;/NumElts&gt;</span>
   <span class="nt">&lt;String&gt;</span>
@@ -313,10 +311,10 @@
 <div class="section" id="params">
 <h3>10.5.1. Params<a class="headerlink" href="#params" title="Permalink to this headline">¶</a></h3>
 <p>Params are 2D arrays of doubles (in python, float32)  Below is the Python representation of:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">EvtParams</span> <span class="o">=</span><span class="n">lta</span><span class="o">.</span><span class="n">__get__</span><span class="p">(</span><span class="s">&#39;bus1.event.params&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">EvtParams</span> <span class="o">=</span><span class="n">lta</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="s1">&#39;bus1.event.params&#39;</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">EvtParams</span>
 <span class="o">&gt;&gt;</span>
-<span class="p">{</span><span class="s">&#39;dblEventParams&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([[</span>  <span class="mf">70.</span><span class="p">,</span>   <span class="mf">70.</span><span class="p">,</span>   <span class="mf">70.</span><span class="p">,</span>   <span class="mf">20.</span><span class="p">,</span>   <span class="mf">20.</span><span class="p">,</span>   <span class="mf">20.</span><span class="p">],</span>
+<span class="p">{</span><span class="s1">&#39;dblEventParams&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([[</span>  <span class="mf">70.</span><span class="p">,</span>   <span class="mf">70.</span><span class="p">,</span>   <span class="mf">70.</span><span class="p">,</span>   <span class="mf">20.</span><span class="p">,</span>   <span class="mf">20.</span><span class="p">,</span>   <span class="mf">20.</span><span class="p">],</span>
        <span class="p">[</span>  <span class="mf">60.</span><span class="p">,</span>   <span class="mf">60.</span><span class="p">,</span>   <span class="mf">60.</span><span class="p">,</span>   <span class="mf">60.</span><span class="p">,</span>   <span class="mf">60.</span><span class="p">,</span>   <span class="mf">60.</span><span class="p">],</span>
        <span class="p">[</span>   <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">120.</span><span class="p">,</span>  <span class="mf">120.</span><span class="p">,</span>    <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">120.</span><span class="p">,</span>  <span class="mf">120.</span><span class="p">],</span>
        <span class="p">[</span>   <span class="mf">0.</span><span class="p">,</span>    <span class="mf">0.</span><span class="p">,</span>    <span class="mf">0.</span><span class="p">,</span>    <span class="mf">0.</span><span class="p">,</span>    <span class="mf">0.</span><span class="p">,</span>    <span class="mf">0.</span><span class="p">],</span>
@@ -335,33 +333,33 @@
 <div class="section" id="config">
 <h3>10.5.2. Config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h3>
 <p>Config data is generally represented by clusters in LabVIEW.  In Python they are represented in a OrderedDictionary because the ordering of the data must remain the same as received from LabVIEW.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">EvtCfg</span><span class="o">=</span><span class="n">lta</span><span class="o">.</span><span class="n">__get__</span><span class="p">(</span><span class="s">&#39;bus1.event.config&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">EvtCfg</span><span class="o">=</span><span class="n">lta</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="s1">&#39;bus1.event.config&#39;</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">EvtCfg</span>
 <span class="o">&gt;&gt;</span>
-<span class="p">{</span><span class="s">&#39;clEvtConfig&#39;</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;T0(UTC)&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;F0&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Fs&#39;</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;FSamp&#39;</span><span class="p">,</span> <span class="mi">960</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;bPosSeq&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)])}</span>
+<span class="p">{</span><span class="s1">&#39;clEvtConfig&#39;</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;T0(UTC)&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;F0&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Fs&#39;</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;FSamp&#39;</span><span class="p">,</span> <span class="mi">960</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bPosSeq&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)])}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="synchrophasor-reports">
 <h3>10.5.3. Synchrophasor Reports<a class="headerlink" href="#synchrophasor-reports" title="Permalink to this headline">¶</a></h3>
 <p>Synchrophasor reports are represented in Labview as an array of clusters containing arrays of synchrophasors.  The below example is 0.1 seconds at 60 FPS of ideal synchrophasors at 60 Hz.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">lta</span><span class="o">.</span><span class="n">__run__</span><span class="p">()</span>
-<span class="n">EvtRpts</span> <span class="o">=</span> <span class="n">lta</span><span class="o">.</span><span class="n">__get__</span><span class="p">(</span><span class="s">&#39;bus1.event.reports&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">lta</span><span class="o">.</span><span class="n">__run__</span><span class="p">()</span>
+<span class="n">EvtRpts</span> <span class="o">=</span> <span class="n">lta</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="s1">&#39;bus1.event.reports&#39;</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">EvtRpts</span>
 <span class="o">&gt;&gt;</span>
-<span class="p">{</span><span class="s">&#39;clEvtReportArray&#39;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
-        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.016666668</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
-        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.033333335</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
-        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.050000001</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
-        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.06666667</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
-        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.083333336</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
-        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))])</span>
+<span class="p">{</span><span class="s1">&#39;clEvtReportArray&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s1">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.016666668</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s1">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.033333335</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s1">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.050000001</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s1">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.06666667</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s1">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.083333336</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s1">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))]),</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;clReportArg&#39;</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Timestamp&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Synx&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">-</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.</span><span class="o">+</span><span class="mf">60.62177826j</span><span class="p">,</span> <span class="mf">20.</span> <span class="o">+</span><span class="mf">0.j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">-</span><span class="mf">17.32050808j</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="o">+</span><span class="mf">17.32050808j</span><span class="p">])),</span> <span class="p">(</span><span class="s1">&#39;Freq&#39;</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ROCOF&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]))])</span>
         <span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Complex numbers in LabVIEW use &#8220;i&#8221; for the imaginary operator where Python uses &#8220;j&#8221;.  the LTA code had some special handling for transporting complex numbers between the two languages.</p>
+<p>Complex numbers in LabVIEW use “i” for the imaginary operator where Python uses “j”.  the LTA code had some special handling for transporting complex numbers between the two languages.</p>
 </div>
 </div>
 </div>
@@ -393,26 +391,23 @@
   <p class="topless"><a href="moduleRef.html"
                         title="previous chapter">9. Module and class diagrams</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="python.html"
-                        title="next chapter">11. Python Test Automation</a></p>
+  <p class="topless"><a href="exampleAppRingdown.html"
+                        title="next chapter">Appendix A: Ringdown Example Application</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/testAutomation.txt"
+      <li><a href="_sources/testAutomation.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -426,17 +421,17 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="python.html" title="11. Python Test Automation"
+          <a href="exampleAppRingdown.html" title="Appendix A: Ringdown Example Application"
              >next</a> |</li>
         <li class="right" >
           <a href="moduleRef.html" title="9. Module and class diagrams"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2017, Allen Goldstein.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

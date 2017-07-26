@@ -1,35 +1,33 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>3. Definitions &mdash; PARTF 0.1 documentation</title>
-    
+    <title>3. Definitions &#8212; PARTF 0.2 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="4. Use case" href="usecase.html" />
     <link rel="prev" title="2. License and Disclaimer" href="License.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -42,7 +40,7 @@
         <li class="right" >
           <a href="License.html" title="2. License and Disclaimer"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -55,13 +53,13 @@
 <h1>3. Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module">
 <h2>3.1. Module<a class="headerlink" href="#module" title="Permalink to this headline">¶</a></h2>
-<p>A module is a software structure which is designed to be launched by an application framework then run independently of the launching application.  Modules receive &#8220;requests&#8221; from the launching application and transmit &#8220;broadcasts&#8221; which may be received by any application or other modules which have registered to receive the broadcasts.  Collectively the requests and broadcasts are considered to be the module&#8217;s application programming interface (API)</p>
-<p>Multiple modules of the same type may run concurrently.  Each instance of a concurrently running module is called a &#8220;clone&#8221; of that module.  Modules are documented in detail in the &#8220;Pluggable Modules Specification&#8221; document.</p>
+<p>A module is a software structure which is designed to be launched by an application framework then run independently of the launching application.  Modules receive “requests” from the launching application and transmit “broadcasts” which may be received by any application or other modules which have registered to receive the broadcasts.  Collectively the requests and broadcasts are considered to be the module’s application programming interface (API)</p>
+<p>Multiple modules of the same type may run concurrently.  Each instance of a concurrently running module is called a “clone” of that module.  Modules are documented in detail in the “Pluggable Modules Specification” document.</p>
 </div>
 <div class="section" id="plug-in">
 <h2>3.2. Plug-in<a class="headerlink" href="#plug-in" title="Permalink to this headline">¶</a></h2>
-<p>The core functionality of any module is defined by a plug-in.  Modules accept &#8220;plug-ins&#8221; at runtime and plug-ins may be changed during run-time.  Plug-ins are custom software which inherit from a module&#8217;s base plug-in class.  They allow for custom interfacing and/or internal processing within the module. Plug-ins may be written in MATLAB, LabVIEW, Python, Any of the C variants, and other software languages supported by the host computer.  The host computer must have the supporting software installed, for examples plug-ins written in MATLAB must be supported by a MATLAB installation on the host computer.</p>
-<p>Each plugin must have a text &#8221;.ini&#8221; file with certain required fields.  within the .ini file is a set of instructions called a &#8220;scriptlet&#8221;.  When a test is run, the scriptlets from each module within a bus are concatenated together to form a script which is executed by a bus controller. the .ini file also carries default configuration and parameter values for the module as well as the plugin &#8220;type&#8221; which is displayed by the framework.</p>
+<p>The core functionality of any module is defined by a plug-in.  Modules accept “plug-ins” at runtime and plug-ins may be changed during run-time.  Plug-ins are custom software which inherit from a module’s base plug-in class.  They allow for custom interfacing and/or internal processing within the module. Plug-ins may be written in MATLAB, LabVIEW, Python, Any of the C variants, and other software languages supported by the host computer.  The host computer must have the supporting software installed, for examples plug-ins written in MATLAB must be supported by a MATLAB installation on the host computer.</p>
+<p>Each plugin must have a text “.ini” file with certain required fields.  within the .ini file is a set of instructions called a “scriptlet”.  When a test is run, the scriptlets from each module within a bus are concatenated together to form a script which is executed by a bus controller. the .ini file also carries default configuration and parameter values for the module as well as the plugin “type” which is displayed by the framework.</p>
 </div>
 <div class="section" id="event">
 <h2>3.3. Event<a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h2>
@@ -104,21 +102,18 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/definitions.txt"
+      <li><a href="_sources/definitions.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -137,12 +132,12 @@
         <li class="right" >
           <a href="License.html" title="2. License and Disclaimer"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2017, Allen Goldstein.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

@@ -1,35 +1,33 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>1. Introduction &mdash; PARTF 0.1 documentation</title>
-    
+    <title>1. Introduction &#8212; PARTF 0.2 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="PARTF 0.1 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="2. License and Disclaimer" href="License.html" />
     <link rel="prev" title="PMU APPLICATIONS REQUIREMENTS TEST FRAMEWORK" href="index.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -42,7 +40,7 @@
         <li class="right" >
           <a href="index.html" title="PMU APPLICATIONS REQUIREMENTS TEST FRAMEWORK"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -56,13 +54,13 @@
 <p>The PARTF framework is software designed to perform standardized benchmarking of applications which use power system sensor (e.g. PMU) data as an input.  Benchmarking is defined as testing an application many times using many datasets with known errors relative to a clean dataset(s), effectively creating a multi-dimensional PMU data error analysis. Benchmarking allows determination of how different errors affect an applications performance.</p>
 <p>The P.A.R.T. Framework is software consisting of:</p>
 <ol class="arabic">
-<li><p class="first">A &#8220;Main&#8221; framework (Figure 1)</p>
+<li><p class="first">A “Main” framework (Figure 1)</p>
 </li>
 <li><p class="first">Configuration using test files</p>
 </li>
 <li><p class="first">Test automation using Python scripting</p>
 </li>
-<li><p class="first">A set of stand-alone modules which work together to create one or more power system &#8220;buses&#8221;:</p>
+<li><p class="first">A set of stand-alone modules which work together to create one or more power system “buses”:</p>
 <blockquote>
 <div><ol class="loweralpha simple">
 <li>Event Module simulates or plays from a file, the power system measurements on a single bus (node) of the bulk electrical power system.</li>
@@ -78,8 +76,8 @@
 </ol>
 <img alt="_images/Frontpanel.png" src="_images/Frontpanel.png" />
 <p>Figure 1: PARTF Front Panel</p>
-<p>Modules support user-designed software &#8220;plug-ins&#8221; which can be written in Matlab, Labview, Python, any of the C variants, or most other software languages.  The plug-in performs the primary function of the module.  Users can focus their effort on developing sensor, applications, and impairment simulation without the need to work on the underlying testing structure. Modules work as a collection to simulate a single power system bus or node, Multiple collections of modules can be created to form multiple bus input to a single application.  The limit of the number of buses that can be supported depends on the memory of the computer hosting the framework.</p>
-<p>A single test run can be performed, or the user can create test automation &#8220;scripts&#8221; to perform &#8220;Monte Carlo&#8221; style analysis test runs.  The script has access to any and all of the parameters and configuration settings of all of the modules. Typically, the script will <code class="docutils literal"><span class="pre">get</span></code> configuration or parameter information from one or more modules, modify the information and <code class="docutils literal"><span class="pre">set</span></code> the modified information back into the module then <code class="docutils literal"><span class="pre">run</span></code> a test and repeat the process until script completion.</p>
+<p>Modules support user-designed software “plug-ins” which can be written in Matlab, Labview, Python, any of the C variants, or most other software languages.  The plug-in performs the primary function of the module.  Users can focus their effort on developing sensor, applications, and impairment simulation without the need to work on the underlying testing structure. Modules work as a collection to simulate a single power system bus or node, Multiple collections of modules can be created to form multiple bus input to a single application.  The limit of the number of buses that can be supported depends on the memory of the computer hosting the framework.</p>
+<p>A single test run can be performed, or the user can create test automation “scripts” to perform “Monte Carlo” style analysis test runs.  The script has access to any and all of the parameters and configuration settings of all of the modules. Typically, the script will <code class="docutils literal"><span class="pre">get</span></code> configuration or parameter information from one or more modules, modify the information and <code class="docutils literal"><span class="pre">set</span></code> the modified information back into the module then <code class="docutils literal"><span class="pre">run</span></code> a test and repeat the process until script completion.</p>
 <p>This document is a detailed reference of the framework.  It is designed for users who will be creating plug-ins, scripts and developing code that uses or modifies the PARTF software.</p>
 </div>
 
@@ -98,21 +96,18 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/intro.txt"
+      <li><a href="_sources/intro.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -131,12 +126,12 @@
         <li class="right" >
           <a href="index.html" title="PMU APPLICATIONS REQUIREMENTS TEST FRAMEWORK"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2017, Allen Goldstein.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.2.
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>
