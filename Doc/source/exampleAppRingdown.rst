@@ -564,6 +564,9 @@ genRngSignal.m
       | *Signal*: Matrix of doubles containing the 3-phase voltages and
         the 3-phase currents signals.
 
+prony\_reconstruction.m
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 2. .. rubric:: prony\_reconstruction.m
       :name: prony_reconstruction.m
 
@@ -645,6 +648,9 @@ genRngSignal.m
 *wrnerr*: Warning flag. It indicates if the toolbox opted for aborting
 the prony calculation. The user will receive a null output.
 
+prgv2\_6.m
+~~~~~~~~~~
+
 1. .. rubric:: prgv2\_6
       :name: prgv2_6
 
@@ -720,6 +726,10 @@ the prony calculation. The user will receive a null output.
       | xcon: Same as input but with all the default values set.
       | *plhs\_3*: Variable disable. Original used for error message.
       | *plhs\_4*: Variable disable. Original used for error message.
+
+
+prspak.m
+~~~~~~~~~
 
 2. .. rubric:: prspak
       :name: prspak
@@ -867,7 +877,7 @@ solution is calculated.
 
 
 Notes
-----------------------------
+-----
 
 .. [note1]
    This values corresponds to the first ten estimated modes of real

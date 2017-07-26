@@ -68,7 +68,7 @@ proposed for PMU data-based estimation. In this documentation, we will
 focus on the Prony analysis. It is one of the most common
 measurement-based identification techniques to identify oscillatory
 modes, and was studied and developed by the Pacific Northwest National
-Laboratory (PNNL) for several years <a class="footnote-reference" href="#id9" id="id1">[1]</a>, <a class="footnote-reference" href="#id10" id="id2">[2]</a>. The following application is based
+Laboratory (PNNL) for several years <a class="footnote-reference" href="#id10" id="id1">[1]</a>, <a class="footnote-reference" href="#id11" id="id2">[2]</a>. The following application is based
 on the Dynamic System Identification (DSI) toolbox that the PNNL have
 implemented.</p>
 <p><em>Fundamentals of Prony analysis</em></p>
@@ -603,7 +603,12 @@ the 3-phase currents signals.</div>
 </li>
 </ol>
 </li>
-<li><p class="first rubric" id="prony-reconstruction-m">prony_reconstruction.m</p>
+</ol>
+</div>
+<div class="section" id="prony-reconstruction-m">
+<h3>prony_reconstruction.m<a class="headerlink" href="#prony-reconstruction-m" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic" start="2">
+<li><p class="first rubric" id="id8">prony_reconstruction.m</p>
 <ol class="arabic">
 <li><p class="first">Purpose: To create a time variant signal from a Prony
 decomposition.</p>
@@ -689,6 +694,9 @@ amp, damp, freq and phase</div>
 <p><em>comp_time</em>: Computing time</p>
 <p><em>wrnerr</em>: Warning flag. It indicates if the toolbox opted for aborting
 the prony calculation. The user will receive a null output.</p>
+</div>
+<div class="section" id="prgv2-6-m">
+<h3>prgv2_6.m<a class="headerlink" href="#prgv2-6-m" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
 <li><p class="first rubric" id="prgv2-6">prgv2_6</p>
 <ol class="arabic">
@@ -757,6 +765,11 @@ dimension, just in case of multiple inputs.</p>
 </li>
 </ol>
 </li>
+</ol>
+</div>
+<div class="section" id="prspak-m">
+<h3>prspak.m<a class="headerlink" href="#prspak-m" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic" start="2">
 <li><p class="first rubric" id="prspak">prspak</p>
 <ol class="arabic">
 <li><p class="first">Purpose: To estimate all the oscillatory modes of the input signal
@@ -900,14 +913,14 @@ before the single run is computed.</td></tr>
 </table>
 </div>
 <div class="section" id="citations">
-<span id="id8"></span><h2>Citations<a class="headerlink" href="#citations" title="Permalink to this headline">¶</a></h2>
-<table class="docutils footnote" frame="void" id="id9" rules="none">
+<span id="id9"></span><h2>Citations<a class="headerlink" href="#citations" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Pacific Northwest National Laboratory. (2017, 07). Dynamic System Identification Toolbox. [Online].  Available: <a class="reference external" href="https://github.com/ftuffner/DSIToolbox">DSIToolbox</a>.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id10" rules="none">
+<table class="docutils footnote" frame="void" id="id11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><ol class="first last upperalpha simple" start="10">
@@ -943,6 +956,9 @@ before the single run is computed.</td></tr>
 <li><a class="reference internal" href="#matlab-function-descriptions">Matlab Function descriptions</a><ul>
 <li><a class="reference internal" href="#rngevt-m">Rngevt.m</a></li>
 <li><a class="reference internal" href="#genrngsignal-m">genRngSignal.m</a></li>
+<li><a class="reference internal" href="#prony-reconstruction-m">prony_reconstruction.m</a></li>
+<li><a class="reference internal" href="#prgv2-6-m">prgv2_6.m</a></li>
+<li><a class="reference internal" href="#prspak-m">prspak.m</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#notes">Notes</a></li>
