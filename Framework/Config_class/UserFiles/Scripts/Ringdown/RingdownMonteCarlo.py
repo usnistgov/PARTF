@@ -9,7 +9,7 @@ import time
 
 start_time = time.time()
 
-iterations=1000
+iterations=20
 
 dfile='data_{}'.format(int(time.time()))
 
