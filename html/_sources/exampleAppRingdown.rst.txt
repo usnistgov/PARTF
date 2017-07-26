@@ -912,34 +912,34 @@ Citations
 .. |image1| image:: figures/ringdown/media/image2.png
    :width: 4.07445in
    :height: 3.55208in
-.. |image2| image:: figures/ringdown/media/image3.PNG
+.. |image2| image:: figures/ringdown/media/image3.png
    :width: 6.39837in
    :height: 5.18557in
-.. |image3| image:: figures/ringdown/media/image4.PNG
+.. |image3| image:: figures/ringdown/media/image4.png
    :width: 5.50000in
    :height: 2.97917in
-.. |image4| image:: figures/ringdown/media/image5.PNG
+.. |image4| image:: figures/ringdown/media/image5.png
    :width: 5.33929in
    :height: 3.01875in
-.. |image5| image:: figures/ringdown/media/image6.PNG
+.. |image5| image:: figures/ringdown/media/image6.png
    :width: 5.23958in
    :height: 2.92375in
-.. |image6| image:: figures/ringdown/media/image7.PNG
+.. |image6| image:: figures/ringdown/media/image7.png
    :width: 5.60651in
    :height: 4.12474in
-.. |image7| image:: figures/ringdown/media/image8.PNG
+.. |image7| image:: figures/ringdown/media/image8.png
    :width: 4.31111in
    :height: 1.84375in
-.. |image8| image:: figures/ringdown/media/image9.PNG
+.. |image8| image:: figures/ringdown/media/image9.png
    :width: 4.30189in
    :height: 3.83618in
-.. |image9| image:: figures/ringdown/media/image10.PNG
+.. |image9| image:: figures/ringdown/media/image10.png
    :width: 4.28750in
    :height: 1.66944in
-.. |image10| image:: figures/ringdown/media/image11.PNG
+.. |image10| image:: figures/ringdown/media/image11.png
    :width: 5.36980in
    :height: 3.85825in
-.. |image11| image:: figures/ringdown/media/image12.PNG
+.. |image11| image:: figures/ringdown/media/image12.png
    :width: 4.11202in
    :height: 3.62159in
 .. |image12| image:: figures/ringdown/media/image13.png
