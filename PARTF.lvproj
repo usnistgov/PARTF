@@ -35,13 +35,57 @@
 			<Item Name="Comms.lvlib" Type="Library" URL="../TestAutomation/Comms/Comms.lvlib"/>
 			<Item Name="LV-PY.lvlib" Type="Library" URL="../TestAutomation/LV-PY/LV-PY.lvlib"/>
 		</Item>
+		<Item Name="UserFiles" Type="Folder">
+			<Item Name="Scripts" Type="Folder">
+				<Item Name="LSE" Type="Folder">
+					<Item Name="LSEMonteCarlo.py" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/LSE/LSEMonteCarlo.py"/>
+					<Item Name="LSEPMUNumber.py" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/LSE/LSEPMUNumber.py"/>
+					<Item Name="PlotLSE_PMUNumber.m" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/LSE/PlotLSE_PMUNumber.m"/>
+					<Item Name="PlotLSE_PMUNumber_several_times.m" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/LSE/PlotLSE_PMUNumber_several_times.m"/>
+					<Item Name="PlotLSENoiseTest.m" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/LSE/PlotLSENoiseTest.m"/>
+					<Item Name="test_pmu_number.py" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/LSE/test_pmu_number.py"/>
+				</Item>
+				<Item Name="Ringdown" Type="Folder">
+					<Item Name="GetRingdownEvtSignal.py" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/Ringdown/GetRingdownEvtSignal.py"/>
+					<Item Name="PlotRingdownNoiseTest.m" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/Ringdown/PlotRingdownNoiseTest.m"/>
+					<Item Name="PlotRingdownSignals.m" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/Ringdown/PlotRingdownSignals.m"/>
+					<Item Name="readme.txt" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/Ringdown/readme.txt"/>
+					<Item Name="RingdownMonteCarlo.py" Type="Document" URL="../Framework/Config_class/UserFiles/Scripts/Ringdown/RingdownMonteCarlo.py"/>
+				</Item>
+				<Item Name="DefaultScript.py" Type="Document" URL="//elwood.nist.gov/684/users/gra1/My Documents/PARTF/Scripts/DefaultScript.py"/>
+			</Item>
+			<Item Name="Tests" Type="Folder">
+				<Item Name="LSE" Type="Folder">
+					<Item Name="DynamicSystem_case13_3pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/DynamicSystem_case13_3pmus.tst"/>
+					<Item Name="DynamicSystem_case13_4pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/DynamicSystem_case13_4pmus.tst"/>
+					<Item Name="DynamicSystem_case13_5pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/DynamicSystem_case13_5pmus.tst"/>
+					<Item Name="DynamicSystem_case1_1pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/DynamicSystem_case1_1pmus.tst"/>
+					<Item Name="DynamicSystem_case3_1pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/DynamicSystem_case3_1pmus.tst"/>
+					<Item Name="IEEEBusSystem_case14_14pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case14_14pmus.tst"/>
+					<Item Name="IEEEBusSystem_case14_6pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case14_6pmus.tst"/>
+					<Item Name="IEEEBusSystem_case14_9pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case14_9pmus.tst"/>
+					<Item Name="IEEEBusSystem_case30_12pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case30_12pmus.tst"/>
+					<Item Name="IEEEBusSystem_case30_9pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case30_9pmus.tst"/>
+					<Item Name="IEEEBusSystem_case39_12pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case39_12pmus.tst"/>
+					<Item Name="IEEEBusSystem_case39_15pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case39_15pmus.tst"/>
+					<Item Name="IEEEBusSystem_case57_15pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case57_15pmus.tst"/>
+					<Item Name="IEEEBusSystem_case57_18pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case57_18pmus.tst"/>
+					<Item Name="IEEEBusSystem_case5_1pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case5_1pmus.tst"/>
+					<Item Name="IEEEBusSystem_case5_3pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case5_3pmus.tst"/>
+					<Item Name="IEEEBusSystem_case9_3pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case9_3pmus.tst"/>
+					<Item Name="IEEEBusSystem_case9_6pmus.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/LSE/IEEEBusSystem_case9_6pmus.tst"/>
+				</Item>
+				<Item Name="Ringdown" Type="Folder">
+					<Item Name="Ringdown.tst" Type="Document" URL="../Framework/Config_class/UserFiles/Tests/Ringdown/Ringdown.tst"/>
+				</Item>
+				<Item Name="default.tst" Type="Document" URL="//elwood.nist.gov/684/users/gra1/My Documents/PARTF/Test/default.tst"/>
+			</Item>
+		</Item>
 		<Item Name="Framework.lvlib" Type="Library" URL="../Framework/Framework.lvlib"/>
 		<Item Name="Bus_class.lvlib" Type="Library" URL="../Framework/Bus_class/Bus_class.lvlib"/>
 		<Item Name="BusController.lvlib" Type="Library" URL="../Framework/BusController/BusController.lvlib"/>
 		<Item Name="Visualization.lvlib" Type="Library" URL="../Visualization/Visualization.lvlib"/>
 		<Item Name="main.vi" Type="VI" URL="../main.vi"/>
-		<Item Name="probe.vi" Type="VI" URL="../Framework/Bus_class/probe.vi"/>
-		<Item Name="BusProbe.vi" Type="VI" URL="../Framework/Bus_class/BusProbe.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="user.lib" Type="Folder">
 				<Item Name="Array Size(s)__ogtk.vi" Type="VI" URL="/&lt;userlib&gt;/_OpenG.lib/lvdata/lvdata.llb/Array Size(s)__ogtk.vi"/>

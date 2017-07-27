@@ -14,8 +14,6 @@
 	<Item Name="Config" Type="Folder">
 		<Property Name="NI.SortType" Type="Int">3</Property>
 		<Item Name="Config.lvclass" Type="LVClass" URL="../Config_class/Config.lvclass"/>
-		<Item Name="default.tst" Type="Document" URL="../Config_class/UserFiles/Tests/default.tst"/>
-		<Item Name="DefaultScript.py" Type="Document" URL="../Config_class/UserFiles/Scripts/DefaultScript.py"/>
 	</Item>
 	<Item Name="FrontPanel" Type="Folder">
 		<Property Name="NI.SortType" Type="Int">3</Property>
