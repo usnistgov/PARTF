@@ -7,10 +7,10 @@ clc;  clear;  close all
 user_pmu_list=[2 6 7 9];    %The bar or the buses were the PMUs are located.
 num_pmu=length(user_pmu_list);  %Number of PMUs installed in the system
 IEEE_bus_selection=3;       %The IEEE system under test
-NoiseVariance=1e-8;         %The noise variance of the AWNG of the magnitude and phase signals.
+NoiseVariance=1e-7;         %The noise variance of the AWNG of the magnitude and phase signals.
 % Event
 Start_Time='0';
-End_Time='5';
+End_Time='4';
 bPosSeq='FALSE';
 Nominal_Frequency='60';
 if(strcmp(Nominal_Frequency,'60'))
@@ -21,9 +21,9 @@ else
     Fsamp='1000';
 end
 % PMU Impairment
-PmuImpairPluginINIFilePath='NoPmuImpairPlugin/NoPmuImpairPlugin.ini';
+PmuImpairPluginINIFilePath='C37PmuImpairPlugin/C37PmuImpairPlugin.ini';
 FilterType='Blackman';
-PmuImpairParams='0 0';
+PmuImpairParams=[8.19 164];
 
 
 %%
@@ -146,7 +146,6 @@ end
 
 for i=1:num_pmu
 fprintf(fid,['[Bus' num2str(i) ']\n']);
-fprintf(fid,['BusNumber = "' num2str(i) '"\n']);
 fprintf(fid,'EvtPluginINIFilePath = "IEEEBusSystemEvtPlugin/IEEEBusSystem.ini"\n');
 fprintf(fid,'EvtParams.<size(s)> = "%d %d"\n',3,column_num(i));
 fprintf(fid,'EvtParams 0 = "%.16f"\n',V_Mag(bus_obs(i)));
@@ -166,10 +165,13 @@ fprintf(fid,['EvtConfig.UTC Time 0 = "\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\
 'EvtConfig.Reporting Rate = "' Reporting_Rate,'"\n',...
 'EvtConfig.Fsamp = "', Fsamp,'"\n',...
 'EvtConfig.PosSeq = "', bPosSeq, '"\n',...
+'BusNumber = "' num2str(i) '"\n',...
 'Start Time = "', Start_Time, '"\n',...
 'End Time = "', End_Time, '"\n',...
 'PmuImpairPluginINIFilePath = "', PmuImpairPluginINIFilePath '"\n',...
-'PmuImpairParams .<size(s)> = "', PmuImpairParams,'"\n',...
+'PmuImpairParams.<size(s)> = "2 1"\n'...
+'PmuImpairParams 0 = "', num2str(PmuImpairParams(1)),'"\n',...
+'PmuImpairParams 1 = "', num2str(PmuImpairParams(2)),'"\n',...
 'PmuImpairConfig.FilterType = "', FilterType,'"\n',...
 'PmuImpairConfig.bPosSeq = "', bPosSeq,'"\n',...
 'NetImpPluginINIFilePath = "NetworkPluginNone/NetworkPluginNone.ini"\n',...

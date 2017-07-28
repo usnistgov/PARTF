@@ -66,9 +66,10 @@ f1=figure('Name','Magnitude','NumberTitle','off','Color','w','Position',[100 700
 boxplot(err_mag_total); hold on
 plot(0.5:1:size(err_mag_total,2)+0.5,threshold_const,'--k')
 plot(0.5:1:size(err_mag_total,2)+0.5,-threshold_const,'--k')
-ylim([-1.1*threshold_const(1) 1.1*threshold_const(1)])
+ylim([-1.4*threshold_const(1) 1.4*threshold_const(1)])
 xlabel('Bus Number')
-ylabel('Phasor Magnitude Error [p.u.]')
+ylabel('Magnitude Error [p.u.]')
+legend('Threshold')
 
 f2=figure('Name','Angle','NumberTitle','off','Color','w','Position',[1000 700 800 400]);
 boxplot(err_phase_total); hold on
@@ -76,14 +77,16 @@ plot(0.5:1:size(err_mag_total,2)+0.5,threshold_const,'--k')
 plot(0.5:1:size(err_mag_total,2)+0.5,-threshold_const,'--k')
 ylim([-1.1*threshold_const(1) 1.1*threshold_const(1)])
 xlabel('Bus Number')
-ylabel('Phasor Phase Error [rad]')
+ylabel('Phase Error [rad]')
+legend('Threshold')
 
-f3=figure('Name','TVE','NumberTitle','off','Color','w','Position',[400 100 1100 500]);
+f3=figure('Name','TVE','NumberTitle','off','Color','w','Position',[450 100 1050 500]);
 boxplot(tve_total); hold on
 plot(0.5:1:size(err_mag_total,2)+0.5,100*threshold_const,'--k')
-ylim([0 105*threshold_const(1)])
+ylim([0 160*threshold_const(1)])
 xlabel('Bus Number')
 ylabel('TVE [%]')
+legend('Threshold')
 
 if(dist_plots)
     

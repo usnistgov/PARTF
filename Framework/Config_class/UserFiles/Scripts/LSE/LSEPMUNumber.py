@@ -18,6 +18,9 @@ import os
 start_time = time.time()
 
 iterations=100
+pmu_index=[14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+#pmu_index=[8, 1, 3, 10, 11, 12,  14,  7, 13,  2,  5,  6,  9, 4]
+pmu_ind = np.array(pmu_index)-1
 
 dfile='data_{}'.format(int(time.time()))
 
@@ -39,8 +42,12 @@ try:
     output_matlab = open(output_matlab_path, 'wb') 
  #-----------------------  Set Evt Config -------------------------------------
     AppCfg = lta.__get__('app.config')    
-    num_pmus=len(AppCfg['LSEConfig']['PMULocations'])
+    pmus_loc=AppCfg['LSEConfig']['PMULocations']
+    num_pmus=len(pmus_loc)
+  
     AppOut_arr = np.zeros((num_pmus*iterations,), dtype=np.object)
+    
+ #-----------------------  Set Impairments ------------------------------------  
     for i in range(num_pmus):
 #    EventConfig = lta.__get__('bus1.event.config')
 #    EventConfig['clEvtConfig']['bPosSeq']= bool(0)
@@ -69,13 +76,14 @@ try:
     j=0;
     #print (num_pmus-1)*iterations
     for i in range(num_pmus*iterations):
-        if (not(i%iterations) and i>0):
-            AppCfg=lta.__get__('app.config')
-            AppCfg['LSEConfig']['PMULocations']=AppCfg['LSEConfig']['PMULocations'][0:-1]
-            lta.__set__('app.config',AppCfg)
-            lta.__set__('bus'+str(num_pmus-j)+'.remove',"")
+        if (not(i%iterations) and i>0):        
+            AppCfg_in= AppCfg
+            AppCfg_in['LSEConfig']['PMULocations']=pmus_loc
+            AppCfg_in['LSEConfig']['PMULocations']=np.delete(AppCfg_in['LSEConfig']['PMULocations'],pmu_ind[0:(j+1)])
+            lta.__set__('app.config',AppCfg_in)
+            lta.__set__('bus'+str(pmu_index[j])+'.remove',"")
             j=j+1
-        string_msg='progress: '+ str(i%iterations)+' %'
+        string_msg='progress: '+ str((i+1)*100/iterations/num_pmus)+' %'
         print string_msg
         lta.__run__()
         AppOutput.append(lta.__get__('app.output'))
