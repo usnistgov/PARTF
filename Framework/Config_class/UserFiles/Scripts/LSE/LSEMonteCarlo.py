@@ -38,6 +38,25 @@ try:
     for h in range(data_size):
         EventTime_arr[h]= EventInput['clEvtReportArray'][h]['clReportArg']['Timestamp']
     EventParams=lta.__get__('bus1.event.params')
+#-----------------------  Get App Config -------------------------------------
+    AppCfg = lta.__get__('app.config')    
+    pmus_loc=AppCfg['LSEConfig']['PMULocations']
+    num_pmus=len(pmus_loc)
+#-----------------------  Set Impairments ------------------------------------  
+    for i in range(num_pmus):
+#---------------------  Set PMU impairment ------------------------------------  
+        impair_string= 'C37PmuImpairPlugin' 
+        ImpairPath=lta.__get__('bus'+ str(i+1) +'.PMUImpairment.PathToPlugin')
+        ImpairPluginPath = os.path.split(ImpairPath['Path'])
+        ImpairPluginPath = os.path.split(ImpairPluginPath[0])
+        ImpairPluginPath = os.path.join(ImpairPluginPath[0],impair_string)
+        ImpairPluginPath = os.path.join(ImpairPluginPath,impair_string+'.ini')
+        ImpairPath['Path']=ImpairPluginPath
+        lta.__set__('bus'+ str(i+1) +'.PMUImpairment.PathToPlugin',ImpairPath)
+        bus_impair_string='bus'+`i+1`+'.pmuimpairment.config'
+        PMUImpCfg=lta.__get__(bus_impair_string)
+        PMUImpCfg['clImpairConfig']['FilterType'] = 'Blackman'
+        lta.__set__(bus_impair_string,PMUImpCfg)
 #--------------------  Perform several runs -----------------------------------   
     for i in range(iterations):
         string_msg='iter: '+ str(i)
