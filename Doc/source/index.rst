@@ -15,6 +15,12 @@ The framework is capable of running user created test automation scripts to perf
 
 The framework uses a software plug-in system so that users may create their own simulated or played-back bus measurements, sensor impairments, network impairment, status impairments, and applications without the need to create entire test frameworks.  Besides testing applications, the PARTF can be used to test PMU and other sensor estimation algorithms.
 
+A short note about the beta process
+===================================
+PARTF is in closed beta at this time.  There is still lots to do but the framework is useful at this time for doing some analysis of the effects of PMU measurement impairment on applications.  We are happy to get more collaborators on the project to work on their own applications while helping us flesh out the features of the framework.  Please contact allen.goldstein@nist.gov if you would like to collaborate.  Feel free to send a *detailed* ``pull request`` if you think you have something of value to add from your fork.
+
+During this beta period, there will be frequent commits to the master branch.  Make sure to follow the changes. 
+
 Contents:
 =========
 
