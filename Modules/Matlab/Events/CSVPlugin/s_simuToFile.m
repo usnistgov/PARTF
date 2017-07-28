@@ -8,7 +8,8 @@ NoiseVariance=1e-8;
 PMULocations=[2 9 13];  PMULocations=sort(PMULocations);
 num_pmu=length(PMULocations);
 setPosSeq=0;
-csv_path=['CSV files\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
+user_dir = winqueryreg('HKEY_CURRENT_USER','SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders','Personal');
+csv_path=[user_dir '\PARTF\Tests\LSE\Inputdata\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
 
 
 time=t;
@@ -78,11 +79,11 @@ fclose(fid);
 
 %% Create CSV file
 
-reference_path=['CSV files\VoltageReferences_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
+reference_path=[user_dir '\PARTF\Tests\LSE\Inputdata\VoltageReferences_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
 fid = fopen(reference_path, 'wt' );
 
 data_ref=bus_vol(1:nbus,:).';
-for i=1:size(data_ref,1)
+for i=1:size(data_ref,1) 
     for j=1:size(data_ref,2)
         fprintf(fid,'%+.15f%+.15fi',real(data_ref(i,j)),imag(data_ref(i,j)));
         if(j<size(data_ref,2))
@@ -123,8 +124,7 @@ PmuImpairParams='0 0';
 
 
 % File creation;
-%user_dir = getenv('USERPROFILE');
-file_path=['C:' getenv('HOMEPATH') '\Documents\PARTF\Tests\DynamicSystem_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.tst'];
+file_path=[user_dir '\PARTF\Tests\LSE\DynamicSystem_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.tst'];
 fid = fopen(file_path, 'wt' );
 
 if(fid==-1)
@@ -139,7 +139,7 @@ fprintf(fid,['[Bus' num2str(i) ']\n']);
 fprintf(fid,['BusNumber = "' num2str(i) '"\n']);
 fprintf(fid,'EvtPluginINIFilePath = "EventFromCSVPlugin/EventFromCSVPlugin.ini"\n');
 fprintf(fid,'EvtParams.<size(s)> = "%d %d"\n',1,1);
-fprintf(fid,'EvtParams 0 = "%s"\n',strcat(pwd,strcat('\',csv_path)));
+fprintf(fid,'EvtParams 0 = "%s"\n',['LSE\Inputdata\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv']);
 fprintf(fid,['EvtConfig.UTC Time 0 = "\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00"\n',...
 'EvtConfig.Nominal Frequency = "', Nominal_Frequency,'"\n',...
 'EvtConfig.Reporting Rate = "' Reporting_Rate,'"\n',...
@@ -169,7 +169,7 @@ switch(app)
         for i=1:num_pmu
             fprintf(fid,['<U32>\\0D\\0A<Name>Numeric</Name>\\0D\\0A<Val>' num2str(PMULocations(i)) '</Val>\\0D\\0A</U32>\\0D\\0A']);
         end
-    fprintf(fid,'</Array>\\0D\\0A<I32>\\0D\\0A<Name>Vindex</Name>\\0D\\0A<Val>0</Val>\\0D\\0A</I32>\\0D\\0A<I32>\\0D\\0A<Name>Iindex</Name>\\0D\\0A<Val>3</Val>\\0D\\0A</I32>\\0D\\0A<String>\\0D\\0A<Name>DynamicRef</Name>\\0D\\0A<Val>Modules\\Matlab\\Events\\CSVPlugin\\%s</Val>\\0D\\0A</String>\\0D\\0A</Cluster>\\0D\\0A"',reference_path);
+    fprintf(fid,'</Array>\\0D\\0A<I32>\\0D\\0A<Name>Vindex</Name>\\0D\\0A<Val>0</Val>\\0D\\0A</I32>\\0D\\0A<I32>\\0D\\0A<Name>Iindex</Name>\\0D\\0A<Val>3</Val>\\0D\\0A</I32>\\0D\\0A<String>\\0D\\0A<Name>DynamicRef</Name>\\0D\\0A<Val>%s</Val>\\0D\\0A</String>\\0D\\0A</Cluster>\\0D\\0A"',['LSE\Inputdata\VoltageReferences_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv']);
     fprintf(fid,'\n\n');
     case 'ModelValidation'
         fprintf(fid,'[AppData]\n');

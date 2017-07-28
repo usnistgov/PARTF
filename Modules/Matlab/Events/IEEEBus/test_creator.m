@@ -25,7 +25,8 @@ PmuImpairPluginINIFilePath='C37PmuImpairPlugin/C37PmuImpairPlugin.ini';
 FilterType='Blackman';
 PmuImpairParams=[8.19 164];
 
-
+user_dir = winqueryreg('HKEY_CURRENT_USER','SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders','Personal');
+file_suffix='';
 %%
 
 all_IEEE_cases={'case5' 'case9' 'case14' 'case30' 'case39' 'case57'};
@@ -135,7 +136,7 @@ end
 column_num=current_concections(bus_obs)+1;
 
 % File creation;
-file_path=['C:' getenv('HOMEPATH') '\Documents\PARTF\Tests\IEEEBusSystem_' IEEE_case '_' num2str(num_pmu) 'pmus.tst'];
+file_path=[user_dir '\PARTF\Tests\LSE\IEEEBusSystem_' IEEE_case '_' num2str(num_pmu) 'pmus' file_suffix '.tst'];
 fid = fopen(file_path, 'wt' );
 
 if(fid==-1)
@@ -217,3 +218,4 @@ fprintf(fid,'OutToFileConfig.clConfigOptions.CHNAM 7 = "I+"\n');
 fprintf(fid,'OutToFileConfig.clConfigOptions.chkCfg2Prefix = "TRUE"\n');
 
 fclose(fid);
+fprintf('\nThe following file was created:\n%s\n\n',file_path);
