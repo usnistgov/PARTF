@@ -39,6 +39,7 @@ Contents:
 
 .. toctree::
    exampleAppRingdown
+   exampleAppLSE
    moduleAppendix
 
 

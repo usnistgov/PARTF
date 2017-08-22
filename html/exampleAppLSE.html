@@ -1,0 +1,701 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Appendix B: Linear State Estimation (LSE) Example Application &#8212; PARTF 0.2 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Appendix C: Pluggable Module Reference" href="moduleAppendix.html" />
+    <link rel="prev" title="Appendix A: Ringdown Example Application" href="exampleAppRingdown.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="moduleAppendix.html" title="Appendix C: Pluggable Module Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="exampleAppRingdown.html" title="Appendix A: Ringdown Example Application"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="appendix-b-linear-state-estimation-lse-example-application">
+<h1>Appendix B: Linear State Estimation (LSE) Example Application<a class="headerlink" href="#appendix-b-linear-state-estimation-lse-example-application" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Electromechanical dynamic models are widely used to study transient and
+small signal stability problems in power systems. States are the minimum
+set of variables that can determine the status of a dynamic system. A
+dynamic model with accurate states can faithfully reveal system
+responses and therefore be used to enhance system stability and
+reliability of a power system.</p>
+<p>Therefore, the main objective of state estimation is to find the
+voltage phasors of all the bars or buses of the system. To understand
+the methodology, a classic observation model is described below:</p>
+<div class="math">
+\[\mathbf{z} = h\left( \mathbf{x} \right) + \mathbf{\eta}\]</div>
+<p>Where <span class="math">\(\mathbf{z}\)</span> is a vector
+<span class="math">\(\in \ \mathbb{R}^{\text{mx}1}\)</span> containing the <em>m</em> measurements
+from all the sensing devices installed in the network,
+<span class="math">\(\mathbf{x}\mathbf{\  \in \ }\mathbb{R}^{2\text{nx}1}\mathbf{\ }\)</span>
+is the state vector with the voltage phasors of the n buses of the
+electrical system, <span class="math">\(h()\)</span> is a
+<span class="math">\(\mathbb{R}^{2n}\  \rightarrow \mathbb{R}^{m}\)</span> function which
+relates the voltage phasors to the measurements. Now, if the system
+relies exclusively on PMU phasor measurements, the model can be
+expressed in linear form:</p>
+<div class="math">
+\[\mathbf{z} = H\ \mathbf{x} + \mathbf{\eta}\]</div>
+<p>Otherwise if there are measurements such as active and reactive power
+(SCADA case) the function <span class="math">\(h\)</span> is non-linear, and iterative methods
+such as Gauss-Newton must be used to reach a solution. At the end of this annex a sub-annex that shows how to obtain the measurement
+matrix <span class="math">\(H\ \mathbf{\in \ }\mathbb{R}^{\text{mx}2n}\)</span> is explained.
+To estimate the optimal value of the state vector, the Weighted Least
+Squares (WLS) method is proposed, in accordance with this approach the
+following objective function is defined:</p>
+<div class="math">
+\[J\left( \mathbf{x} \right)\mathbf{=}{\mathbf{\lbrack z -}H\mathbf{\ x\rbrack}}^{\mathbf{T}}R^{\mathbf{- 1}}\mathbf{\lbrack z -}H\mathbf{\ x\rbrack}\]</div>
+<p>Where <span class="math">\(R\)</span> is the covariance matrix of the measurements. The
+optimal solution that minimizes the objective function is:</p>
+<div class="math">
+\[{\hat{\mathbf{x}}}_{\text{LS}} = {\lbrack H^{T}R^{- 1}H\rbrack}^{- 1}H^{T}R^{- 1}\ \mathbf{z}\]</div>
+<p>Where <span class="math">\({\hat{\mathbf{x}}}_{\text{LS}}\)</span> is the least square
+estimator we were looking for.</p>
+<p>Some of this example is based upon work done at Washington State University <a class="footnote-reference" href="#id3" id="id1">[1]</a>.</p>
+</div>
+<div class="section" id="example-linear-state-estimation">
+<h2>Example Linear State Estimation<a class="headerlink" href="#example-linear-state-estimation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="getting-started">
+<h3>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h3>
+<p>Before the LSE examples can be run, some first-time setup is required.
+These instructions are the same as found in <a class="reference internal" href="quickStart.html#matlabtoolbox"><span class="std std-ref">Quick Start</span></a></p>
+<p>The Linear State Estimation Example Application uses two Matlab toolboxes that need to be downloaded:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Go to the <a class="reference external" href="http://www.pserc.cornell.edu/matpower/">PSERC MatPower Page</a> and click <code class="docutils literal"><span class="pre">Download</span> <span class="pre">Now</span></code>.</p>
+<blockquote>
+<div></div></blockquote>
+</li>
+<li><p class="first">Unzip the downloaded file into your <cite>Documents\MATLAB\Toolbox folder</cite>.</p>
+</li>
+<li><p class="first">Add the path to MatPower to the Matlab Path using the instructions in the Matlab <code class="docutils literal"><span class="pre">pathtool</span></code> similar to the Matlab Path section above.</p>
+</li>
+<li><p class="first">PARTF requires some of the .m files in MatPower to be modified. Find the following folder: <cite>&lt;partf install path)\Modules\MATLAB\Events\IEEEBus\IEEE cases</cite>, copy the nine ‘case##.m’ files and copy them to the matpower main folder, replacing the files that were there. The most part of the files are the same, but little modifications were made to save the reference voltages of the IEEE systems.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>The LSE Application Example also includes Dynamic Events.  These examples require the Matlab Power System Toolbox available from The Royal Institute of Technology in Stockholm, Sweden.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Download <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/pstv3.zip">PSTV3</a>, <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/pstdat.zip">PST Data</a>, and the <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/PSTMan.zip">Manual</a></p>
+<blockquote>
+<div></div></blockquote>
+</li>
+<li><p class="first">You will need to <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/Power_System_Toolbox_Webpage/Software_Request.html">register and get a password</a></p>
+<blockquote>
+<div></div></blockquote>
+</li>
+<li><p class="first">As with the MatPower toolbox, unzip these into your <cite>Documents\MATLAB\Toolbox</cite> folder and set up the Matlab Path</p>
+</li>
+</ul>
+</div></blockquote>
+<p>Note that the Power System Toolbox is not open source software and cannot be redistributed.</p>
+</div>
+<div class="section" id="creation-of-a-stationary-event-case-for-a-ieee-standard-system">
+<h3>Creation of a stationary event case for a IEEE standard system<a class="headerlink" href="#creation-of-a-stationary-event-case-for-a-ieee-standard-system" title="Permalink to this headline">¶</a></h3>
+<p>The MATPOWER toolbox installed during the first-time setup is used to create IEEEBusSystem test (.tst) files., With these files, the PMUs could be in any location and in any IEEE bus system that the user desires. To do that please take a look at the <em>My Documents\PARTF\Tests\LSE\IEEEBusSystem_test_creator.m</em> file. From there you
+will find the user input variables which you will be able to change:</p>
+<ul class="simple">
+<li>user_pmu_list []: The bar or the buses were the PMUs are located.</li>
+<li>IEEE_bus_selection: The IEEE system under test</li>
+<li>NoiseVariance: The noise variance of the AWNG of the magnitude and
+phase signals.</li>
+<li>The event configuration parameters:<ul>
+<li>Start time:</li>
+<li>End time:</li>
+<li>PosSeq:</li>
+<li>Nominal Frequency:</li>
+<li>Reporting Rate:</li>
+<li>FSamp:</li>
+</ul>
+</li>
+<li>The PMU impairment parameters:<ul>
+<li>PMUImpairPluginINIFilePath</li>
+<li>FilterType:</li>
+<li>PmuImpairParams:</li>
+</ul>
+</li>
+</ul>
+<p>If you run this MATLAB code, you are creating a .<em>tst</em> file in the
+Test files directory. The name of the file created reflects the IEEE
+system selected as well also the number of PMUs associated (by default:
+<em>IEEEBusSystem_case14_4pmus.tst</em>).</p>
+<p>If the PARTF framework is not running, start it now. Click the file browse button in the``Test File`` control and select the newly created file in <code class="docutils literal"><span class="pre">..\\tests\\LSE</span> <span class="pre">(*IEEEBusSystem\_case14\_4pmus.tst*</span> <span class="pre">by</span> <span class="pre">default).</span>&#160; <span class="pre">next</span> <span class="pre">click</span> <span class="pre">the</span> <span class="pre">``Open</span></code> button.  4 busses will be created.</p>
+<p>To check the results launch the VisualizeAppLSE.vi by clicking on the <code class="docutils literal"><span class="pre">Visualization</span></code> button in the top right of the PARTF panel. VisualizeAllLSE should be pre-checked so click the <code class="docutils literal"><span class="pre">Run</span> <span class="pre">Apps</span></code> button to launch the visualization app. Visualization apps give the user the ability to see the resutls of a test run while the test is running.  Unless an application has a Visualization App, the user will not be able to observe the operation of the Test Framework.</p>
+<p>You can run one iteration of the test by pressing the <code class="docutils literal"><span class="pre">Single</span> <span class="pre">Run</span></code> button in the bottom center of the PARTF panel.
+After a single run, you will observe some signals very similar to the ones showed in
+Figure B1. The default settings create a file with PMUs in the
+buses: {2,6,7,9}. With these locations, we can ensure total
+observability in the system.</p>
+<p>The Total System Error (TSE) is displayed.  By changing the <code class="docutils literal"><span class="pre">Bus</span> <span class="pre">Number</span></code> control in the visualization App, you can see the Bus Magnitudes. Phases, and Total Vector Error (TVE) for each of the buses.</p>
+<p><a class="reference internal" href="_images/image1.PNG"><img alt="image0" src="_images/image1.PNG" style="width: 6.59699in; height: 4.43404in;" /></a></p>
+<p>Figure B1: Front panel of the visualization VI for the LSE app. A 14 IEEE
+bus system is displayed.</p>
+</div>
+<div class="section" id="dynamic-events">
+<h3>Dynamic events<a class="headerlink" href="#dynamic-events" title="Permalink to this headline">¶</a></h3>
+<p>Dynamic IEEE Bus events use the Matlab Power System Toolbox installed
+during <a class="reference internal" href="quickStart.html#matlabtoolbox"><span class="std std-ref">Quick Start</span></a>.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Run Matlab and type <code class="docutils literal"><span class="pre">s\_simu</span></code>.</li>
+<li>You will be asked to select a file, choose <em>&lt;your PARTF location&gt;\Modules\Matlab\Events\CSVPlugin\cases\dtest_13_3phasefault.m</em> to simulate a dynamic 3 phase fault in the bus number.</li>
+<li>The default values of 100 MVA and Base Frequency of 60Hz is suitable or can be changed.</li>
+<li>When s_simu completes, press enter to end the program. The fault is released after 0.1 s and after that, a ringdown event takes place. Now all the signals needed have been created in the Matlab workspace.</li>
+<li><dl class="first docutils">
+<dt>Create a .csv input file for PARTF: in Matlab, type <code class="docutils literal"><span class="pre">s\_simuToFile</span></code>. This matlab program creates three different files in your <em>My Documents\PARTF\Tests\LSE</em> folder:</dt>
+<dd><ol class="first last loweralpha">
+<li>The first file is a <em>.tst</em> file which will be opened in the PARTF framework.</li>
+<li>The second one <em>.csv</em> file in the <em>..\Inputdata</em> folder containing the signals of each one of the PMUs.</li>
+<li>The last file is a reference signal waveform also in the <em>..\Inputdata</em> folder. This file will be used during the analysis of the test results.</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</div></blockquote>
+<dl class="docutils">
+<dt>Now you can browse and select the newly created <em>DynamicSystem_case13_3pmus.tst</em> In the PARTF <code class="docutils literal"><span class="pre">Test</span> <span class="pre">File</span></code> control. Use the <code class="docutils literal"><span class="pre">Open</span></code> button to create 3 buses.  Note that the <code class="docutils literal"><span class="pre">Event</span> <span class="pre">Parameters</span></code> control now lists the relative path to the newly created <em>.csv</em> file.  To run this test do the following:</dt>
+<dd><ol class="first last arabic simple">
+<li>Since a new test has been opened, the VisualiseAppLSE application will need to be reset by clicking on the <code class="docutils literal"><span class="pre">Restart</span> <span class="pre">Plots</span></code> button.</li>
+<li>In the PARTF framework, click <code class="docutils literal"><span class="pre">Single</span> <span class="pre">Run</span></code> in the bottom center of the panel.</li>
+<li>To view any of the buses in the VisualizeAppLSE, select the bus in the <code class="docutils literal"><span class="pre">Bus</span> <span class="pre">Number</span></code> control.</li>
+</ol>
+</dd>
+</dl>
+<p>The Figure B2 below shows the results for this kind of event. With PMUs in the
+10 and 11 locations only the 46% percent of the total number of buses
+can be estimated. The user can select which bus to visualize using the <cite>Bus Number control</cite>, in this case the number 8 is
+displayed.</p>
+<p><a class="reference internal" href="_images/image2.PNG"><img alt="image1" src="_images/image2.PNG" style="width: 6.50000in; height: 4.36885in;" /></a></p>
+<p>Figure B2: Front panel of the visualization VI for the LSE app. A
+dynamic 13 bus system is displayed.</p>
+</div>
+</div>
+<div class="section" id="montecarlo-analysis">
+<h2>MonteCarlo analysis<a class="headerlink" href="#montecarlo-analysis" title="Permalink to this headline">¶</a></h2>
+<p>Many kinds of test can be performed using python scripts. Documentation can be found under <a class="reference internal" href="testAutomation.html#testautomation"><span class="std std-ref">Test Automation</span></a>. Two examples of Monte Carlo Analysis are presented here:</p>
+<div class="section" id="the-effects-of-pmu-filtering">
+<h3>The Effects of PMU Filtering<a class="headerlink" href="#the-effects-of-pmu-filtering" title="Permalink to this headline">¶</a></h3>
+<p>The first example, involves in performing a Monte Carlo simulation for a
+stationary IEEE bus event in order to evaluate the performance of the
+LSE application against the additive white Gaussian noise present in the
+measurements. We will use two different PMU filter types: Hamming and Blackman to see how the PMU filtering affects white Gaussian Noise rejection.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Using the <code class="docutils literal"><span class="pre">Test</span> <span class="pre">File</span></code> control, Open the <em>IEEEBusSystem_case14_4pmus.tst</em> again.</li>
+<li>On the <code class="docutils literal"><span class="pre">Sensor</span></code> Impariment tab, change the <code class="docutils literal"><span class="pre">FilterType</span></code> control to <code class="docutils literal"><span class="pre">Hamming</span></code> and click the <code class="docutils literal"><span class="pre">Update</span> <span class="pre">Bus</span></code> button. Since the last bus is selected in the <code class="docutils literal"><span class="pre">Bus</span> <span class="pre">Number</span></code> control each time a new test file is opened, you just changed the PMU Filter Type for the PMU on bus number 4.</li>
+<li>Now select of each one of other 3 buses and change the <code class="docutils literal"><span class="pre">FilterType</span></code> to <code class="docutils literal"><span class="pre">Hamming</span></code> then click <code class="docutils literal"><span class="pre">Update</span> <span class="pre">Bus</span></code> for each. How annoying was that? (Later we will show you how to change configurations using the Monte Carlo Analysis script).</li>
+</ol>
+</div></blockquote>
+<p>Once the bus PMUs are modified, use <code class="docutils literal"><span class="pre">Monte</span> <span class="pre">Carlo</span> <span class="pre">Script</span></code> control to the browse and select <em>My Documents\PARTF\Scripts\LSE\LSEMonteCarlo.py</em> script, then press the blue <code class="docutils literal"><span class="pre">Monte</span> <span class="pre">Carlo</span></code> button. This script will repeat the test sequence twenty times: generate the signal,  generate synchrophasors and impair them as the PMU with a Hamming window would,
+then run the LSE app.</p>
+<p>The idea of this example is to run the test many times in order to gather enough data to perform a statistical analysis. This is preferable to a single test with a very long duration due to limitations in computer memory and buffer sizes. All these signals are saved in a <em>.mat</em> in the Output folder and again MATLAB can be used to evaluate the application performance. Please, run the <em>\PARTF\Scripts\LSE\PlotLSENoiseTest.m</em>. When the Select data File
+dialog opens, browse to ..\PARTF\Output and open the recently created
+data_#.mat file. As can be seen from the Figures B3 to B5 the magnitude
+error, the phase error and the total vector error (TVE) are plotted for
+each one of the voltages in the buses.</p>
+<p><a class="reference internal" href="_images/image3.PNG"><img alt="image2" src="_images/image3.PNG" style="width: 4.97021in; height: 2.82663in;" /></a></p>
+<p>Figure B3: Boxplot <a class="reference internal" href="#note1" id="id2">[note1]</a> of the magnitude error of all the voltages in the
+14 IEEE system using a Hamming window.</p>
+<p><a class="reference internal" href="_images/image4.PNG"><img alt="image3" src="_images/image4.PNG" style="width: 5.25402in; height: 3.01677in;" /></a></p>
+<p>Figure B4: Boxplot of the phase error of all the voltages in the 14 IEEE
+system using a Hamming window.</p>
+<p><a class="reference internal" href="_images/image5.PNG"><img alt="image4" src="_images/image5.PNG" style="width: 5.16899in; height: 2.76765in;" /></a></p>
+<p>Figure B5: Boxplot of the TVE of all the voltages in the 14 IEEE system
+using a Hamming window.</p>
+<p>Thresholds in each one of these magnitudes can be defined by the user to
+delimit the maximum error tolerated for the next step of the processing
+chain. As you can see the application is not complaint with expected
+performance.</p>
+<p><a class="reference internal" href="_images/image6.PNG"><img alt="image5" src="_images/image6.PNG" style="width: 3.66262in; height: 0.99611in;" /></a></p>
+<p>Next we will change the PMU filter back to Blackman from Hamming.  There are several ways of doing this:  From the PARTF panel as we did before, from inside the matlab <em>.tst</em> file creation program, or using the Python Monte Carlo Script.  In this example, we will use the Monte Carlo script.</p>
+<p>In your favorite python script editing program (you can use Notepad if you do not have another) open <em>My Documents\PARTF\Scripts\LSE\LSEMonteCarlo.py</em>  Conveniently located at line 28, you will find:     <em>PMUFilterType = ‘Hamming’</em>  Change <em>Hamming</em> to <em>Blackman</em>.  Note on lines 48 through 61 is a loop that iteratres through all the buses and loads the PMU Impairment plugin then changes the ImpairConfig.Filtertype to “PMUFilterType”.  Save the file then run it again in the PARTF framework.  You will notice that the <cite>FilterType</cite> on the <cite>Sensors</cite> tab changes to <em>Blackman</em></p>
+<p>Once again run the Matlab program <em>PlotLSENoiseTest.m</em>.  You should notice a significant difference in the results:</p>
+<p><a class="reference internal" href="_images/image7.PNG"><img alt="image6" src="_images/image7.PNG" style="width: 3.75472in; height: 0.84758in;" /></a></p>
+<p><a class="reference internal" href="_images/image8.PNG"><img alt="image7" src="_images/image8.PNG" style="width: 4.78439in; height: 2.76765in;" /></a></p>
+<p>Figure B6: Boxplot of the magnitude error of all the voltages in the 14
+IEEE system using a Blackman window.</p>
+<p><a class="reference internal" href="_images/image9.PNG"><img alt="image8" src="_images/image9.PNG" style="width: 4.76064in; height: 2.76765in;" /></a></p>
+<p>Figure B7: Boxplot of the phase error of all the voltages in the 14 IEEE
+system using a Blackman window.</p>
+<p><a class="reference internal" href="_images/image10.PNG"><img alt="image9" src="_images/image10.PNG" style="width: 4.63766in; height: 2.45216in;" /></a></p>
+<p>Figure B8: Boxplot of the TVE of all the voltages in the 14 IEEE system
+using a Blackman window.</p>
+<p>So, as any user can expect the level of performance of the application
+depends on the uncertainties in the PMU measurements. The application
+does not include errors in the model of the system, so all the results
+plotted before assumes that the LSE app knows exactly the impedances
+between the different nodes of the network.</p>
+</div>
+<div class="section" id="observability">
+<h3>Observability<a class="headerlink" href="#observability" title="Permalink to this headline">¶</a></h3>
+<p>The second kind of test that can be performed is an observability test,
+how does the number of PMU in the system affect the state estimation?
+This next test is going to take a long time to run so you might think
+about starting it before lunchtime or letting it run overnight.</p>
+<p>First we are going to edit the <em>My Documents\PARTF\Tests\LSE\IEEEBusSystem_test_creator.m</em> file to add a PMU for each of the 14 buses created by this program.  Find line 7 and change it to read: <em>user_pmu_list=[14 13 12 11 10 9 8 7 6 5 4 3 2 1];</em>  Save and run the Matlab Program.  It will create <em>My DocumentsPARTFTestsLSEIEEEBusSystem_case14_14pmus.tst</em>  In the PARTF Framework, use the <code class="docutils literal"><span class="pre">Test</span> <span class="pre">File</span></code> control to browse and select this file.  Click the <code class="docutils literal"><span class="pre">Open</span></code> button and 14 buses will be created.  In the VisualizeAppLSE application, you can click the <code class="docutils literal"><span class="pre">Restart</span> <span class="pre">Plots</span></code> button since you just loaded a new test.  Test the 14 bus system using <code class="docutils literal"><span class="pre">Single</span> <span class="pre">Run</span></code>.</p>
+<p>In the <code class="docutils literal"><span class="pre">Monte</span> <span class="pre">Carlo</span> <span class="pre">Script</span></code> control, browse and select <em>LSE\LSEPMUNumber.py</em>.  This script will repeat the same sequence of the last example 13 times with one PMU being removed with in each set of iterations. The way to reduce the PMUs is following the <em>pmu_index</em> variable, and as you can see the PMUs are in a descendent order.  Click ‘’Monte Carlo’’ and head on home or out to lunch, this will take a while…</p>
+<p>When the Monte Carlo simulation had finished and all the output data had been saved repeat the simulation reducing ther number of PMUs each iteration. Run the Matlab program <em>My Documents\PARTF\Scripts\LSE\PlotLSE_PMUNumber.m</em>. This new order contemplates the number of current channels of each one of the PMUs. The first value of the list corresponds to the PMU with smallest number of current channels and vice versa. It is going to take a long time to perform this test, but after the simulation is over you will able to see a couple of graphs very similar to the ones in the Figure B9 and B10.</p>
+<p><a class="reference internal" href="_images/image11.PNG"><img alt="image10" src="_images/image11.PNG" style="width: 4.98597in; height: 2.76840in;" /></a></p>
+<p>Figure B9: The percent rate between the estimated buses and the total
+number of buses of the system.</p>
+<p><a class="reference internal" href="_images/image12.PNG"><img alt="image11" src="_images/image12.PNG" style="width: 4.87124in; height: 2.76840in;" /></a></p>
+<p>Figure B10: The root average mean square error vs the number of PMUs.</p>
+<p>Notice that the root average mean square error, defined in , represents
+a metric similar to the TSE of the visualization virtual instrument, but
+the way that each one of them is calculated differs:</p>
+<div class="math">
+\[TSE = \sqrt{\sum_{i = 1}^{N}{\text{TVE}^{2}}_{i}}\]</div>
+<div class="math">
+\[RAMSE = \sqrt{\frac{1}{N}\sum_{i = 1}^{N}{E\lbrack{\varepsilon_{\text{VEi}}}^{2}\rbrack}}\]</div>
+<p>Where,</p>
+<p><span class="math">\(\varepsilon_{\text{VEi}} = \left| \left( V_{i} + \varepsilon_{\text{Vi}} \right)e^{j\left( \theta_{i} + \varepsilon_{\text{θi}} \right)} - V_{i}e^{j\theta_{i}} \right|\)</span></p>
+</div>
+</div>
+<div class="section" id="summary-of-labview-vis">
+<h2>Summary of Labview Vis<a class="headerlink" href="#summary-of-labview-vis" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="eventplugins-lvlib-ieeebussystemplugin-lvclass">
+<h3>EventPlugins.lvlib: IEEEBusSystemPlugin.lvclass<a class="headerlink" href="#eventplugins-lvlib-ieeebussystemplugin-lvclass" title="Permalink to this headline">¶</a></h3>
+<p>Parent class: EventPluginBaseClass.lvclass</p>
+<p>Overridden Vis: GetEvtReports.vi, GetEvtSignal.vi</p>
+<p>IEEEBusEvtPlugin.ctl: Empty, the parent class control is used.</p>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image132.png"><img alt="image12" src="_images/image132.png" style="width: 0.44792in; height: 0.44792in;" /></a><strong>*GetEvtReports.vi*</strong> Icon:</div>
+<div class="line">Inputs: IEEEBusEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">ClEvtConfig: T0, F0, bPosSeq</p>
+</li>
+<li><p class="first">dblTimeArray</p>
+</li>
+<li><p class="first">dblEvtParams</p>
+</li>
+<li><p class="first">BusNumber</p>
+<p>Outputs: IEEEBusEvtPlugin object</p>
+</li>
+<li><p class="first">Timestamp</p>
+</li>
+<li><p class="first">Synx</p>
+</li>
+<li><p class="first">Freq</p>
+</li>
+<li><p class="first">ROCOF</p>
+<div class="line-block">
+<div class="line">Description: Creates all the synchrophasors included in each one
+of the reports based on the event</div>
+<div class="line">configuration and the event parameters. Contains a MATLAB script
+block where IEEEevt.m</div>
+<div class="line">is called. See IEEEevt.m for more details.</div>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image142.png"><img alt="image13" src="_images/image142.png" style="width: 0.44583in; height: 0.44583in;" /></a><strong>*GetEvtSignal.vi*</strong> Icon:</div>
+<div class="line">Inputs: IEEEBusEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">ClEvtConfig: FSamp</p>
+</li>
+<li><p class="first">dblTimeArray</p>
+</li>
+<li><p class="first">dblEvtParams</p>
+</li>
+<li><p class="first">BusNumber</p>
+<p>Output: IEEEBusEvtPlugin object</p>
+</li>
+<li><p class="first">Signal</p>
+</li>
+</ul>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Description: Creates the voltage and the current waveforms.
+Contains a MATLAB script block where</div>
+<div class="line">genIEEESignal.m is called. See genIEEESignal.m for more details.</div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="appplugins-lvlib-ringdownplugin-lvclass">
+<h3>AppPlugins.lvlib: RingdownPlugin.lvclass<a class="headerlink" href="#appplugins-lvlib-ringdownplugin-lvclass" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Parent class: AppPluginsBase.lvclass</div>
+<div class="line">Overridden Vis: AppConfig.vi, AppCOnfigTypeToXML.vi,
+AppConfigXMLToType.vi, GetAppOutput.vi,</div>
+<div class="line">WriteEvtConfig.vi</div>
+</div>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image152.png"><img alt="image14" src="_images/image152.png" style="width: 0.43889in; height: 0.43472in;" /></a><strong>*GetAppOutput.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">RingdownConfig: V index</p>
+<p>EventConfiguration.ctl</p>
+</li>
+<li><p class="first">PosSeq</p>
+<p>Outputs: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">RingdownConfig: I index</p>
+</li>
+<li><p class="first">RingdownConfig: PosSeq</p>
+<div class="line-block">
+<div class="line">Description: Based on the PosSeq Boolean value, the I index is
+set. This index allows the</div>
+<div class="line">GetAppOutput.vi to know where to look for the current
+synchrophasors values.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image162.png"><img alt="image15" src="_images/image162.png" style="width: 0.43889in; height: 0.43958in;" /></a><strong>*GetLSEEstimate.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">RingdownConfig: V index</p>
+<p>EventConfiguration.ctl</p>
+</li>
+<li><p class="first">PosSeq</p>
+<p>Outputs: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">RingdownConfig: I index</p>
+</li>
+<li><p class="first">RingdownConfig: PosSeq</p>
+<div class="line-block">
+<div class="line">Description: Based on the PosSeq Boolean value, the I index is
+set. This index allows the</div>
+<div class="line">GetAppOutput.vi to know where to look for the current
+synchrophasors values.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image172.png"><img alt="image16" src="_images/image172.png" style="width: 0.43889in; height: 0.43889in;" /></a><strong>*GetPMUNumber.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">RingdownConfig: V index</p>
+<p>EventConfiguration.ctl</p>
+</li>
+<li><p class="first">PosSeq</p>
+<p>Outputs: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">RingdownConfig: I index</p>
+</li>
+<li><p class="first">RingdownConfig: PosSeq</p>
+<div class="line-block">
+<div class="line">Description: Based on the PosSeq Boolean value, the I index is
+set. This index allows the</div>
+<div class="line">GetAppOutput.vi to know where to look for the current
+synchrophasors values.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image182.png"><img alt="image17" src="_images/image182.png" style="width: 0.43889in; height: 0.43750in;" /></a><strong>*GetMeasurementMatrix.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">RingdownConfig: V index</p>
+<p>EventConfiguration.ctl</p>
+</li>
+<li><p class="first">PosSeq</p>
+<p>Outputs: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">RingdownConfig: I index</p>
+</li>
+<li><p class="first">RingdownConfig: PosSeq</p>
+<div class="line-block">
+<div class="line">Description: Based on the PosSeq Boolean value, the I index is
+set. This index allows the</div>
+<div class="line">GetAppOutput.vi to know where to look for the current
+synchrophasors values.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image192.png"><img alt="image18" src="_images/image192.png" style="width: 0.43750in; height: 0.43889in;" /></a><strong>*GetVoltageRef.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">RingdownConfig: V index</p>
+<p>EventConfiguration.ctl</p>
+</li>
+<li><p class="first">PosSeq</p>
+<p>Outputs: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">RingdownConfig: I index</p>
+</li>
+<li><p class="first">RingdownConfig: PosSeq</p>
+<div class="line-block">
+<div class="line">Description: Based on the PosSeq Boolean value, the I index is
+set. This index allows the</div>
+<div class="line">GetAppOutput.vi to know where to look for the current
+synchrophasors values.</div>
+</div>
+</li>
+</ul>
+</li>
+<li><div class="first line-block">
+<div class="line"><a class="reference internal" href="_images/image202.png"><img alt="image19" src="_images/image202.png" style="width: 0.43611in; height: 0.43889in;" /></a><strong>*GetInterleavingSynx.vi*</strong> Icon:</div>
+<div class="line">Inputs: RingdownEvtPlugin object</div>
+</div>
+<ul>
+<li><p class="first">RingdownConfig: V index</p>
+<p>EventConfiguration.ctl</p>
+</li>
+<li><p class="first">PosSeq</p>
+<p>Outputs: RingdownEvtPlugin object</p>
+</li>
+<li><p class="first">RingdownConfig: I index</p>
+</li>
+<li><p class="first">RingdownConfig: PosSeq</p>
+<div class="line-block">
+<div class="line">Description: Based on the PosSeq Boolean value, the I index is
+set. This index allows the</div>
+<div class="line">GetAppOutput.vi to know where to look for the current
+synchrophasors values.</div>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="matlab-function-descriptions">
+<h2>MATLAB Function descriptions<a class="headerlink" href="#matlab-function-descriptions" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="sub-annex-measurement-matrix-calculation-h">
+<h2>Sub-Annex– Measurement matrix calculation (H)<a class="headerlink" href="#sub-annex-measurement-matrix-calculation-h" title="Permalink to this headline">¶</a></h2>
+<p>If we go back to the π model of a transmission line (see Fig A1) and
+rely on Kirchhoff’s laws, it is stated that:</p>
+<div class="math">
+\[{\overset{\overline{}}{I}}_{\text{ij}} = {\overset{\overline{}}{V}}_{i}\ Y_{i0} + \left( {\overset{\overline{}}{V}}_{i} - {\overset{\overline{}}{V}}_{j} \right)\ Y_{\text{ij}}\]</div>
+<p>Where the bar over the letter indicates that it is a phasor. If we
+decompose the above equation into a real and imaginary part:</p>
+<div class="math">
+\[I_{ij\_ R} + jI_{ij\_ I} = \left( V_{i\_ R} + jV_{i\_ I} \right)\left( G_{i0} + jB_{i0} \right) + (V_{i\_ R} + jV_{i\_ I} - V_{j\_ R} - jV_{j\_ I})(G_{\text{ij}} + jB_{\text{ij}})\]</div>
+<p>Obtaining the following pair of equations:</p>
+<div class="math">
+\[I_{\text{ij}\_ R} = \left( G_{i0} + G_{\text{ij}} \right)\ V_{i\_ R} - \left( B_{i0} + B_{\text{ij}} \right)\ V_{i\_ I} - G_{\text{ij}}V_{{j\_}_{R}} + B_{\text{ij}}V_{j\_ I}\]</div>
+<div class="math">
+\[I_{ij\_ I} = \left( B_{i0} + B_{\text{ij}} \right)\ V_{i\_ R} - \left( G_{i0} + G_{\text{ij}} \right)\text{\ V}_{i\_ I} - B_{\text{ij}}V_{j_{\_ R}} - G_{\text{ij}}V_{j\_ I}\]</div>
+<p>The linear relationship that allows us to construct the matrix is
+​​observed. In the same way, the relation between the current
+<span class="math">\(I_{\text{ji}}\)</span> can be considered, and the following scheme can be
+proposed:</p>
+<div class="math">
+\[\begin{split}\begin{bmatrix}
+\begin{matrix}
+V_{R} \\
+V_{I} \\
+\end{matrix} \\
+\begin{matrix}
+I_{ij\_ R} \\
+\begin{matrix}
+I_{ij\_ I} \\
+\begin{matrix}
+I_{ji\_ R} \\
+I_{ji\_ I} \\
+\end{matrix} \\
+\end{matrix} \\
+\end{matrix} \\
+\end{bmatrix} = \begin{bmatrix}
+\begin{matrix}
+H_{11} \\
+H_{21} \\
+\end{matrix} &amp; \begin{matrix}
+H_{12} \\
+H_{22} \\
+\end{matrix} \\
+\begin{matrix}
+H_{31} \\
+\begin{matrix}
+H_{41} \\
+\begin{matrix}
+H_{51} \\
+H_{61} \\
+\end{matrix} \\
+\end{matrix} \\
+\end{matrix} &amp; \begin{matrix}
+H_{32} \\
+\begin{matrix}
+H_{42} \\
+\begin{matrix}
+H_{52} \\
+H_{62} \\
+\end{matrix} \\
+\end{matrix} \\
+\end{matrix} \\
+\end{bmatrix}\begin{bmatrix}
+V_{R} \\
+V_{I} \\
+\end{bmatrix} + \begin{bmatrix}
+\mathbf{\eta}_{\mathbf{1}} \\
+\mathbf{\eta}_{\mathbf{2}} \\
+\begin{matrix}
+\mathbf{\eta}_{\mathbf{3}} \\
+\mathbf{\eta}_{\mathbf{4}} \\
+\end{matrix} \\
+\end{bmatrix}\end{split}\]</div>
+<p>Where <span class="math">\(H_{11}\)</span> and <span class="math">\(H_{22}\ \)</span>are unit matrices and
+<span class="math">\(H_{12}\)</span> and <span class="math">\(H_{21}\)</span> are null matrices. The remainder of
+the submatrices will contain the respective admittances according to the
+pair of equations described above and the equations which would
+correspond to the currents <span class="math">\(I_{\text{ji}}\)</span>.</p>
+<p><a class="reference internal" href="_images/image212.png"><img alt="image20" src="_images/image212.png" style="width: 4.52483in; height: 1.83700in;" /></a></p>
+<p>Figure B11 A11: π model of a transmission line</p>
+<table class="docutils citation" frame="void" id="note1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[note1]</a></td><td>On each box, the central mark is the median, the edges of the box are
+the 25th and 75th percentiles, the whiskers extend to the most
+extreme data points the algorithm considers to be not outliers, and
+the outliers are plotted individually.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="citations">
+<h2>Citations<a class="headerlink" href="#citations" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><ol class="first last upperalpha simple" start="18">
+<li>Liu, A. Srivastava, A. Askerman, D. Bakken and P. Panciatici, “Decentralized State Estimation and Remedial Control Action for Minimum Wind Curtailment Using Distributed Computing Platform?, IEEE Transactions on Industrial Applications, June 2017.</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Appendix B: Linear State Estimation (LSE) Example Application</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#example-linear-state-estimation">Example Linear State Estimation</a><ul>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#creation-of-a-stationary-event-case-for-a-ieee-standard-system">Creation of a stationary event case for a IEEE standard system</a></li>
+<li><a class="reference internal" href="#dynamic-events">Dynamic events</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#montecarlo-analysis">MonteCarlo analysis</a><ul>
+<li><a class="reference internal" href="#the-effects-of-pmu-filtering">The Effects of PMU Filtering</a></li>
+<li><a class="reference internal" href="#observability">Observability</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#summary-of-labview-vis">Summary of Labview Vis</a><ul>
+<li><a class="reference internal" href="#eventplugins-lvlib-ieeebussystemplugin-lvclass">EventPlugins.lvlib: IEEEBusSystemPlugin.lvclass</a></li>
+<li><a class="reference internal" href="#appplugins-lvlib-ringdownplugin-lvclass">AppPlugins.lvlib: RingdownPlugin.lvclass</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#matlab-function-descriptions">MATLAB Function descriptions</a></li>
+<li><a class="reference internal" href="#sub-annex-measurement-matrix-calculation-h">Sub-Annex– Measurement matrix calculation (H)</a></li>
+<li><a class="reference internal" href="#citations">Citations</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="exampleAppRingdown.html"
+                        title="previous chapter">Appendix A: Ringdown Example Application</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="moduleAppendix.html"
+                        title="next chapter">Appendix C: Pluggable Module Reference</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exampleAppLSE.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="moduleAppendix.html" title="Appendix C: Pluggable Module Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="exampleAppRingdown.html" title="Appendix A: Ringdown Example Application"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>

@@ -50,7 +50,7 @@
           <div class="body" role="main">
             
   <div class="section" id="first-time-setup">
-<h1>5. First Time setup<a class="headerlink" href="#first-time-setup" title="Permalink to this headline">¶</a></h1>
+<span id="quickstart"></span><h1>5. First Time setup<a class="headerlink" href="#first-time-setup" title="Permalink to this headline">¶</a></h1>
 <p>When setting up a PC to run the PARTF for the first time, several important steps must be performed.  If these are not performed properly, you will get an error message.  At the end of this section is a trouble shooting guide to help with error messages common to incomplete first-time setup. to begin with make sure MATLAB and Python have been installed on the PC.  PARTF has only been tested with Python 2.7 an it is recommended to use the 2.7 version of Python because Python 3.x has incomplete support at the time of the PARTF development.</p>
 <div class="section" id="labview-dependencies">
 <h2>5.1. Labview Dependencies<a class="headerlink" href="#labview-dependencies" title="Permalink to this headline">¶</a></h2>
@@ -95,13 +95,47 @@
 </div>
 <div class="section" id="matlab-path">
 <h2>5.2. Matlab Path<a class="headerlink" href="#matlab-path" title="Permalink to this headline">¶</a></h2>
-<p>The PARTF When the PARTF is loaded, a MATLAB command window is opened in the background.  the Matlab icon appears in your taskbar.  The MATLAB command window path must be set up.  The command window does not use the same MATLAB path as the MATLAB IDE so it must be set up from within the command window using the pathtool command.  Select ‘’Add with Subfolders’’ and browse to &lt;your PARTF Location&gt;\Modules\Matlab and select the folder.  Note that you can use the matlab command ‘’which -all’’ pathdef to locate the pathdef.m file.  There should only be one pathdef file in the list, usually located at &lt;matlab location&gt;\toolbox\local\pathdef.m</p>
+<p>The PARTF When the PARTF is loaded, a MATLAB command window is opened in the background.  the Matlab icon appears in your taskbar.  The MATLAB command window path must be set up.  The command window does not use the same MATLAB path as the MATLAB IDE so it must be set up from within the command window using the <code class="docutils literal"><span class="pre">pathtool</span></code> command.  Select <code class="docutils literal"><span class="pre">Add</span> <span class="pre">with</span> <span class="pre">Subfolders</span></code> and browse to ..\&lt;your PARTF Location&gt;\Modules\Matlab and select the folder.  Note that you can use the matlab command <code class="docutils literal"><span class="pre">which</span> <span class="pre">\-all</span> <span class="pre">pathdef</span></code> to locate the pathdef.m file.  There should only be one pathdef file in the list, usually located at &lt;matlab location&gt;\toolbox\local\pathdef.m</p>
+</div>
+<div class="section" id="matlab-libraries-used-by-lse-application-example">
+<span id="matlabtoolbox"></span><h2>5.3. Matlab Libraries used by LSE Application Example<a class="headerlink" href="#matlab-libraries-used-by-lse-application-example" title="Permalink to this headline">¶</a></h2>
+<p>The Linear State Estimation Example Application uses two Matlab toolboxes that need to be downloaded:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Go to the <a class="reference external" href="http://www.pserc.cornell.edu/matpower/">PSERC MatPower Page</a> and click <code class="docutils literal"><span class="pre">Download</span> <span class="pre">Now</span></code>.</p>
+<blockquote>
+<div></div></blockquote>
+</li>
+<li><p class="first">Unzip the downloaded file into your <cite>Documents\MATLAB\Toolbox folder</cite>.</p>
+</li>
+<li><p class="first">Add the path to MatPower to the Matlab Path using the instructions in the Matlab <code class="docutils literal"><span class="pre">pathtool</span></code> similar to the Matlab Path section above.</p>
+</li>
+<li><p class="first">PARTF requires some of the .m files in MatPower to be modified. Find the following folder: <cite>&lt;partf install path)Modules\MATLAB\Events\IEEEBus\IEEE cases</cite>, copy the nine ‘case##.m’ files and copy them to the matpower main folder, replacing the files that were there. The most part of the files are the same, but little modifications were made to save the reference voltages of the IEEE systems.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>The LSE Application Example also includes Dynamic Events.  These examples require the Matlab Power System Toolbox available from The Royal Institute of Technology in Stockholm, Sweden.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Download <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/pstv3.zip">PSTV3</a>, <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/pstdat.zip">PST Data</a>, and the <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/PSTMan.zip">Manual</a></p>
+<blockquote>
+<div></div></blockquote>
+</li>
+<li><p class="first">You will need to <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/Power_System_Toolbox_Webpage/Software_Request.html">register and get a password</a></p>
+<blockquote>
+<div></div></blockquote>
+</li>
+<li><p class="first">As with the MatPower toolbox, unzip these into your <cite>Documents\MATLAB\Toolbox</cite> folder and set up the Matlab Path</p>
+</li>
+</ul>
+</div></blockquote>
+<p>Note that the Power System Toolbox is not open source software and cannot be redistributed.</p>
 </div>
 <div class="section" id="python-path">
-<h2>5.3. Python Path<a class="headerlink" href="#python-path" title="Permalink to this headline">¶</a></h2>
+<h2>5.4. Python Path<a class="headerlink" href="#python-path" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="troubleshooting">
-<h2>5.4. Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<h2>5.5. Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -147,8 +181,9 @@ pathdef.m file listed.</td>
 </ul>
 </li>
 <li><a class="reference internal" href="#matlab-path">5.2. Matlab Path</a></li>
-<li><a class="reference internal" href="#python-path">5.3. Python Path</a></li>
-<li><a class="reference internal" href="#troubleshooting">5.4. Troubleshooting</a></li>
+<li><a class="reference internal" href="#matlab-libraries-used-by-lse-application-example">5.3. Matlab Libraries used by LSE Application Example</a></li>
+<li><a class="reference internal" href="#python-path">5.4. Python Path</a></li>
+<li><a class="reference internal" href="#troubleshooting">5.5. Troubleshooting</a></li>
 </ul>
 </li>
 </ul>

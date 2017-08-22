@@ -1,5 +1,5 @@
 ﻿#######################################
-Appendix B: Pluggable Module Reference
+Appendix C: Pluggable Module Reference
 #######################################
 
 A pluggable module is a stand-alone module that can be launched by a

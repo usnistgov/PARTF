@@ -1,4 +1,5 @@
-.. _quickStart:
+.. _`quickStart`:
+
 ################
 First Time setup
 ################
@@ -54,7 +55,38 @@ The OpenG Variant Configuration File Library package contains tools for writing 
 Matlab Path
 ===========
 
-The PARTF When the PARTF is loaded, a MATLAB command window is opened in the background.  the Matlab icon appears in your taskbar.  The MATLAB command window path must be set up.  The command window does not use the same MATLAB path as the MATLAB IDE so it must be set up from within the command window using the pathtool command.  Select ''Add with Subfolders'' and browse to \<your PARTF Location\>\\Modules\\Matlab and select the folder.  Note that you can use the matlab command ''which \-all'' pathdef to locate the pathdef.m file.  There should only be one pathdef file in the list, usually located at <matlab location>\\toolbox\\\local\\pathdef.m
+The PARTF When the PARTF is loaded, a MATLAB command window is opened in the background.  the Matlab icon appears in your taskbar.  The MATLAB command window path must be set up.  The command window does not use the same MATLAB path as the MATLAB IDE so it must be set up from within the command window using the ``pathtool`` command.  Select ``Add with Subfolders`` and browse to ..\\<your PARTF Location\>\\Modules\\Matlab and select the folder.  Note that you can use the matlab command ``which \-all pathdef`` to locate the pathdef.m file.  There should only be one pathdef file in the list, usually located at <matlab location>\\toolbox\\\local\\pathdef.m
+
+.. _`MatlabToolbox`:
+
+Matlab Libraries used by LSE Application Example
+=================================================
+
+The Linear State Estimation Example Application uses two Matlab toolboxes that need to be downloaded:
+
+	* Go to the `PSERC MatPower Page`_ and click ``Download Now``.
+
+		.. _`PSERC MatPower Page`: http://www.pserc.cornell.edu/matpower/
+
+	* Unzip the downloaded file into your `Documents\\MATLAB\\Toolbox folder`.
+	* Add the path to MatPower to the Matlab Path using the instructions in the Matlab ``pathtool`` similar to the Matlab Path section above.
+	* PARTF requires some of the .m files in MatPower to be modified. Find the following folder: `<partf install path)\Modules\\MATLAB\\Events\\IEEEBus\\IEEE cases`, copy the nine 'case##.m' files and copy them to the matpower main folder, replacing the files that were there. The most part of the files are the same, but little modifications were made to save the reference voltages of the IEEE systems.
+
+The LSE Application Example also includes Dynamic Events.  These examples require the Matlab Power System Toolbox available from The Royal Institute of Technology in Stockholm, Sweden.  
+
+	* Download `PSTV3`_, `PST Data`_, and the `Manual`_ 
+
+		.. _`PSTV3`: http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/pstv3.zip
+		.. _`PST Data`: http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/pstdat.zip
+		.. _`Manual`: http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/PSTMan.zip
+	
+	* You will need to `register and get a password`_
+	
+		.. _`register and get a password`: http://www.eps.ee.kth.se/personal/vanfretti/pst/Power_System_Toolbox_Webpage/Software_Request.html
+
+	* As with the MatPower toolbox, unzip these into your `Documents\\MATLAB\\Toolbox` folder and set up the Matlab Path
+
+Note that the Power System Toolbox is not open source software and cannot be redistributed.
 
 Python Path
 ===========
