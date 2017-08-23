@@ -1,4 +1,4 @@
-*************************************************************
+﻿*************************************************************
 Appendix B: Linear State Estimation (LSE) Example Application
 *************************************************************
 
@@ -51,9 +51,6 @@ estimator we were looking for.
 
 Some of this example is based upon work done at Washington State University [1]_.
 
-Example Linear State Estimation
--------------------------------
-
 Getting Started
 ~~~~~~~~~~~~~~~
 
@@ -85,6 +82,9 @@ The LSE Application Example also includes Dynamic Events.  These examples requir
 	* As with the MatPower toolbox, unzip these into your `Documents\\MATLAB\\Toolbox` folder and set up the Matlab Path
 
 Note that the Power System Toolbox is not open source software and cannot be redistributed.
+
+Example Linear State Estimation
+-------------------------------
 
 Creation of a stationary event case for a IEEE standard system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -126,9 +126,9 @@ Test files directory. The name of the file created reflects the IEEE
 system selected as well also the number of PMUs associated (by default:
 *IEEEBusSystem\_case14\_4pmus.tst*). 
 
-If the PARTF framework is not running, start it now. Click the file browse button in the``Test File`` control and select the newly created file in ``..\\tests\\LSE (*IEEEBusSystem\_case14\_4pmus.tst* by default).  next click the ``Open`` button.  4 busses will be created.
+If the PARTF framework is not running, start it now. Click the file browse button in the ``Test File`` control and select the newly created file in *..\\tests\\LSE* (*IEEEBusSystem\_case14\_4pmus.tst* by default).  Next click the ``Open`` button.  4 buses will be created.
 
-To check the results launch the VisualizeAppLSE.vi by clicking on the ``Visualization`` button in the top right of the PARTF panel. VisualizeAllLSE should be pre-checked so click the ``Run Apps`` button to launch the visualization app. Visualization apps give the user the ability to see the resutls of a test run while the test is running.  Unless an application has a Visualization App, the user will not be able to observe the operation of the Test Framework.
+To watch the results as they are computed launch the VisualizeAppLSE.vi by clicking on the ``Visualization`` button in the top right of the PARTF panel. VisualizeAllLSE should be pre-checked so click the ``Run Apps`` button to launch the visualization app. Visualization apps give the user the ability to see the results of a test run while the test is running.  Unless an application has a Visualization App, the user will not be able to observe the operation of the Test Framework.
 
 You can run one iteration of the test by pressing the ``Single Run`` button in the bottom center of the PARTF panel. 
 After a single run, you will observe some signals very similar to the ones showed in
@@ -153,7 +153,7 @@ during :ref:`Quick Start <MatlabToolbox>`.
 	2) You will be asked to select a file, choose *<your PARTF location>\\Modules\\Matlab\\Events\\CSVPlugin\\cases\\dtest\_13\_3phasefault.m* to simulate a dynamic 3 phase fault in the bus number.
  	3) The default values of 100 MVA and Base Frequency of 60Hz is suitable or can be changed.
 	4) When s\_simu completes, press enter to end the program. The fault is released after 0.1 s and after that, a ringdown event takes place. Now all the signals needed have been created in the Matlab workspace.
-	5) Create a .csv input file for PARTF: in Matlab, type ``s\_simuToFile``. This matlab program creates three different files in your *My Documents\\PARTF\\Tests\\LSE* folder:
+	5) Create a .csv input file for PARTF: in Matlab, type ``s_simuToFile``. This matlab program creates three different files in your *My Documents\\PARTF\\Tests\\LSE* folder:
 		a) The first file is a *.tst* file which will be opened in the PARTF framework. 
 		b) The second one *.csv* file in the *..\\Inputdata* folder containing the signals of each one of the PMUs.  
 		c) The last file is a reference signal waveform also in the *..\\Inputdata* folder. This file will be used during the analysis of the test results.
@@ -186,7 +186,7 @@ stationary IEEE bus event in order to evaluate the performance of the
 LSE application against the additive white Gaussian noise present in the
 measurements. We will use two different PMU filter types: Hamming and Blackman to see how the PMU filtering affects white Gaussian Noise rejection.
 
-	1) Using the ``Test File`` control, Open the *IEEEBusSystem\_case14\_4pmus.tst* again.
+	1) Using the ``Test File`` control, Browse and Select the *IEEEBusSystem\_case14\_4pmus.tst* again then click ``Open``.
 	2) On the ``Sensor`` Impariment tab, change the ``FilterType`` control to ``Hamming`` and click the ``Update Bus`` button. Since the last bus is selected in the ``Bus Number`` control each time a new test file is opened, you just changed the PMU Filter Type for the PMU on bus number 4.
 	3) Now select of each one of other 3 buses and change the ``FilterType`` to ``Hamming`` then click ``Update Bus`` for each. How annoying was that? (Later we will show you how to change configurations using the Monte Carlo Analysis script).
 
@@ -254,16 +254,26 @@ between the different nodes of the network.
 Observability
 ~~~~~~~~~~~~~
 
-The second kind of test that can be performed is an observability test,
-how does the number of PMU in the system affect the state estimation?
-This next test is going to take a long time to run so you might think
-about starting it before lunchtime or letting it run overnight.
+The second kind of test that can be performed is an observability test: How does the number of PMU in the system affect the state estimation? This next test is going to take a long time to run so you might think about starting it before lunchtime or letting it run overnight.
 
-First we are going to edit the *My Documents\\PARTF\\Tests\\LSE\\IEEEBusSystem_test_creator.m* file to add a PMU for each of the 14 buses created by this program.  Find line 7 and change it to read: *user_pmu_list=[14 13 12 11 10 9 8 7 6 5 4 3 2 1];*  Save and run the Matlab Program.  It will create *My Documents\PARTF\Tests\LSE\IEEEBusSystem_case14_14pmus.tst*  In the PARTF Framework, use the ``Test File`` control to browse and select this file.  Click the ``Open`` button and 14 buses will be created.  In the VisualizeAppLSE application, you can click the ``Restart Plots`` button since you just loaded a new test.  Test the 14 bus system using ``Single Run``.
+First we are going to edit the *My Documents\\PARTF\\Tests\\LSE\\IEEEBusSystem_test_creator.m* file to add a PMU for each of the 14 buses created by this program.  Find line 7 and comment it out by adding a ``%`` to the front of the line.  Uncomment line 8 *user_pmu_list=[14 13 12 11 10 9 8 7 6 5 4 3 2 1];* by removing the ``%``.  Save and run the Matlab Program.  It will create *My Documents\PARTF\Tests\LSE\IEEEBusSystem_case14_14pmus.tst*  In the PARTF Framework, use the ``Test File`` control to browse and select this file.  Click the ``Open`` button and 14 buses will be created.  In the VisualizeAppLSE application, you can click the ``Restart Plots`` button since you just loaded a new test.  Test the 14 bus system using ``Single Run``.
 
 In the ``Monte Carlo Script`` control, browse and select *LSE\\LSEPMUNumber.py*.  This script will repeat the same sequence of the last example 13 times with one PMU being removed with in each set of iterations. The way to reduce the PMUs is following the *pmu\_index* variable, and as you can see the PMUs are in a descendent order.  Click ''Monte Carlo'' and head on home or out to lunch, this will take a while...
 
-When the Monte Carlo simulation had finished and all the output data had been saved repeat the simulation reducing ther number of PMUs each iteration. Run the Matlab program *My Documents\\PARTF\\Scripts\\LSE\\PlotLSE_PMUNumber.m*. This new order contemplates the number of current channels of each one of the PMUs. The first value of the list corresponds to the PMU with smallest number of current channels and vice versa. It is going to take a long time to perform this test, but after the simulation is over you will able to see a couple of graphs very similar to the ones in the Figure B9 and B10.
+When the Monte Carlo simulation had finished and all the output data had been saved repeat the simulation reducing ther number of PMUs each iteration. Run the Matlab program *My Documents\\PARTF\\Scripts\\LSE\\PlotLSE_PMUNumber.m*. The program will as you to browse to the results file which is in *My Documents\\PARTF\\Output\\LsePmuNumber_<date_time>*. This plots the results of the analysis.  In this case, PMUs were removed from buses in numerical order with no consideration of the number of current channels.
+
+|image10a|
+
+Figure B9: Observability:  The percentage between the estimated buses and the total number of busses in the system
+
+|image11a|
+
+Figure B10: The root average mean square error vs the number of PMUs.
+
+
+If we place PMUs on buses with more current channels, we can get improved observability.  Edit the *LSE\\LSEPMUNumber.py* script to uncomment line 22 and comment out line 21.  Line 22 changes the order that the PMUs that are deleted, leaving the buses with the most current channels for last. Run this revised Monte Carlo analysis to get a second set of output data.  Again, take a break because this will take a while.
+
+To compare the two sets of results, run the Matlab program *My Documents\\PARTF\\Scripts\\LSE\\PlotLSE_PMUNumber_two_runs.m* and select the latest set of output results first. The first value of the list corresponds to the PMU with smallest number of current channels and vice versa. We can see from the plots that using the PMUs with the most current channels improves observability.
 
 |image10|
 
@@ -576,7 +586,7 @@ Figure B11 A11: π model of a transmission line
 Citations
 ---------
 .. [1]
-	R. Liu, A. Srivastava, A. Askerman, D. Bakken and P. Panciatici, "Decentralized State Estimation and Remedial Control Action for Minimum Wind Curtailment Using Distributed Computing Platform�, IEEE Transactions on Industrial Applications, June 2017.
+	R. Liu, A. Srivastava, A. Askerman, D. Bakken and P. Panciatici, *Decentralized State Estimation and Remedial Control Action for Minimum Wind Curtailment Using Distributed Computing Platform*, IEEE Transactions on Industrial Applications, June 2017.
 
 .. |image0| image:: media\LSE/image1.PNG
    :width: 6.59699in
@@ -608,6 +618,12 @@ Citations
 .. |image9| image:: media\LSE/image10.PNG
    :width: 4.63766in
    :height: 2.45216in
+.. |image10a| image:: media\LSE/image11a.PNG
+   :width: 4.98597in
+   :height: 2.76840in
+.. |image11a| image:: media\LSE/image12a.PNG
+   :width: 4.98597in
+   :height: 2.76840in  
 .. |image10| image:: media\LSE/image11.PNG
    :width: 4.98597in
    :height: 2.76840in
