@@ -16,13 +16,15 @@ import time
 import os
 
 start_time = time.time()
+strTime = time.strftime("%Y" "%m" "%d" "%H" "%M" "%S", time.gmtime())
+
 
 iterations=100
 pmu_index=[14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 #pmu_index=[8, 1, 3, 10, 11, 12,  14,  7, 13,  2,  5,  6,  9, 4]
 pmu_ind = np.array(pmu_index)-1
 
-dfile='data_{}'.format(int(time.time()))
+dfile='LsePmuNumber_{}'.format(strTime)
 
 AppOutput=[]
 

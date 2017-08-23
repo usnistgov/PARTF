@@ -6,12 +6,14 @@ import pickle
 from scipy.io import savemat
 import numpy as np
 import time
+import os
 
 start_time = time.time()
+strTime = time.strftime("%Y" "%m" "%d" "%H" "%M" "%S", time.gmtime())
 
 iterations=20
 
-dfile='data_{}'.format(int(time.time()))
+dfile='LseMonteCarlo_{}'.format(strTime)
 
 
 AppOutput=[]
@@ -24,6 +26,7 @@ try:
     lta.s.settimeout(30) 
 
 #---------------------Script code goes here------------------------------------
+    PMUFilterType = 'Hamming'
 #-------------------  Create output files -------------------------------------    
     Settings = lta.__get__('settings')
     out_dir = Settings['Directories']['RootDir']+'\\'+Settings['Directories']['OutDir']+'\\'
@@ -55,7 +58,7 @@ try:
         lta.__set__('bus'+ str(i+1) +'.PMUImpairment.PathToPlugin',ImpairPath)
         bus_impair_string='bus'+`i+1`+'.pmuimpairment.config'
         PMUImpCfg=lta.__get__(bus_impair_string)
-        PMUImpCfg['clImpairConfig']['FilterType'] = 'Blackman'
+        PMUImpCfg['clImpairConfig']['FilterType'] = PMUFilterType
         lta.__set__(bus_impair_string,PMUImpCfg)
 #--------------------  Perform several runs -----------------------------------   
     for i in range(iterations):
