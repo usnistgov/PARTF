@@ -1,11 +1,11 @@
 %function s_simuToFile (filename,time,freq,rocof,bus_v,ilf,ilt,PMULocations,line)
 %% Create CSV file
-app_sel=1;
+app_sel=2;
 app={'LSE' 'ModelValidation'}; app=app{1};
 
 nbus=sum(bus_v(:,1)~=0);
 NoiseVariance=1e-8;
-PMULocations=[2 9 13];  PMULocations=sort(PMULocations);
+PMULocations=[1];  PMULocations=sort(PMULocations);
 num_pmu=length(PMULocations);
 setPosSeq=0;
 user_dir = winqueryreg('HKEY_CURRENT_USER','SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders','Personal');
