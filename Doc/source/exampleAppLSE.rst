@@ -588,46 +588,46 @@ Citations
 .. [1]
 	R. Liu, A. Srivastava, A. Askerman, D. Bakken and P. Panciatici, *Decentralized State Estimation and Remedial Control Action for Minimum Wind Curtailment Using Distributed Computing Platform*, IEEE Transactions on Industrial Applications, June 2017.
 
-.. |image0| image:: media\LSE/image1.PNG
+.. |image0| image:: media\LSE/image1.png
    :width: 6.59699in
    :height: 4.43404in
-.. |image1| image:: media\LSE/image2.PNG
+.. |image1| image:: media\LSE/image2.png
    :width: 6.50000in
    :height: 4.36885in
-.. |image2| image:: media\LSE/image3.PNG
+.. |image2| image:: media\LSE/image3.png
    :width: 4.97021in
    :height: 2.82663in
-.. |image3| image:: media\LSE/image4.PNG
+.. |image3| image:: media\LSE/image4.png
    :width: 5.25402in
    :height: 3.01677in
-.. |image4| image:: media\LSE/image5.PNG
+.. |image4| image:: media\LSE/image5.png
    :width: 5.16899in
    :height: 2.76765in
-.. |image5| image:: media\LSE/image6.PNG
+.. |image5| image:: media\LSE/image6.png
    :width: 3.66262in
    :height: 0.99611in
-.. |image6| image:: media\LSE/image7.PNG
+.. |image6| image:: media\LSE/image7.png
    :width: 3.75472in
    :height: 0.84758in
-.. |image7| image:: media\LSE/image8.PNG
+.. |image7| image:: media\LSE/image8.png
    :width: 4.78439in
    :height: 2.76765in
-.. |image8| image:: media\LSE/image9.PNG
+.. |image8| image:: media\LSE/image9.png
    :width: 4.76064in
    :height: 2.76765in
-.. |image9| image:: media\LSE/image10.PNG
+.. |image9| image:: media\LSE/image10.png
    :width: 4.63766in
    :height: 2.45216in
-.. |image10a| image:: media\LSE/image11a.PNG
+.. |image10a| image:: media\LSE/image11a.png
    :width: 4.98597in
    :height: 2.76840in
-.. |image11a| image:: media\LSE/image12a.PNG
+.. |image11a| image:: media\LSE/image12a.png
    :width: 4.98597in
    :height: 2.76840in  
-.. |image10| image:: media\LSE/image11.PNG
+.. |image10| image:: media\LSE/image11.png
    :width: 4.98597in
    :height: 2.76840in
-.. |image11| image:: media\LSE/image12.PNG
+.. |image11| image:: media\LSE/image12.png
    :width: 4.87124in
    :height: 2.76840in
 .. |image12| image:: media\LSE/image13.png

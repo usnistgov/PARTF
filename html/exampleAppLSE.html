@@ -168,7 +168,7 @@ Figure B1. The default settings create a file with PMUs in the
 buses: {2,6,7,9}. With these locations, we can ensure total
 observability in the system.</p>
 <p>The Total System Error (TSE) is displayed.  By changing the <code class="docutils literal"><span class="pre">Bus</span> <span class="pre">Number</span></code> control in the visualization App, you can see the Bus Magnitudes. Phases, and Total Vector Error (TVE) for each of the buses.</p>
-<p><a class="reference internal" href="_images/image1.PNG"><img alt="image0" src="_images/image1.PNG" style="width: 6.59699in; height: 4.43404in;" /></a></p>
+<p><a class="reference internal" href="_images/image112.png"><img alt="image0" src="_images/image112.png" style="width: 6.59699in; height: 4.43404in;" /></a></p>
 <p>Figure B1: Front panel of the visualization VI for the LSE app. A 14 IEEE
 bus system is displayed.</p>
 </div>
@@ -207,7 +207,7 @@ during <a class="reference internal" href="quickStart.html#matlabtoolbox"><span 
 10 and 11 locations only the 46% percent of the total number of buses
 can be estimated. The user can select which bus to visualize using the <cite>Bus Number control</cite>, in this case the number 8 is
 displayed.</p>
-<p><a class="reference internal" href="_images/image2.PNG"><img alt="image1" src="_images/image2.PNG" style="width: 6.50000in; height: 4.36885in;" /></a></p>
+<p><a class="reference internal" href="_images/image212.png"><img alt="image1" src="_images/image212.png" style="width: 6.50000in; height: 4.36885in;" /></a></p>
 <p>Figure B2: Front panel of the visualization VI for the LSE app. A
 dynamic 13 bus system is displayed.</p>
 </div>
@@ -235,31 +235,31 @@ dialog opens, browse to ..\PARTF\Output and open the recently created
 data_#.mat file. As can be seen from the Figures B3 to B5 the magnitude
 error, the phase error and the total vector error (TVE) are plotted for
 each one of the voltages in the buses.</p>
-<p><a class="reference internal" href="_images/image3.PNG"><img alt="image2" src="_images/image3.PNG" style="width: 4.97021in; height: 2.82663in;" /></a></p>
+<p><a class="reference internal" href="_images/image37.png"><img alt="image2" src="_images/image37.png" style="width: 4.97021in; height: 2.82663in;" /></a></p>
 <p>Figure B3: Boxplot <a class="reference internal" href="#note1" id="id2">[note1]</a> of the magnitude error of all the voltages in the
 14 IEEE system using a Hamming window.</p>
-<p><a class="reference internal" href="_images/image4.PNG"><img alt="image3" src="_images/image4.PNG" style="width: 5.25402in; height: 3.01677in;" /></a></p>
+<p><a class="reference internal" href="_images/image42.png"><img alt="image3" src="_images/image42.png" style="width: 5.25402in; height: 3.01677in;" /></a></p>
 <p>Figure B4: Boxplot of the phase error of all the voltages in the 14 IEEE
 system using a Hamming window.</p>
-<p><a class="reference internal" href="_images/image5.PNG"><img alt="image4" src="_images/image5.PNG" style="width: 5.16899in; height: 2.76765in;" /></a></p>
+<p><a class="reference internal" href="_images/image52.png"><img alt="image4" src="_images/image52.png" style="width: 5.16899in; height: 2.76765in;" /></a></p>
 <p>Figure B5: Boxplot of the TVE of all the voltages in the 14 IEEE system
 using a Hamming window.</p>
 <p>Thresholds in each one of these magnitudes can be defined by the user to
 delimit the maximum error tolerated for the next step of the processing
 chain. As you can see the application is not complaint with expected
 performance.</p>
-<p><a class="reference internal" href="_images/image6.PNG"><img alt="image5" src="_images/image6.PNG" style="width: 3.66262in; height: 0.99611in;" /></a></p>
+<p><a class="reference internal" href="_images/image62.png"><img alt="image5" src="_images/image62.png" style="width: 3.66262in; height: 0.99611in;" /></a></p>
 <p>Next we will change the PMU filter back to Blackman from Hamming.  There are several ways of doing this:  From the PARTF panel as we did before, from inside the matlab <em>.tst</em> file creation program, or using the Python Monte Carlo Script.  In this example, we will use the Monte Carlo script.</p>
 <p>In your favorite python script editing program (you can use Notepad if you do not have another) open <em>My Documents\PARTF\Scripts\LSE\LSEMonteCarlo.py</em>  Conveniently located at line 28, you will find:     <em>PMUFilterType = ‘Hamming’</em>  Change <em>Hamming</em> to <em>Blackman</em>.  Note on lines 48 through 61 is a loop that iteratres through all the buses and loads the PMU Impairment plugin then changes the ImpairConfig.Filtertype to “PMUFilterType”.  Save the file then run it again in the PARTF framework.  You will notice that the <cite>FilterType</cite> on the <cite>Sensors</cite> tab changes to <em>Blackman</em></p>
 <p>Once again run the Matlab program <em>PlotLSENoiseTest.m</em>.  You should notice a significant difference in the results:</p>
-<p><a class="reference internal" href="_images/image7.PNG"><img alt="image6" src="_images/image7.PNG" style="width: 3.75472in; height: 0.84758in;" /></a></p>
-<p><a class="reference internal" href="_images/image8.PNG"><img alt="image7" src="_images/image8.PNG" style="width: 4.78439in; height: 2.76765in;" /></a></p>
+<p><a class="reference internal" href="_images/image72.png"><img alt="image6" src="_images/image72.png" style="width: 3.75472in; height: 0.84758in;" /></a></p>
+<p><a class="reference internal" href="_images/image82.png"><img alt="image7" src="_images/image82.png" style="width: 4.78439in; height: 2.76765in;" /></a></p>
 <p>Figure B6: Boxplot of the magnitude error of all the voltages in the 14
 IEEE system using a Blackman window.</p>
-<p><a class="reference internal" href="_images/image9.PNG"><img alt="image8" src="_images/image9.PNG" style="width: 4.76064in; height: 2.76765in;" /></a></p>
+<p><a class="reference internal" href="_images/image92.png"><img alt="image8" src="_images/image92.png" style="width: 4.76064in; height: 2.76765in;" /></a></p>
 <p>Figure B7: Boxplot of the phase error of all the voltages in the 14 IEEE
 system using a Blackman window.</p>
-<p><a class="reference internal" href="_images/image10.PNG"><img alt="image9" src="_images/image10.PNG" style="width: 4.63766in; height: 2.45216in;" /></a></p>
+<p><a class="reference internal" href="_images/image102.png"><img alt="image9" src="_images/image102.png" style="width: 4.63766in; height: 2.45216in;" /></a></p>
 <p>Figure B8: Boxplot of the TVE of all the voltages in the 14 IEEE system
 using a Blackman window.</p>
 <p>So, as any user can expect the level of performance of the application
@@ -274,16 +274,16 @@ between the different nodes of the network.</p>
 <p>First we are going to edit the <em>My Documents\PARTF\Tests\LSE\IEEEBusSystem_test_creator.m</em> file to add a PMU for each of the 14 buses created by this program.  Find line 7 and comment it out by adding a <code class="docutils literal"><span class="pre">%</span></code> to the front of the line.  Uncomment line 8 <em>user_pmu_list=[14 13 12 11 10 9 8 7 6 5 4 3 2 1];</em> by removing the <code class="docutils literal"><span class="pre">%</span></code>.  Save and run the Matlab Program.  It will create <em>My DocumentsPARTFTestsLSEIEEEBusSystem_case14_14pmus.tst</em>  In the PARTF Framework, use the <code class="docutils literal"><span class="pre">Test</span> <span class="pre">File</span></code> control to browse and select this file.  Click the <code class="docutils literal"><span class="pre">Open</span></code> button and 14 buses will be created.  In the VisualizeAppLSE application, you can click the <code class="docutils literal"><span class="pre">Restart</span> <span class="pre">Plots</span></code> button since you just loaded a new test.  Test the 14 bus system using <code class="docutils literal"><span class="pre">Single</span> <span class="pre">Run</span></code>.</p>
 <p>In the <code class="docutils literal"><span class="pre">Monte</span> <span class="pre">Carlo</span> <span class="pre">Script</span></code> control, browse and select <em>LSE\LSEPMUNumber.py</em>.  This script will repeat the same sequence of the last example 13 times with one PMU being removed with in each set of iterations. The way to reduce the PMUs is following the <em>pmu_index</em> variable, and as you can see the PMUs are in a descendent order.  Click ‘’Monte Carlo’’ and head on home or out to lunch, this will take a while…</p>
 <p>When the Monte Carlo simulation had finished and all the output data had been saved repeat the simulation reducing ther number of PMUs each iteration. Run the Matlab program <em>My Documents\PARTF\Scripts\LSE\PlotLSE_PMUNumber.m</em>. The program will as you to browse to the results file which is in <em>My Documents\PARTF\Output\LsePmuNumber_&lt;date_time&gt;</em>. This plots the results of the analysis.  In this case, PMUs were removed from buses in numerical order with no consideration of the number of current channels.</p>
-<p><a class="reference internal" href="_images/image11a.PNG"><img alt="image10a" src="_images/image11a.PNG" style="width: 4.98597in; height: 2.76840in;" /></a></p>
+<p><a class="reference internal" href="_images/image11a.png"><img alt="image10a" src="_images/image11a.png" style="width: 4.98597in; height: 2.76840in;" /></a></p>
 <p>Figure B9: Observability:  The percentage between the estimated buses and the total number of busses in the system</p>
-<p><a class="reference internal" href="_images/image12a.PNG"><img alt="image11a" src="_images/image12a.PNG" style="width: 4.98597in; height: 2.76840in;" /></a></p>
+<p><a class="reference internal" href="_images/image12a.png"><img alt="image11a" src="_images/image12a.png" style="width: 4.98597in; height: 2.76840in;" /></a></p>
 <p>Figure B10: The root average mean square error vs the number of PMUs.</p>
 <p>If we place PMUs on buses with more current channels, we can get improved observability.  Edit the <em>LSE\LSEPMUNumber.py</em> script to uncomment line 22 and comment out line 21.  Line 22 changes the order that the PMUs that are deleted, leaving the buses with the most current channels for last. Run this revised Monte Carlo analysis to get a second set of output data.  Again, take a break because this will take a while.</p>
 <p>To compare the two sets of results, run the Matlab program <em>My Documents\PARTF\Scripts\LSE\PlotLSE_PMUNumber_two_runs.m</em> and select the latest set of output results first. The first value of the list corresponds to the PMU with smallest number of current channels and vice versa. We can see from the plots that using the PMUs with the most current channels improves observability.</p>
-<p><a class="reference internal" href="_images/image11.PNG"><img alt="image10" src="_images/image11.PNG" style="width: 4.98597in; height: 2.76840in;" /></a></p>
+<p><a class="reference internal" href="_images/image113.png"><img alt="image10" src="_images/image113.png" style="width: 4.98597in; height: 2.76840in;" /></a></p>
 <p>Figure B9: The percent rate between the estimated buses and the total
 number of buses of the system.</p>
-<p><a class="reference internal" href="_images/image12.PNG"><img alt="image11" src="_images/image12.PNG" style="width: 4.87124in; height: 2.76840in;" /></a></p>
+<p><a class="reference internal" href="_images/image122.png"><img alt="image11" src="_images/image122.png" style="width: 4.87124in; height: 2.76840in;" /></a></p>
 <p>Figure B10: The root average mean square error vs the number of PMUs.</p>
 <p>Notice that the root average mean square error, defined in , represents
 a metric similar to the TSE of the visualization virtual instrument, but
@@ -595,7 +595,7 @@ V_{I} \\
 the submatrices will contain the respective admittances according to the
 pair of equations described above and the equations which would
 correspond to the currents <span class="math">\(I_{\text{ji}}\)</span>.</p>
-<p><a class="reference internal" href="_images/image212.png"><img alt="image20" src="_images/image212.png" style="width: 4.52483in; height: 1.83700in;" /></a></p>
+<p><a class="reference internal" href="_images/image213.png"><img alt="image20" src="_images/image213.png" style="width: 4.52483in; height: 1.83700in;" /></a></p>
 <p>Figure B11 A11: π model of a transmission line</p>
 <table class="docutils citation" frame="void" id="note1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
