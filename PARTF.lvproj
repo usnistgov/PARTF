@@ -16,7 +16,11 @@
 			<Item Name="Errors.docx" Type="Document" URL="../Doc/Errors.docx"/>
 		</Item>
 		<Item Name="ModuleLibraries" Type="Folder">
-			<Item Name="Matlab" Type="Folder"/>
+			<Item Name="Matlab" Type="Folder">
+				<Item Name="Matlab" Type="Folder" URL="../Modules/Matlab">
+					<Property Name="NI.DISK" Type="Bool">true</Property>
+				</Item>
+			</Item>
 			<Item Name="EventModule.lvlib" Type="Library" URL="../Modules/EventModule/EventModule.lvlib"/>
 			<Item Name="EventPlugins.lvlib" Type="Library" URL="../Modules/EventPlugins/EventPlugins.lvlib"/>
 			<Item Name="FlagImpairModule.lvlib" Type="Library" URL="../Modules/FlagImpairModule/FlagImpairModule.lvlib"/>
