@@ -1,21 +1,25 @@
 %function s_simuToFile (filename,time,freq,rocof,bus_v,ilf,ilt,PMULocations,line)
 %% Create CSV file
 app_sel=2;
-app={'LSE' 'ModelValidation'}; app=app{1};
+app={'LSE' 'GMV'}; app=app{app_sel};
 
 nbus=sum(bus_v(:,1)~=0);
-NoiseVariance=1e-8;
+NoiseVariance=0;
 PMULocations=[1];  PMULocations=sort(PMULocations);
 num_pmu=length(PMULocations);
 setPosSeq=0;
 user_dir = winqueryreg('HKEY_CURRENT_USER','SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders','Personal');
-csv_path=[user_dir '\PARTF\Tests\LSE\Inputdata\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
-
+switch app
+    case 'LSE'
+        csv_path=[user_dir '\PARTF\Tests\LSE\Inputdata\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
+    case 'GMV'
+        csv_path=[user_dir '\PARTF\Tests\GMV\Inputdata\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
+end
 
 time=t;
 bus_vol = (abs(bus_v)+sqrt(NoiseVariance)*randn(size(bus_v))).*...
     exp(1i*(angle(bus_v)+sqrt(NoiseVariance)*randn(size(bus_v))));
-freq=diff(angle(bus_v(PMULocations,:)),1,2)/(t(2)-t(1))/(2*pi)+ str2double(basdat{2});
+freq=diff(phase(bus_v(PMULocations,:)),1,2)/(t(2)-t(1))/(2*pi)+ str2double(basdat{2});
 freq=[freq freq(:,end)];
 rocof=diff(freq,1,2)/(t(2)-t(1));
 rocof=[rocof rocof(:,end)];
@@ -79,7 +83,13 @@ fclose(fid);
 
 %% Create CSV file
 
-reference_path=[user_dir '\PARTF\Tests\LSE\Inputdata\VoltageReferences_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
+switch app
+    case 'LSE'
+        reference_path=[user_dir '\PARTF\Tests\LSE\Inputdata\VoltageReferences_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
+    case 'GMV'
+        reference_path=[user_dir '\PARTF\Tests\GMV\Inputdata\VoltageReferences_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv'];
+end
+
 fid = fopen(reference_path, 'wt' );
 
 data_ref=bus_vol(1:nbus,:).';
@@ -117,14 +127,20 @@ else
     Fsamp='1000';
 end
 % PMU Impairment
-PmuImpairPluginINIFilePath='NoPmuImpairPlugin/NoPmuImpairPlugin.ini';
+PmuImpairPluginINIFilePath='C37BehaviourPlugin/C37BehaviourPlugin.ini';
 FilterType='Blackman';
-PmuImpairParams='0 0';
+PmuImpairParams1='8.19';
+PmuImpairParams2='164';
 
 
 
 % File creation;
-file_path=[user_dir '\PARTF\Tests\LSE\DynamicSystem_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.tst'];
+switch app
+    case 'LSE'
+        file_path=[user_dir '\PARTF\Tests\LSE\DynamicSystem_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.tst'];
+    case 'GMV'
+        file_path=[user_dir '\PARTF\Tests\GMV\DynamicSystem_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.tst'];
+end
 fid = fopen(file_path, 'wt' );
 
 if(fid==-1)
@@ -133,13 +149,15 @@ if(fid==-1)
     fid = fopen(file_path, 'wt' );
 end
 
+app_string={'LSE' 'GMV'};
+app_string=app_string{app_sel};
 
 for i=1:num_pmu
 fprintf(fid,['[Bus' num2str(i) ']\n']);
 fprintf(fid,['BusNumber = "' num2str(i) '"\n']);
 fprintf(fid,'EvtPluginINIFilePath = "EventFromCSVPlugin/EventFromCSVPlugin.ini"\n');
 fprintf(fid,'EvtParams.<size(s)> = "%d %d"\n',1,1);
-fprintf(fid,'EvtParams 0 = "%s"\n',['LSE\Inputdata\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv']);
+fprintf(fid,'EvtParams 0 = "%s"\n',[app_string '\Inputdata\DynamicEvent_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv']);
 fprintf(fid,['EvtConfig.UTC Time 0 = "\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00"\n',...
 'EvtConfig.Nominal Frequency = "', Nominal_Frequency,'"\n',...
 'EvtConfig.Reporting Rate = "' Reporting_Rate,'"\n',...
@@ -148,7 +166,9 @@ fprintf(fid,['EvtConfig.UTC Time 0 = "\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\
 'Start Time = "', Start_Time, '"\n',...
 'End Time = "', End_Time, '"\n',...
 'PmuImpairPluginINIFilePath = "', PmuImpairPluginINIFilePath '"\n',...
-'PmuImpairParams .<size(s)> = "', PmuImpairParams,'"\n',...
+'PmuImpairParams.<size(s)> = "','2 1','"\n',...
+'PmuImpairParams 0 = "', PmuImpairParams1,'"\n',...
+'PmuImpairParams 1 = "', PmuImpairParams2,'"\n',...
 'PmuImpairConfig.FilterType = "', FilterType,'"\n',...
 'PmuImpairConfig.bPosSeq = "', bPosSeq,'"\n',...
 'NetImpPluginINIFilePath = "NetworkPluginNone/NetworkPluginNone.ini"\n',...
@@ -171,10 +191,10 @@ switch(app)
         end
     fprintf(fid,'</Array>\\0D\\0A<I32>\\0D\\0A<Name>Vindex</Name>\\0D\\0A<Val>0</Val>\\0D\\0A</I32>\\0D\\0A<I32>\\0D\\0A<Name>Iindex</Name>\\0D\\0A<Val>3</Val>\\0D\\0A</I32>\\0D\\0A<String>\\0D\\0A<Name>DynamicRef</Name>\\0D\\0A<Val>%s</Val>\\0D\\0A</String>\\0D\\0A</Cluster>\\0D\\0A"',['LSE\Inputdata\VoltageReferences_case' num2str(nbus) '_' num2str(num_pmu) 'pmus.csv']);
     fprintf(fid,'\n\n');
-    case 'ModelValidation'
+    case 'GMV'
         fprintf(fid,'[AppData]\n');
         fprintf(fid,'AppData.AppPluginIniFilePath = "ModelValidationPlugin/ModelValidationPlugin.ini"\n');
-        fprintf(fid,'AppData.Config = "<Cluster>\\0D\\0A<Name>ModelValidationConfig</Name>\\0D\\0A<NumElts>4</NumElts>\\0D\\0A<DBL>\\0D\\0A<Name>NoiseVariance</Name>\\0D\\0A<Val>1.00000000000000E-3</Val>\\0D\\0A</DBL>\\0D\\0A<I32>\\0D\\0A<Name>Iindex</Name>\\0D\\0A<Val>3</Val>\\0D\\0A</I32>\\0D\\0A<DBL>\\0D\\0A<Name>OffsetTime</Name>\\0D\\0A<Val>1.00000000000000E-3</Val>\\0D\\0A</DBL>\\0D\\0A<I32>\\0D\\0A<Name>InterpolationFactor</Name>\\0D\\0A<Val>3</Val>\\0D\\0A</I32>\\0D\\0A</Cluster>\\0D\\0A"');
+        fprintf(fid,'AppData.Config = "<Cluster>\\0D\\0A<Name>ModelValidationConfig</Name>\\0D\\0A<NumElts>5</NumElts>\\0D\\0A<DBL>\\0D\\0A<Name>NoiseVariance</Name>\\0D\\0A<Val>1.00000000000000E-3</Val>\\0D\\0A</DBL>\\0D\\0A<I32>\\0D\\0A<Name>Iindex</Name>\\0D\\0A<Val>3</Val>\\0D\\0A</I32>\\0D\\0A<DBL>\\0D\\0A<Name>OffsetTime</Name>\\0D\\0A<Val>2.00000000000000</Val>\\0D\\0A</DBL>\\0D\\0A<I32>\\0D\\0A<Name>InterpolationFactor</Name>\\0D\\0A<Val>5</Val>\\0D\\0A</I32>\\0D\\0A<Cluster>\\0D\\0A<Name>Initial condition</Name>\\0D\\0A<NumElts>3</NumElts>\\0D\\0A<DBL>\\0D\\0A<Name>H0</Name>\\0D\\0A<Val>4.55000000000000</Val>\\0D\\0A</DBL>\\0D\\0A<DBL>\\0D\\0A<Name>xd0</Name>\\0D\\0A<Val>0.27500000000000</Val>\\0D\\0A</DBL>\\0D\\0A<DBL>\\0D\\0A<Name>D0</Name>\\0D\\0A<Val>4.20000000000000</Val>\\0D\\0A</DBL>\\0D\\0A</Cluster>\\0D\\0A</Cluster>\\0D\\0A"');
         fprintf(fid,'\n\n');
     otherwise
         error('Select a valid app')
