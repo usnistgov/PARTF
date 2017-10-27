@@ -40,6 +40,7 @@ Contents:
 .. toctree::
    exampleAppRingdown
    exampleAppLSE
+   exampleAppGMV
    moduleAppendix
 
 
@@ -49,4 +50,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

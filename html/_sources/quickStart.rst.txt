@@ -12,11 +12,13 @@ A number of Labview packages are needed to run the PARTF.  You can download them
 
 	.. _`VI Package Manager (VIPM)`: https://vipm.jki.net/get
 
+(note: for the below, x.x.x.x refers to the latest version available)
+
 NISTErrorLib
 ++++++++++++
 Download and install NISTErrorLib_.
 
-	.. _NISTErrorLib: https://github.com/usnistgov/LV_Packages/blob/master/packages/nist_lib_nisterrorlib/nist_lib_nisterrorlib-1.2.0.2.vip
+	.. _NISTErrorLib: https://github.com/usnistgov/LV_Packages/blob/master/packages/nist_lib_nisterrorlib/nist_lib_nisterrorlib-x.x.x.x.vip
 
 The NISTErrorLib builds on the native LabVIEW error handler and allows for muttiple errors to be carried in an error array, adds error priority, error severity, logging, ability to cleanly exit the program on Critical and Fatal Errors and a uniform error dialog.  Once the NISTErrorLib package is installed, you can find an example of how to use it in in the ErrorLib pallette: "Producer Consumer Design Pattern (Events).vi, labeled "Test Errors"
 
@@ -24,7 +26,7 @@ BaseClasses Library
 +++++++++++++++++++
 Download and install BaseClasses_.
 
-	.. _BaseClasses: https://github.com/usnistgov/LV_Packages/blob/master/packages/nist_lib_nistbaseclasses/nist_lib_nistbaseclasses-1.1.0.3.vip
+	.. _BaseClasses: https://github.com/usnistgov/LV_Packages/blob/master/packages/nist_lib_nistbaseclasses/nist_lib_nistbaseclasses-x.x.x.x.vip
 
 All classes in PARTF inheret from the BaseObject class.  All Plugin classes inheret from BasePlugin class.  All of the Plugin modules have a Base Plugin class for that module which all the plugin classes inheret from.
 
@@ -32,7 +34,7 @@ ModuleAdmin Library
 +++++++++++++++++++
 Download and install ModuleAdmin_.
 
-	.. _ModuleAdmin: https://github.com/usnistgov/LV_Packages/blob/master/packages/nist_lib_nistmoduleadminlib/nist_lib_nistmoduleadminlib-2.1.0.4.vip
+	.. _ModuleAdmin: https://github.com/usnistgov/LV_Packages/blob/master/packages/nist_lib_nistmoduleadminlib/nist_lib_nistmoduleadminlib-x.x.x.x.vip
 
 The administrative library and classes for the Cloneable, Pluggable modules used in the PARTF.  Provides a ModuleAdmin class for maintining module properties.  CloneRegistration providing properties and methods for adding, removing and accounting for instantiated clones, and VIs for synchronizing module clones and their calling applications.
 
@@ -40,7 +42,7 @@ Socket API Class
 ++++++++++++++++
 Download and install SocketAPI_.
 
-	.. _SocketAPI: https://github.com/usnistgov/LV_Packages/blob/master/packages/nist_lib_nisterrorlib/nist_lib_nisterrorlib-1.2.0.2.vip
+	.. _SocketAPI: https://github.com/usnistgov/LV_Packages/blob/master/packages/nist_lib_nisterrorlib/nist_lib_nisterrorlib-x.x.x.x.vip
 	
 The Socket class provides an API and some middleware for  TCP and UDP point to point and multicast communications.  Once installed, useage examples can be found using the labview Example Finder.  Look under the task "Networking/TCP & UDP" for the examples beginning with the word "Socket."  	
 

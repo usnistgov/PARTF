@@ -24,7 +24,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Appendix C: Pluggable Module Reference" href="moduleAppendix.html" />
+    <link rel="next" title="­Generator Model Validation" href="exampleAppGMV.html" />
     <link rel="prev" title="Appendix A: Ringdown Example Application" href="exampleAppRingdown.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="moduleAppendix.html" title="Appendix C: Pluggable Module Reference"
+          <a href="exampleAppGMV.html" title="­Generator Model Validation"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="exampleAppRingdown.html" title="Appendix A: Ringdown Example Application"
@@ -62,8 +62,8 @@ reliability of a power system.</p>
 <p>Therefore, the main objective of state estimation is to find the
 voltage phasors of all the bars or buses of the system. To understand
 the methodology, a classic observation model is described below:</p>
-<div class="math">
-\[\mathbf{z} = h\left( \mathbf{x} \right) + \mathbf{\eta}\]</div>
+<div class="math" id="equation-exampleAppLSE:0">
+<span class="eqno">(1)<a class="headerlink" href="#equation-exampleAppLSE:0" title="Permalink to this equation">¶</a></span>\[\mathbf{z} = h\left( \mathbf{x} \right) + \mathbf{\eta}\]</div>
 <p>Where <span class="math">\(\mathbf{z}\)</span> is a vector
 <span class="math">\(\in \ \mathbb{R}^{\text{mx}1}\)</span> containing the <em>m</em> measurements
 from all the sensing devices installed in the network,
@@ -74,8 +74,8 @@ electrical system, <span class="math">\(h()\)</span> is a
 relates the voltage phasors to the measurements. Now, if the system
 relies exclusively on PMU phasor measurements, the model can be
 expressed in linear form:</p>
-<div class="math">
-\[\mathbf{z} = H\ \mathbf{x} + \mathbf{\eta}\]</div>
+<div class="math" id="equation-exampleAppLSE:1">
+<span class="eqno">(2)<a class="headerlink" href="#equation-exampleAppLSE:1" title="Permalink to this equation">¶</a></span>\[\mathbf{z} = H\ \mathbf{x} + \mathbf{\eta}\]</div>
 <p>Otherwise if there are measurements such as active and reactive power
 (SCADA case) the function <span class="math">\(h\)</span> is non-linear, and iterative methods
 such as Gauss-Newton must be used to reach a solution. At the end of this annex a sub-annex that shows how to obtain the measurement
@@ -83,12 +83,12 @@ matrix <span class="math">\(H\ \mathbf{\in \ }\mathbb{R}^{\text{mx}2n}\)</span> 
 To estimate the optimal value of the state vector, the Weighted Least
 Squares (WLS) method is proposed, in accordance with this approach the
 following objective function is defined:</p>
-<div class="math">
-\[J\left( \mathbf{x} \right)\mathbf{=}{\mathbf{\lbrack z -}H\mathbf{\ x\rbrack}}^{\mathbf{T}}R^{\mathbf{- 1}}\mathbf{\lbrack z -}H\mathbf{\ x\rbrack}\]</div>
+<div class="math" id="equation-exampleAppLSE:2">
+<span class="eqno">(3)<a class="headerlink" href="#equation-exampleAppLSE:2" title="Permalink to this equation">¶</a></span>\[J\left( \mathbf{x} \right)\mathbf{=}{\mathbf{\lbrack z -}H\mathbf{\ x\rbrack}}^{\mathbf{T}}R^{\mathbf{- 1}}\mathbf{\lbrack z -}H\mathbf{\ x\rbrack}\]</div>
 <p>Where <span class="math">\(R\)</span> is the covariance matrix of the measurements. The
 optimal solution that minimizes the objective function is:</p>
-<div class="math">
-\[{\hat{\mathbf{x}}}_{\text{LS}} = {\lbrack H^{T}R^{- 1}H\rbrack}^{- 1}H^{T}R^{- 1}\ \mathbf{z}\]</div>
+<div class="math" id="equation-exampleAppLSE:3">
+<span class="eqno">(4)<a class="headerlink" href="#equation-exampleAppLSE:3" title="Permalink to this equation">¶</a></span>\[{\hat{\mathbf{x}}}_{\text{LS}} = {\lbrack H^{T}R^{- 1}H\rbrack}^{- 1}H^{T}R^{- 1}\ \mathbf{z}\]</div>
 <p>Where <span class="math">\({\hat{\mathbf{x}}}_{\text{LS}}\)</span> is the least square
 estimator we were looking for.</p>
 <p>Some of this example is based upon work done at Washington State University <a class="footnote-reference" href="#id3" id="id1">[1]</a>.</p>
@@ -236,7 +236,7 @@ data_#.mat file. As can be seen from the Figures B3 to B5 the magnitude
 error, the phase error and the total vector error (TVE) are plotted for
 each one of the voltages in the buses.</p>
 <p><a class="reference internal" href="_images/image37.png"><img alt="image2" src="_images/image37.png" style="width: 4.97021in; height: 2.82663in;" /></a></p>
-<p>Figure B3: Boxplot <a class="reference internal" href="#note1" id="id2">[note1]</a> of the magnitude error of all the voltages in the
+<p>Figure B3: Boxplot <a class="reference internal" href="exampleAppRingdown.html#note1" id="id2">[note1]</a> of the magnitude error of all the voltages in the
 14 IEEE system using a Hamming window.</p>
 <p><a class="reference internal" href="_images/image42.png"><img alt="image3" src="_images/image42.png" style="width: 5.25402in; height: 3.01677in;" /></a></p>
 <p>Figure B4: Boxplot of the phase error of all the voltages in the 14 IEEE
@@ -288,10 +288,10 @@ number of buses of the system.</p>
 <p>Notice that the root average mean square error, defined in , represents
 a metric similar to the TSE of the visualization virtual instrument, but
 the way that each one of them is calculated differs:</p>
-<div class="math">
-\[TSE = \sqrt{\sum_{i = 1}^{N}{\text{TVE}^{2}}_{i}}\]</div>
-<div class="math">
-\[RAMSE = \sqrt{\frac{1}{N}\sum_{i = 1}^{N}{E\lbrack{\varepsilon_{\text{VEi}}}^{2}\rbrack}}\]</div>
+<div class="math" id="equation-exampleAppLSE:4">
+<span class="eqno">(5)<a class="headerlink" href="#equation-exampleAppLSE:4" title="Permalink to this equation">¶</a></span>\[TSE = \sqrt{\sum_{i = 1}^{N}{\text{TVE}^{2}}_{i}}\]</div>
+<div class="math" id="equation-exampleAppLSE:5">
+<span class="eqno">(6)<a class="headerlink" href="#equation-exampleAppLSE:5" title="Permalink to this equation">¶</a></span>\[RAMSE = \sqrt{\frac{1}{N}\sum_{i = 1}^{N}{E\lbrack{\varepsilon_{\text{VEi}}}^{2}\rbrack}}\]</div>
 <p>Where,</p>
 <p><span class="math">\(\varepsilon_{\text{VEi}} = \left| \left( V_{i} + \varepsilon_{\text{Vi}} \right)e^{j\left( \theta_{i} + \varepsilon_{\text{θi}} \right)} - V_{i}e^{j\theta_{i}} \right|\)</span></p>
 </div>
@@ -521,23 +521,23 @@ synchrophasors values.</div>
 <h2>Sub-Annex– Measurement matrix calculation (H)<a class="headerlink" href="#sub-annex-measurement-matrix-calculation-h" title="Permalink to this headline">¶</a></h2>
 <p>If we go back to the π model of a transmission line (see Fig A1) and
 rely on Kirchhoff’s laws, it is stated that:</p>
-<div class="math">
-\[{\overset{\overline{}}{I}}_{\text{ij}} = {\overset{\overline{}}{V}}_{i}\ Y_{i0} + \left( {\overset{\overline{}}{V}}_{i} - {\overset{\overline{}}{V}}_{j} \right)\ Y_{\text{ij}}\]</div>
+<div class="math" id="equation-exampleAppLSE:6">
+<span class="eqno">(7)<a class="headerlink" href="#equation-exampleAppLSE:6" title="Permalink to this equation">¶</a></span>\[{\overset{\overline{}}{I}}_{\text{ij}} = {\overset{\overline{}}{V}}_{i}\ Y_{i0} + \left( {\overset{\overline{}}{V}}_{i} - {\overset{\overline{}}{V}}_{j} \right)\ Y_{\text{ij}}\]</div>
 <p>Where the bar over the letter indicates that it is a phasor. If we
 decompose the above equation into a real and imaginary part:</p>
-<div class="math">
-\[I_{ij\_ R} + jI_{ij\_ I} = \left( V_{i\_ R} + jV_{i\_ I} \right)\left( G_{i0} + jB_{i0} \right) + (V_{i\_ R} + jV_{i\_ I} - V_{j\_ R} - jV_{j\_ I})(G_{\text{ij}} + jB_{\text{ij}})\]</div>
+<div class="math" id="equation-exampleAppLSE:7">
+<span class="eqno">(8)<a class="headerlink" href="#equation-exampleAppLSE:7" title="Permalink to this equation">¶</a></span>\[I_{ij\_ R} + jI_{ij\_ I} = \left( V_{i\_ R} + jV_{i\_ I} \right)\left( G_{i0} + jB_{i0} \right) + (V_{i\_ R} + jV_{i\_ I} - V_{j\_ R} - jV_{j\_ I})(G_{\text{ij}} + jB_{\text{ij}})\]</div>
 <p>Obtaining the following pair of equations:</p>
-<div class="math">
-\[I_{\text{ij}\_ R} = \left( G_{i0} + G_{\text{ij}} \right)\ V_{i\_ R} - \left( B_{i0} + B_{\text{ij}} \right)\ V_{i\_ I} - G_{\text{ij}}V_{{j\_}_{R}} + B_{\text{ij}}V_{j\_ I}\]</div>
-<div class="math">
-\[I_{ij\_ I} = \left( B_{i0} + B_{\text{ij}} \right)\ V_{i\_ R} - \left( G_{i0} + G_{\text{ij}} \right)\text{\ V}_{i\_ I} - B_{\text{ij}}V_{j_{\_ R}} - G_{\text{ij}}V_{j\_ I}\]</div>
+<div class="math" id="equation-exampleAppLSE:8">
+<span class="eqno">(9)<a class="headerlink" href="#equation-exampleAppLSE:8" title="Permalink to this equation">¶</a></span>\[I_{\text{ij}\_ R} = \left( G_{i0} + G_{\text{ij}} \right)\ V_{i\_ R} - \left( B_{i0} + B_{\text{ij}} \right)\ V_{i\_ I} - G_{\text{ij}}V_{{j\_}_{R}} + B_{\text{ij}}V_{j\_ I}\]</div>
+<div class="math" id="equation-exampleAppLSE:9">
+<span class="eqno">(10)<a class="headerlink" href="#equation-exampleAppLSE:9" title="Permalink to this equation">¶</a></span>\[I_{ij\_ I} = \left( B_{i0} + B_{\text{ij}} \right)\ V_{i\_ R} - \left( G_{i0} + G_{\text{ij}} \right)\text{\ V}_{i\_ I} - B_{\text{ij}}V_{j_{\_ R}} - G_{\text{ij}}V_{j\_ I}\]</div>
 <p>The linear relationship that allows us to construct the matrix is
 ​​observed. In the same way, the relation between the current
 <span class="math">\(I_{\text{ji}}\)</span> can be considered, and the following scheme can be
 proposed:</p>
-<div class="math">
-\[\begin{split}\begin{bmatrix}
+<div class="math" id="equation-exampleAppLSE:10">
+<span class="eqno">(11)<a class="headerlink" href="#equation-exampleAppLSE:10" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{bmatrix}
 \begin{matrix}
 V_{R} \\
 V_{I} \\
@@ -660,8 +660,8 @@ the outliers are plotted individually.</td></tr>
   <p class="topless"><a href="exampleAppRingdown.html"
                         title="previous chapter">Appendix A: Ringdown Example Application</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="moduleAppendix.html"
-                        title="next chapter">Appendix C: Pluggable Module Reference</a></p>
+  <p class="topless"><a href="exampleAppGMV.html"
+                        title="next chapter">­Generator Model Validation</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -690,7 +690,7 @@ the outliers are plotted individually.</td></tr>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="moduleAppendix.html" title="Appendix C: Pluggable Module Reference"
+          <a href="exampleAppGMV.html" title="­Generator Model Validation"
              >next</a> |</li>
         <li class="right" >
           <a href="exampleAppRingdown.html" title="Appendix A: Ringdown Example Application"

@@ -24,7 +24,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Appendix B: Pluggable Module Reference" href="moduleAppendix.html" />
+    <link rel="next" title="Appendix B: Linear State Estimation (LSE) Example Application" href="exampleAppLSE.html" />
     <link rel="prev" title="10. Test Automation" href="testAutomation.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="moduleAppendix.html" title="Appendix B: Pluggable Module Reference"
+          <a href="exampleAppLSE.html" title="Appendix B: Linear State Estimation (LSE) Example Application"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="testAutomation.html" title="10. Test Automation"
@@ -75,10 +75,10 @@ implemented.</p>
 <p>Consider a Linear-Time Invariant (LTI) system with the initial state of
 <span class="math">\(x(t_{0}) = x_{0}\)</span> at the time <span class="math">\(t_{0}\)</span>, if the input is
 removed from the system, the dynamic system model can be represented as:</p>
-<div class="math">
-\[\dot{x(}t) = A\ x(t)\]</div>
-<div class="math">
-\[y(t) = C\ x(t)\]</div>
+<div class="math" id="equation-exampleAppRingdown:0">
+<span class="eqno">(1)<a class="headerlink" href="#equation-exampleAppRingdown:0" title="Permalink to this equation">¶</a></span>\[\dot{x(}t) = A\ x(t)\]</div>
+<div class="math" id="equation-exampleAppRingdown:1">
+<span class="eqno">(2)<a class="headerlink" href="#equation-exampleAppRingdown:1" title="Permalink to this equation">¶</a></span>\[y(t) = C\ x(t)\]</div>
 <p>where <span class="math">\(\text{y} \in \mathbb{\text{R}}\)</span> is defined as the
 output of the system, <span class="math">\(\text{x } \in \ \mathbb{R}^{n}\)</span> is the
 state of the system, <span class="math">\(\text{A} \in \ \mathbb{R}^{\text{nxn}}\)</span>
@@ -87,12 +87,12 @@ order of the system is defined by <em>n</em>. If the <span class="math">\(\lambd
 <span class="math">\(p_{i}\)</span>, and <span class="math">\(q_{i}\)</span> are the i-th eigenvalues, right
 eigenvectors, and left eigenvectors of <span class="math">\(\text{n x n}\)</span> matrix A,
 respectively, the system can be solved as:</p>
-<div class="math">
-\[x\left( t \right) = \sum_{i = 1}^{n}{\left( {q_{i}}^{\tau}\ x_{0} \right)p_{i}e^{\lambda_{i}t}}\qquad \Rightarrow \qquad y\left( t \right) = \sum_{i = 1}^{n}{\text{C}\left( {q_{i}}^{\tau}\ x_{0} \right)p_{i}e^{\lambda_{i}t}}\]</div>
+<div class="math" id="equation-exampleAppRingdown:2">
+<span class="eqno">(3)<a class="headerlink" href="#equation-exampleAppRingdown:2" title="Permalink to this equation">¶</a></span>\[x\left( t \right) = \sum_{i = 1}^{n}{\left( {q_{i}}^{\tau}\ x_{0} \right)p_{i}e^{\lambda_{i}t}}\qquad \Rightarrow \qquad y\left( t \right) = \sum_{i = 1}^{n}{\text{C}\left( {q_{i}}^{\tau}\ x_{0} \right)p_{i}e^{\lambda_{i}t}}\]</div>
 <p>Prony analysis directly estimates the parameters for the exponential
 terms of <span class="math">\(y(t)\)</span> by defining a fitting function in a basic form of:</p>
-<div class="math">
-\[\ \hat{y}\left( t \right) = \sum_{i = 1}^{n}{B_{i}\ e^{\sigma_{i}t}}\cos{(2\pi f_{i}t + \varphi_{i})}\]</div>
+<div class="math" id="equation-exampleAppRingdown:3">
+<span class="eqno">(4)<a class="headerlink" href="#equation-exampleAppRingdown:3" title="Permalink to this equation">¶</a></span>\[\ \hat{y}\left( t \right) = \sum_{i = 1}^{n}{B_{i}\ e^{\sigma_{i}t}}\cos{(2\pi f_{i}t + \varphi_{i})}\]</div>
 <p>In other words, the output of the system is projected onto a signal
 consisting of a set of damped oscillations. The way in which this
 projection is carried out varies depending on the algorithm used. But,
@@ -536,38 +536,38 @@ follows:</div>
 </ol>
 </li>
 </ol>
-<div class="math">
-\[{P\left( t \right) = \sum_{i = 1}^{n}{A_{i}\ e^{\sigma_{\text{pi}}t}}\cos{(2\pi f_{\text{pi}}t + \varphi_{\text{pi}})}\backslash n}\backslash n{Q\left( t \right) = \sum_{i = 1}^{n}{B_{i}\ e^{\sigma_{\text{qi}}t}}\cos{(2\pi f_{\text{qi}}t + \varphi_{\text{qi}})}\backslash n}\backslash n\]</div>
-<div class="math">
-\[S = P + jQ = \sqrt{3}\ \mathbf{V}\ \mathbf{I}^{\mathbf{*}}\]</div>
+<div class="math" id="equation-exampleAppRingdown:4">
+<span class="eqno">(5)<a class="headerlink" href="#equation-exampleAppRingdown:4" title="Permalink to this equation">¶</a></span>\[{P\left( t \right) = \sum_{i = 1}^{n}{A_{i}\ e^{\sigma_{\text{pi}}t}}\cos{(2\pi f_{\text{pi}}t + \varphi_{\text{pi}})}\backslash n}\backslash n{Q\left( t \right) = \sum_{i = 1}^{n}{B_{i}\ e^{\sigma_{\text{qi}}t}}\cos{(2\pi f_{\text{qi}}t + \varphi_{\text{qi}})}\backslash n}\backslash n\]</div>
+<div class="math" id="equation-exampleAppRingdown:5">
+<span class="eqno">(6)<a class="headerlink" href="#equation-exampleAppRingdown:5" title="Permalink to this equation">¶</a></span>\[S = P + jQ = \sqrt{3}\ \mathbf{V}\ \mathbf{I}^{\mathbf{*}}\]</div>
 <p><strong>*V*</strong> and <strong>*I*</strong> represent the voltage and current phasors
 respectively. Decomposing into module and phase:</p>
-<div class="math">
-\[{S = \sqrt{3}\text{\ V}e^{j\theta_{v}}\text{\ I}e^{- j\theta_{i}}\backslash n}\backslash n\]</div>
-<div class="math">
-\[Ie^{j\theta_{v}} = \frac{Se^{j\theta_{i}}}{\sqrt{3\ }\text{V\ }}\]</div>
+<div class="math" id="equation-exampleAppRingdown:6">
+<span class="eqno">(7)<a class="headerlink" href="#equation-exampleAppRingdown:6" title="Permalink to this equation">¶</a></span>\[{S = \sqrt{3}\text{\ V}e^{j\theta_{v}}\text{\ I}e^{- j\theta_{i}}\backslash n}\backslash n\]</div>
+<div class="math" id="equation-exampleAppRingdown:7">
+<span class="eqno">(8)<a class="headerlink" href="#equation-exampleAppRingdown:7" title="Permalink to this equation">¶</a></span>\[Ie^{j\theta_{v}} = \frac{Se^{j\theta_{i}}}{\sqrt{3\ }\text{V\ }}\]</div>
 <p>Now the voltage and the current phasors are created with the addition of
 the AWGN stipulated in the <em>signalparmas</em> matrix. At last the frequency
 and ROCOF are calculated as follows:</p>
-<div class="math">
-\[f = f_{0} + \frac{1}{2\pi}\frac{d\theta_{v}}{\text{dt}}\]</div>
+<div class="math" id="equation-exampleAppRingdown:8">
+<span class="eqno">(9)<a class="headerlink" href="#equation-exampleAppRingdown:8" title="Permalink to this equation">¶</a></span>\[f = f_{0} + \frac{1}{2\pi}\frac{d\theta_{v}}{\text{dt}}\]</div>
 <p>Where,</p>
-<div class="math">
-\[\theta_{v} = arctan\left( \frac{Q}{P} \right) + \theta_{i}\]</div>
+<div class="math" id="equation-exampleAppRingdown:9">
+<span class="eqno">(10)<a class="headerlink" href="#equation-exampleAppRingdown:9" title="Permalink to this equation">¶</a></span>\[\theta_{v} = arctan\left( \frac{Q}{P} \right) + \theta_{i}\]</div>
 <p>So</p>
-<div class="math">
-\[f = f_{0} + \frac{1}{2\pi}\ \left\lbrack \frac{1}{\left( \frac{Q}{P} \right)^{2} + 1}\left( \frac{\dot{Q}P - Q\dot{P}}{P^{2}} \right) + \gamma_{i} \right\rbrack\backslash n\]</div>
+<div class="math" id="equation-exampleAppRingdown:10">
+<span class="eqno">(11)<a class="headerlink" href="#equation-exampleAppRingdown:10" title="Permalink to this equation">¶</a></span>\[f = f_{0} + \frac{1}{2\pi}\ \left\lbrack \frac{1}{\left( \frac{Q}{P} \right)^{2} + 1}\left( \frac{\dot{Q}P - Q\dot{P}}{P^{2}} \right) + \gamma_{i} \right\rbrack\backslash n\]</div>
 <p>If the following terms are defined,</p>
-<div class="math">
-\[H_{1} = \frac{1}{\left( \frac{Q}{P} \right)^{2} + 1}\text{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }H_{2} = \left( \frac{\dot{Q}P - Q\dot{P}}{P^{2}} \right)\backslash n\]</div>
+<div class="math" id="equation-exampleAppRingdown:11">
+<span class="eqno">(12)<a class="headerlink" href="#equation-exampleAppRingdown:11" title="Permalink to this equation">¶</a></span>\[H_{1} = \frac{1}{\left( \frac{Q}{P} \right)^{2} + 1}\text{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }H_{2} = \left( \frac{\dot{Q}P - Q\dot{P}}{P^{2}} \right)\backslash n\]</div>
 <p>Then,</p>
-<div class="math">
-\[ROCOF = \frac{\text{df}}{\text{dt}} = \frac{1}{2\pi}\left( \dot{H_{1}}H_{2} + H_{1}\dot{H_{2}} \right)\]</div>
+<div class="math" id="equation-exampleAppRingdown:12">
+<span class="eqno">(13)<a class="headerlink" href="#equation-exampleAppRingdown:12" title="Permalink to this equation">¶</a></span>\[ROCOF = \frac{\text{df}}{\text{dt}} = \frac{1}{2\pi}\left( \dot{H_{1}}H_{2} + H_{1}\dot{H_{2}} \right)\]</div>
 <p>Again, for simplicity reasons the time derivatives of
 <span class="math">\(P\)</span>,<span class="math">\(\text{\ Q}\)</span>, <span class="math">\(H_{1}\)</span> and <span class="math">\(H_{2}\)</span> are not
 displayed.</p>
-<div class="math">
-\[\backslash n\]</div>
+<div class="math" id="equation-exampleAppRingdown:13">
+<span class="eqno">(14)<a class="headerlink" href="#equation-exampleAppRingdown:13" title="Permalink to this equation">¶</a></span>\[\backslash n\]</div>
 </div>
 <div class="section" id="genrngsignal-m">
 <span id="genrngsignal"></span><h3>genRngSignal.m<a class="headerlink" href="#genrngsignal-m" title="Permalink to this headline">¶</a></h3>
@@ -645,8 +645,8 @@ created from the coefficients passed as an input (<span class="math">\(y\)</span
 </ol>
 </li>
 </ol>
-<div class="math">
-\[y\left( t \right) = \sum_{i = 1}^{n}{A_{i}\ e^{\sigma_{i}t}}\cos{(2\pi f_{i}t + \varphi_{i})}\]</div>
+<div class="math" id="equation-exampleAppRingdown:14">
+<span class="eqno">(15)<a class="headerlink" href="#equation-exampleAppRingdown:14" title="Permalink to this equation">¶</a></span>\[y\left( t \right) = \sum_{i = 1}^{n}{A_{i}\ e^{\sigma_{i}t}}\cos{(2\pi f_{i}t + \varphi_{i})}\]</div>
 <ol class="arabic">
 <li><p class="first rubric" id="getrngoutput">GetRngOutput</p>
 <ol class="arabic">
@@ -684,8 +684,8 @@ mode. The damping ration is defined as folows:</p>
 </ol>
 </li>
 </ol>
-<div class="math">
-\[\eta = \sqrt{{f_{i}}^{2} + {\sigma_{i}}^{2}}\]</div>
+<div class="math" id="equation-exampleAppRingdown:15">
+<span class="eqno">(16)<a class="headerlink" href="#equation-exampleAppRingdown:15" title="Permalink to this equation">¶</a></span>\[\eta = \sqrt{{f_{i}}^{2} + {\sigma_{i}}^{2}}\]</div>
 <div class="line-block">
 <div class="line"><em>prony_estimate</em>: Array of doubles with the signal estimated from the
 amp, damp, freq and phase</div>
@@ -971,8 +971,8 @@ before the single run is computed.</td></tr>
   <p class="topless"><a href="testAutomation.html"
                         title="previous chapter">10. Test Automation</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="moduleAppendix.html"
-                        title="next chapter">Appendix B: Pluggable Module Reference</a></p>
+  <p class="topless"><a href="exampleAppLSE.html"
+                        title="next chapter">Appendix B: Linear State Estimation (LSE) Example Application</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -1001,7 +1001,7 @@ before the single run is computed.</td></tr>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="moduleAppendix.html" title="Appendix B: Pluggable Module Reference"
+          <a href="exampleAppLSE.html" title="Appendix B: Linear State Estimation (LSE) Example Application"
              >next</a> |</li>
         <li class="right" >
           <a href="testAutomation.html" title="10. Test Automation"

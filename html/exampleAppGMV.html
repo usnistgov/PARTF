@@ -1,0 +1,411 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Appendix C: Generator Model Validation &#8212; PARTF 0.2 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Appendix D: Pluggable Module Reference" href="moduleAppendix.html" />
+    <link rel="prev" title="Appendix B: Linear State Estimation (LSE) Example Application" href="exampleAppLSE.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="moduleAppendix.html" title="Appendix D: Pluggable Module Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="exampleAppLSE.html" title="Appendix B: Linear State Estimation (LSE) Example Application"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="appendix-c-generator-model-validation">
+<h1>Appendix C: Generator Model Validation<a class="headerlink" href="#appendix-c-generator-model-validation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Dynamic models form the basis for power system transient stability
+simulations. Simulation accuracy is driven, in part, by the accuracy of
+the individual models used to represent actual equipment installed in
+the field. Models are developed during the baseline testing and model
+creation process in close coordination between the Generator Owner and
+manufacturer of the components. However, model errors do exist in the
+dynamic cases used for planning and operating the bulk power system.
+These errors are introduced through component replacements, ageing,
+measurement error, etc., that are not captured in the updated models.
+Some historical disturbances can partly be attributed to model
+inaccuracy – post-mortem analysis using the model of expected
+performance has shown gross differences from actual performance. The
+North American Electric Reliability Corporation (NERC) Reliability
+Standards MOD-026-1 and MOD-027-1 seek to ensure that dynamic models are
+verified to ensure they accurately represent the equipment installed in
+the field.</p>
+<p>Using the on-line measurement data to validate unit’s parameters has
+been proposed and discussed in recent years. Most of these online
+approaches are installing intelligent electronics devices (IEDs), such as digital fault recorders (DFRs) or phasor measurement units (PMUs), to perform the dynamic model validation test. Different techniques for using online measurement data to validate or calibrate generator model parameters were already demonstrated in the literature .</p>
+<p>In the parameter identification step, an automatic calibration method
+using the extended Kalman filter (EKF) technique is used in this PMU
+application example. The purpose of this recursive process is to save
+significant effort and time from manual tuning. Publications indicate
+that the performance of the EKF-based method is satisfactory and is
+robust enough against measurement noise and parameter errors. The
+question which can be answered with further research using the PARTF
+test framework, is what is the effect of impairment of the PMU data
+input to the model validation?</p>
+<div class="section" id="fundamentals-of-extended-kalman-filter-ekf">
+<h3>Fundamentals of Extended Kalman Filter (EKF)<a class="headerlink" href="#fundamentals-of-extended-kalman-filter-ekf" title="Permalink to this headline">¶</a></h3>
+<p>Power system dynamics can be represented generally using differential
+algebraic equations. From there, a state-space representation can be
+defined and, if we utilize the mismatch to adjust the state variables,
+an observer can be built. The EKF is one of the techniques for building
+such an observer. The discrete model formulation with a time step of
+<span class="math">\(\text{Δt}\)</span> is given by:</p>
+<div class="math" id="equation-exampleAppGMV:0">
+<span class="eqno">(1)<a class="headerlink" href="#equation-exampleAppGMV:0" title="Permalink to this equation">¶</a></span>\[\begin{split}x_{k} &amp;= f\left( x_{k - 1},z_{k - 1},u_{k - 1}\right) \\
+z_{k} &amp;= h\left( x_{k},u_{k}\right) \\\end{split}\]</div>
+<p>where the <span class="math">\(x_{k}\)</span> vector contains the state variables at <em>k</em> time,
+<span class="math">\(\ z_{k}\)</span> the measurements, and <span class="math">\(u_{k}\)</span> the input variables.
+Commonly <span class="math">\(u_{k}\)</span> is a set of measured signals used as true values
+for an event playback. Event playback applies measured signals to a
+sub-system model and simulates the model’s response for a rigorous
+comparison with measured response. Finally, <span class="math">\(f\)</span> and <span class="math">\(h\)</span> are
+nonlinear functions that define the way in which the state variables
+evolve and their relationship to the measurements, respectively.</p>
+<p>The EKF is formulated as a two-step prediction-correction process. The
+prediction step is a time update using the difference equations
+represented by the <span class="math">\(f\)</span> function. The state variables of the next
+time step are estimated based on the values of the previous time step.
+In addition, the a-priori error covariance matrix, <span class="math">\(P_{k|k - 1}\)</span>,
+is also predicted. The correction step calculates a Kalman Gain,
+<span class="math">\(K_{k}\)</span>, which blends the estimated values and measured values to
+obtain the corrected state variables and minimize the mismatch between
+the estimated measurement and the actual measurement. The Kalman gain is
+calculated so that the a-posteriori covariance, <span class="math">\(P_{k}\)</span>, is
+minimized. The equations are given below:</p>
+<p><em>Prediction:</em></p>
+<div class="math" id="equation-exampleAppGMV:1">
+<span class="eqno">(2)<a class="headerlink" href="#equation-exampleAppGMV:1" title="Permalink to this equation">¶</a></span>\[\begin{split}x_{k|k - 1} &amp;= f\left( x_{k - 1},z_{k - 1},u_{k - 1} \right) \\
+\mathbf{P}_{k|k - 1} &amp;= \mathbf{A}_{k}\mathbf{P}_{k - 1}{\mathbf{A}_{k}}^{T} + \mathbf{Q}_{k - 1} \\\end{split}\]</div>
+<p><em>Correction:</em></p>
+<div class="math" id="equation-exampleAppGMV:2">
+<span class="eqno">(3)<a class="headerlink" href="#equation-exampleAppGMV:2" title="Permalink to this equation">¶</a></span>\[\begin{split}\mathbf{K}_{k} &amp;= \mathbf{P}_{k|k - 1}{\mathbf{H}_{k}}^{T}\left( \mathbf{H}_{k}\mathbf{P}_{k|k - 1}{\mathbf{H}_{k}}^{T} + \mathbf{R}_{k} \right)^{- 1} \\
+x_{k|k} &amp;= x_{k|k - 1} + \mathbf{K}_{k}\left( z_{k} - h\left( x_{k|k - 1},u_{k} \right) \right) \\
+\mathbf{P}_{k|k} &amp;= \left( I - \mathbf{K}_{k}\mathbf{H}_{k} \right)\mathbf{P}_{k|k - 1}\end{split}\]</div>
+<p>where <span class="math">\(\mathbf{Q}_{k}\)</span> is the model error covariance matrix,
+<span class="math">\(\mathbf{R}_{k}\)</span> is the measurement noise covariance matrix, and
+<span class="math">\(\mathbf{A}_{k}\)</span> and<span class="math">\(\ \mathbf{H}_{k}\)</span> are Jacobian
+matrices defined as:</p>
+<div class="math" id="equation-exampleAppGMV:3">
+<span class="eqno">(4)<a class="headerlink" href="#equation-exampleAppGMV:3" title="Permalink to this equation">¶</a></span>\[\begin{split}\mathbf{A}_{k} &amp;= \frac{\partial f\left( x_{k - 1},z_{k - 1},u_{k - 1} \right)}{\partial x}\\
+\mathbf{H}_{k} &amp;= \frac{\partial h\left( x_{k},u_{k} \right)}{\partial x} \\\end{split}\]</div>
+</div>
+<div class="section" id="generator-model">
+<h3>Generator model<a class="headerlink" href="#generator-model" title="Permalink to this headline">¶</a></h3>
+<p>In order to model the generator unit, a classical generator model is
+adopted (fig.1). The discrete dynamic equations which define its
+behavior, and the parameters to calibrate are:</p>
+<div class="math" id="equation-exampleAppGMV:4">
+<span class="eqno">(5)<a class="headerlink" href="#equation-exampleAppGMV:4" title="Permalink to this equation">¶</a></span>\[\begin{split}\delta_{k} &amp;= \delta_{k - 1} + bas_{\text{rad}}\ \left( \omega_{k - 1} - \omega_{0} \right)\ \text{Δt} \\
+\omega_{k} &amp;= \omega_{k - 1} + \frac{\omega_{0}\ }{2{\tilde{H}}_{k - 1}}\left( P_{m} - \frac{\text{E\ }V_{k}\sin\left( \delta_{k} - \theta_{k} \right)}{{{x^{'}}_{\text{d\ }}}_{\text{\ k} - 1}} - D\ \left( \omega_{k - 1} - \omega_{0} \right) \right)\ \text{Δt} \\
+{\tilde{H}}_{k} &amp;= {\tilde{H}}_{k - 1}  \\
+{{x^{'}}_{\text{d\ }}}_{k}  &amp;= {{x^{'}}_{\text{d\ }}}_{\text{\ k} - 1}  \\
+D_{k} &amp;= D_{k - 1} \\\end{split}\]</div>
+<p>Where <span class="math">\(\delta\)</span> represents the rotor angle, <span class="math">\(\omega\)</span> the
+angular velocity of the rotor, <span class="math">\(\tilde{H}\)</span> the inertia constant,
+<span class="math">\(\text{ba}s_{\text{rad}}\)</span> is a radian base normalization
+factor,<span class="math">\(\ \omega_{0}\)</span> the nominal frequency, <span class="math">\(P_{m}\)</span> the
+mechanical power, <span class="math">\(E\)</span> generator voltage magnitude, <span class="math">\(V\)</span>
+voltage magnitude at point of connection, <span class="math">\(\theta\)</span> voltage angle
+at point of connection, <span class="math">\(D\)</span> the damping coefficient and
+<span class="math">\({x^{'}}_{\text{d\ }}\)</span> the transient reactance. Note that (5)
+defines the <span class="math">\(f\)</span> function and most of the variables are in p.u.</p>
+<p><a class="reference internal" href="_images/image114.png"><img alt="image0" src="_images/image114.png" style="width: 2.92453in; height: 1.61404in;" /></a></p>
+<p>Fig. 1: Classic generator model</p>
+<p>On the other hand, the measurements, <span class="math">\(P/Q\)</span> , real/reactive power
+at the point of connection can be calculated as:</p>
+<div class="math" id="equation-exampleAppGMV:5">
+<span class="eqno">(6)<a class="headerlink" href="#equation-exampleAppGMV:5" title="Permalink to this equation">¶</a></span>\[\begin{split}P_{k} &amp;= \frac{\text{E\ }V_{k}\ sin(\delta_{k} - \theta_{k})}{\ {{x^{'}}_{\text{d\ }}}_{k}}\\
+Q_{k} &amp;= \frac{- V_{k}^{2} + E\ V_{k}\text{\ cos}(\delta_{k} - \theta_{k})}{\ {{x^{'}}_{\text{d\ }}}_{k}} \\\end{split}\]</div>
+<p>Now, the <span class="math">\(h\)</span> function was defined by (2). Then, the state vector
+can be defined as
+<span class="math">\(x_{k} = \left\lbrack \delta_{k}\ ,\ \omega_{k},\ H_{k},\ {{x^{'}}_{\text{d\ }}}_{k}\ ,\ D_{k} \right\rbrack^{T}\ \)</span>
+, the measurement vector as
+<span class="math">\(z_{k} = \left\lbrack P_{k}\ ,\ Q_{k} \right\rbrack^{T}\)</span> and the
+input as
+<span class="math">\(u_{k} = \left\lbrack V_{k}\ ,\ \theta_{k} \right\rbrack^{T}\)</span>.</p>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>Before the Generator Model Validation example can be run some first-time setup is required.  This is the same setup as the Linear State Estimation example and these instructions can also be found in <a class="reference internal" href="quickStart.html#matlabtoolbox"><span class="std std-ref">Quick Start</span></a></p>
+<p>The GMV application example includes Dynamic Events.  These examples require the Matlab Power System Toolbox available from The Royal Institute of Technology in Stockholm, Sweden.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Download <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/pstv3.zip">PSTV3</a>, <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/pstdat.zip">PST Data</a>, and the <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/download_updates/PSTMan.zip">Manual</a></p>
+<blockquote>
+<div></div></blockquote>
+</li>
+<li><p class="first">You will need to <a class="reference external" href="http://www.eps.ee.kth.se/personal/vanfretti/pst/Power_System_Toolbox_Webpage/Software_Request.html">register and get a password</a></p>
+<blockquote>
+<div></div></blockquote>
+</li>
+<li><p class="first">As with the MatPower toolbox, unzip these into your <cite>Documents\MATLAB\Toolbox</cite> folder and set up the Matlab Path</p>
+</li>
+</ul>
+</div></blockquote>
+<p>Note that the Power System Toolbox is not open source software and cannot be redistributed.</p>
+<div class="section" id="matlab-path">
+<h3>Matlab Path<a class="headerlink" href="#matlab-path" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="quickStart.html#matlabtoolbox"><span class="std std-ref">Quick Start</span></a> provides instructions for setting up the matlab path to the matlab toolbox folder and all subfolders, if this was done before the PST toollbox was installed, then the path to the toolbox will also need to be added as follows:</p>
+<p>When opening the PARTF project, a Matlab command window opens.  From within this window, use the <code class="docutils literal"><span class="pre">pathtool</span></code> to <code class="docutils literal"><span class="pre">Add</span> <span class="pre">with</span> <span class="pre">Subfolders</span></code> <cite>Documents\MATLAB\ToolBox\pstv3</cite></p>
+</div>
+</div>
+<div class="section" id="example-generator-model-validation">
+<h2>Example Generator Model Validation<a class="headerlink" href="#example-generator-model-validation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dynamic-events">
+<h3>Dynamic events<a class="headerlink" href="#dynamic-events" title="Permalink to this headline">¶</a></h3>
+<p>After the PST is incorporated, the user will be able to run the toolbox
+typing “<em>s_simu”</em> MATLAB function from the command window. When the
+user is asked to select a file, choose <em>“&lt;your PARTF
+location&gt;\Modules\Matlab\Events\CSVPlugin\cases\d2aem.m”</em> to
+simulate a dynamic 3 phase fault in the bus number 3. In this file,
+generation units are set as the classical generator model present in
+Fig. 1. The default values of 100 MVA and Base Frequency of 60Hz is
+suitable or can be changed. When s_simu completes, press enter to end
+the program. The fault is released after 0.2 s and after that, an
+oscillatory event takes place. Now all the signals needed have been
+created in the MATLAB workspace.</p>
+<p>Create a .csv input file for PARTF: in Matlab, type&nbsp;s_simuToFile
+(Please, check in the file the values of these variables: app_sel=2;
+NoiseVariance=0; PMULocations=[1]). This matlab program creates three
+different files in your&nbsp;<em>My Documents\PARTF\Tests\GMV</em>&nbsp;folder:</p>
+<ol class="loweralpha simple">
+<li><dl class="first docutils">
+<dt>The first file is a&nbsp;<em>.tst</em>&nbsp;file which will be opened in the PARTF</dt>
+<dd>framework.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>The second one&nbsp;<em>.csv</em>&nbsp;file in the&nbsp;<em>..\Inputdata</em>&nbsp;folder</dt>
+<dd>containing the signals of each one of the PMUs.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>The last file is a reference signal waveform also in</dt>
+<dd>the&nbsp;<em>..\Inputdata</em>&nbsp;folder. This file will be used during the
+analysis of the test results.</dd>
+</dl>
+</li>
+</ol>
+<p>Now you can browse and select the newly
+created&nbsp;<em>DynamicSystem_case13_1pmus.tst</em>&nbsp;in the
+PARTF&nbsp;Test&nbsp;File&nbsp;control. Use the&nbsp;Open&nbsp;button to create the specific bus.
+Note that the&nbsp;Event&nbsp;Parameters&nbsp;control now lists the relative path to
+the newly created&nbsp;<em>.csv</em>&nbsp;file. To run this test do the following:</p>
+<ol class="arabic simple">
+<li><dl class="first docutils">
+<dt>Since a new test has been opened, the VisualiseAppModelValidation</dt>
+<dd>application will need to be reset by clicking on
+the&nbsp;Restart&nbsp;Plots&nbsp;button.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>In the PARTF framework, click&nbsp;Single&nbsp;Run&nbsp;in the bottom center of the</dt>
+<dd>panel.</dd>
+</dl>
+</li>
+</ol>
+<p>The Figure 2 shows the results for this kind of event. Almost all the
+state variables are displayed. We can observe the convergence of the
+internal parameters of the generator model to the real values
+(<span class="math">\(\tilde{H} = 6.5\)</span>, <span class="math">\({x^{'}}_{\text{d\ }}\)</span>=0.25,
+<span class="math">\(D = 3\)</span>). The initial condition for these parameters are
+(<span class="math">\({\tilde{H}}_{0} = 4.55\)</span>, <span class="math">\({x^{'}}_{d0\ }\)</span>=0.275,
+<span class="math">\(D_{0} = 4.2\)</span>) . It is important to notice that the time zero in
+the visualize app corresponds to the 2s in the original reference time.
+The reference can be changed with the offset start time in the app
+configuration. The main reason of this change is to avoid the
+measurements values in the moment were the fault is still present in the
+system. The <span class="math">\(\hat{\delta}\)</span> is also plotted in order to check the
+correct operation of the method, any anomaly is easier to visualize on
+this variable.</p>
+<p><a class="reference internal" href="_images/image214.png"><img alt="image1" src="_images/image214.png" style="width: 6.50000in; height: 4.83681in;" /></a></p>
+<p>Fig. 2: Front panel of the visualization VI for the Generator Model
+Validation app.</p>
+<p>It is important to mention that the results can change significantly
+with the interpolation factor chosen. The interpolation factor is
+another app config parameter. Take in account that the measurements
+arrive with an interarrival time defined by the reporting rate. However,
+the reporting time is not small enough to ensure that the linearization
+approach in the Kalman filter is valid. So a cubic interpolation of the
+phasor is used and the <span class="math">\(\text{Δt}\)</span> is decreased by a factor equal
+to <span class="math">\(2^{\text{in}t_{\text{fac}}}\ \)</span>.</p>
+</div>
+<div class="section" id="montecarlo-analysis">
+<h3>MonteCarlo analysis<a class="headerlink" href="#montecarlo-analysis" title="Permalink to this headline">¶</a></h3>
+<p>Several kinds of test can be performed with the python scripts. As an
+example, one of them is presented in this documentation.</p>
+<p>The initial gain matrix <span class="math">\(\mathbf{P}_{0}\)</span> is the co-variance matrix
+of the estimated state vector error. <span class="math">\(\mathbf{P}_{k|k}\)</span> will be
+updated in EKF and converge to zero if EKF works. Hence the parameters
+in <span class="math">\(\mathbf{P}_{0}\)</span> are not so much important. They only will have
+influence on the converge rate. Therefore, fine tuning is needed.
+Co-variance matrix <span class="math">\(\mathbf{Q}_{k}\)</span> represents the processing
+noise and unmolded dynamics. <span class="math">\(\mathbf{Q}_{k}\)</span> is less
+deterministic and will be considered constant at any instant of time</p>
+<p><span class="math">\(\mathbf{Q}_{k} = \mathbf{Q}\)</span>. For these two matrices values
+similar to were used.</p>
+<p>So the most important co-variance to define is the one which contains
+the covariance of the measurements <span class="math">\(\mathbf{R}_{k}\)</span>.</p>
+<p>Like the process covariance matrix, this matrix is ​​considered constant
+as a function of time <span class="math">\(\mathbf{R}_{k} = \mathbf{R}\)</span>. So a variable
+called Noise Variance is defined as one of the app config parameters.
+With this variable the user can control the value of the diagonal
+elements of <span class="math">\(\mathbf{R}\)</span>.</p>
+<p>With the PARTF running the same .tst file of the previous example, use
+Monte Carlo Script control to the browse and select My
+Documents\PARTF\Scripts\<em>GMV</em>\<em>GMV</em>MonteCarlo.py script. Then
+press the blue <code class="docutils literal"><span class="pre">Monte</span> <span class="pre">Carlo</span></code> button. This script will repeat the test
+sequence ten times: generate the signal, generate synchrophasors and
+impair them as the PMU with a Blackman window would, then it runs the Model Validation
+app. This process is repeated for each value of the Noise Variance set.
+Noise Variance Set = {1e-1, 0.5e-1, 1e-2, 0.5e-2, 1e-3, 0.5e-3}</p>
+<p>All internal signals are saved in a&nbsp;<em>.mat</em>&nbsp;in the <em>DocumentsPARTFOutput folder.
+To evaluate the application performance, a MATLAB file has been provided in
+*\PARTF\Scripts\GMV\PlotGMV_MonteCarlo.m</em>.
+Run this file in MATLAB and when the <code class="docutils literal"><span class="pre">Select</span> <span class="pre">Data</span> <span class="pre">File</span></code> dialog opens, browse to ..\PARTF\Output and
+open the recently created <em>ModelGenValidation_#.mat</em> file. As can be seen from the
+Figures 3 to 5 (here the sequence was repeated 1000 times), the
+magnitude error between the estimated parameters and the real ones are
+plotted for each one of the Noise Variance values.</p>
+<p><a class="reference internal" href="_images/image38.png"><img alt="image2" src="_images/image38.png" style="width: 6.50000in; height: 3.25417in;" /></a></p>
+<p>Fig. 3 Inertia constant error vs different <strong>R</strong> matrices. Threshold is
+equal to 2% of the reference value.</p>
+<p><a class="reference internal" href="_images/image43.png"><img alt="image3" src="_images/image43.png" style="width: 6.50000in; height: 3.25407in;" /></a></p>
+<p>Fig. 4: Error of <span class="math">\({x^{'}}_{\text{d\ }}\)</span> vs different <strong>R</strong>
+matrices. Threshold is equal to 1% of the reference value.</p>
+<p><a class="reference internal" href="_images/image53.png"><img alt="image4" src="_images/image53.png" style="width: 6.50000in; height: 3.25000in;" /></a></p>
+<p>Fig. 5: Damping error vs different <strong>R</strong> matrices. Threshold is equal to
+2% of the reference value.</p>
+<p>Observing the figures, the user can conclude that a value between
+<span class="math">\(0.5\ 10^{- 2}\)</span> and <span class="math">\(10^{- 3}\)</span> is the optimal solution.
+Besides, we can assume that the error in <span class="math">\({x^{'}}_{\text{d }}\)</span> is
+smaller than in the other cases because the initial condition is more
+similar to the real one.</p>
+<p>Finally, is important to mention that the variance of the measurements
+is not an a-priori well known value. It is assumed that the measurements of
+the PMU include a specific noise distribution in the voltage magnitude
+and phase (<span class="math">\(V,\theta\)</span>) and in the current magnitude and phase. For
+all the result display, a fixed value (almost excessive) equal to
+<span class="math">\({\sigma = 10}^{- 3}\)</span> for the standard deviation of the AGWN of
+all of these values was chosen.</p>
+<p>For further analysis of the effects of PMU filtering, as an exercize for the user, the PMU filter settings can be set by the Monte Carlo Script to simulate various PMU configurations of Class and Reporting Rate to determine effects of the noise variance on the GMV appluication.</p>
+<p>This application example and the accompaning documentation was provided by Pablo Gabriel Marchi &lt;<a class="reference external" href="mailto:pmarchi&#37;&#52;&#48;csc&#46;conicet&#46;gov&#46;ar">pmarchi<span>&#64;</span>csc<span>&#46;</span>conicet<span>&#46;</span>gov<span>&#46;</span>ar</a>&gt;</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Appendix C: Generator Model Validation</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#fundamentals-of-extended-kalman-filter-ekf">Fundamentals of Extended Kalman Filter (EKF)</a></li>
+<li><a class="reference internal" href="#generator-model">Generator model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#matlab-path">Matlab Path</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#example-generator-model-validation">Example Generator Model Validation</a><ul>
+<li><a class="reference internal" href="#dynamic-events">Dynamic events</a></li>
+<li><a class="reference internal" href="#montecarlo-analysis">MonteCarlo analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="exampleAppLSE.html"
+                        title="previous chapter">Appendix B: Linear State Estimation (LSE) Example Application</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="moduleAppendix.html"
+                        title="next chapter">Appendix D: Pluggable Module Reference</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exampleAppGMV.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="moduleAppendix.html" title="Appendix D: Pluggable Module Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="exampleAppLSE.html" title="Appendix B: Linear State Estimation (LSE) Example Application"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PARTF 0.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Allen Goldstein.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>
