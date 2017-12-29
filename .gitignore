@@ -4,3 +4,5 @@
 doctrees
 /Doc/build/html
 /Doc/build
+/Visualization/*.aliases
+/Visualization/*.lvlps
